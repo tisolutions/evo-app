@@ -1,0 +1,502 @@
+/*
+ * Specific styles of signin component
+ */
+/*
+ * General styles
+ */
+
+ *{
+    text-decoration: none;
+ }
+
+body, html {
+    height: 100%;
+    margin:0 !important;
+    padding: 0 !important;
+}
+
+.container{
+    padding: 0 !important;
+}
+
+a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+
+/*Generales*/
+.btn-red{
+    background-color: #FF3F31;
+    color: white;
+}
+
+.btn-red:hover{
+    background-color: white;
+    color: #FF3F31;
+    border: 1px solid #FF3F31;
+}
+/*Fin Generales*/
+
+
+/*Login*/
+
+.body{
+    background-repeat: no-repeat;
+   /* background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); */
+}
+
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+    border-radius: 4%;
+    border:1px solid #f9f9f9;
+    background-color: white;
+    -webkit-box-shadow: 10px 10px 10px 10px rgba(230,230,230,1);
+    -moz-box-shadow: 10px 10px 10px 10px rgba(230,230,230,1);
+    box-shadow: 1px 9px 36px 8px rgba(230,230,230,1);
+}
+
+.logo_in{
+    margin: 0 auto 25px;
+    margin-top: 50px;
+}
+
+.btn {
+    font-weight: 700;
+    height: 36px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/*Home*/
+
+
+.fecha{
+    color: #9b9ea3;
+    font-size: 12px;
+    line-height: 100%;
+    font-weight: 400;
+}
+
+.bienvenida{
+    color: #2ebfe7;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.bienvenida span{
+    color: #000000;
+}
+
+.conten-opcione{
+    border: 1px solid #edeef0;
+    border-radius: 3%;
+    width: 95%;
+    position: relative;
+    height: 165px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.conten-abso-opcion{
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    width: 90%;
+}
+.nombre-cate img{
+    margin-bottom: 5%;
+}
+
+.nombre-cate{
+    color: #202c50;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 100%;
+}
+
+.fotoperfil{
+    height: 50%;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+/*Fin del Home*/
+
+/*Lista de Usuarios*/
+
+.panel-busqueda{
+    width: 100%;
+    background-color: #ebecef;
+    overflow: hidden;
+    padding: 1% 0;
+}
+
+.btn-search{
+        border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-top-right-radius: 2em;
+    overflow: hidden;
+    width: 70%;
+    background-color: #00b3e2;
+    color: white;
+    letter-spacing: 1px;
+    font-size: 11pt;
+}
+
+.btn-cancelar{
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-top-right-radius: 2em;
+    overflow: hidden;
+    background-color: #eef1f4;
+    color: black;
+    letter-spacing: 1px;
+    font-size: 11pt;
+}
+
+.btn-crear{
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-top-right-radius: 2em;
+    overflow: hidden;
+    background-color: white;
+    border: 1px solid #939598;
+}
+
+.btn-crear span{
+    color: #00b3e2;
+}
+
+.btn-crear:hover{
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-top-right-radius: 2em;
+    overflow: hidden;
+    background-color: #939598;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-crear:hover span{
+    color: white;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    border-top:1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.blue{
+    background-color: #e5f5fb;
+    margin-bottom: 2%;
+}
+
+.table-empleados tr th{
+    background-color: white;
+    font-size: 12pt;
+    color: #000;
+    font-weight: 600;
+    padding: 0 2%;
+    text-decoration: bold;
+}
+/*Fin de Lista de Usuarios*/
+
+/*
+ * Card component
+ */
+.card {
+    background-color: #F7F7F7;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+    margin: 0 auto 10px;
+    display: block;
+}
+
+/*
+ * Form styles
+ */
+.profile-name-card {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0;
+    min-height: 1em;
+}
+
+.reauth-email {
+    display: block;
+    color: #404040;
+    line-height: 2;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin #inputEmail,
+.form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+}
+
+.form-signin input[type=email],
+.form-signin input[type=password],
+.form-signin input[type=text],
+.form-signin button {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+    border-color: rgb(104, 145, 162);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+}
+
+.btn.btn-signin {
+    background-color: #00b3e2 !important; 
+    /*background-color: rgb(104, 145, 162);*/
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: -6px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+
+/*.btn.btn-signin:hover,
+.btn.btn-signin:active,
+.btn.btn-signin:focus {
+    background-color: rgb(12, 97, 33);
+}*/
+
+.forgot-password {
+    color: rgb(104, 145, 162);
+}
+
+.forgot-password:hover,
+.forgot-password:active,
+.forgot-password:focus{
+    color: rgb(12, 97, 33);
+}
+
+/*Fin del Login*/
+
+/*Footer*/
+
+footer {
+   position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 3em;
+  background-color: #f5f5f5;
+}
+
+.conten-footer{
+    border-top: 2px solid #e6e7e8;
+}
+.text-foot{
+    color: #8f9191;
+    margin: 0;
+    font-size: 12px;
+    line-height: 100%;
+    padding: 2% 0 2% 0;
+}
+
+/*header*/
+.navbar-personalizado{
+    background-image: linear-gradient(to bottom,#fff 0,#ffffff 100%);
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.navbar-default .navbar-nav>.active>a{
+    border-bottom: 4px solid #00b3e2  !important;
+    background-image: -webkit-linear-gradient(top,#ffffff 0,#ffffff 100%) !important;
+    -webkit-box-shadow: none !important; 
+}
+
+#logo_header{
+    padding: 13% !important;
+}
+
+.user-img{
+    border-radius: 50%;
+    overflow: hidden;
+    height: 3.5em;
+    width: 3.5em;
+    margin-left: 1em;
+}
+
+.info_us{
+    text-align: right;
+    margin: 0 !important;
+        margin-top: 2% !important;
+}
+
+/*Actualización de Datos*/
+
+.upload-cta {
+    display: inline-table;
+    height: 115px;
+    width: 115px;
+    cursor: pointer;
+    padding-top: 36px;
+    line-height: 17px;
+    border: 2px dashed #a3a3a3;
+    background: #eaeaea;
+    font-size: .9em;
+}
+
+.upload-preview {
+        background-size: cover !important;
+        text-indent: -9000px;
+        border-style: solid;
+    }
+
+.errorVal{
+    font-size: 8pt;
+    line-height: 100%;
+    color: red;
+    margin: 0;
+    padding: 0;
+}
+
+/*Registros de Usuarios*/
+.conten-border{
+    border:1px solid #eaeaed;
+    border-radius:2.5em;
+    overflow: hidden;
+}
+/*Fin de Registro*/
+
+/*Búsqueda de Empleados*/
+    .contenedor-carta{
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        border-radius: .5em;
+        border: 1px solid #e7e8eb;
+        margin-bottom: 5%;
+    }
+     .contenedor-carta img{
+        border-radius: 50%;
+        height: 46px;
+        width: 46px;
+        overflow: hidden;
+        margin: 0 auto;
+        margin-top: 22%;
+        display: block;
+     }
+
+     .nombre-usuario{
+        margin: 0;
+        font-weight: 600;
+        color: #00b3e2;
+        line-height: 120%;
+        font-size: 15pt;
+     }
+
+     .puesto-codigoContrato-tipoContrato{
+        margin: 0;
+        font-weight: 400;
+        color: #000000;
+        line-height: 120%;
+        font-size: 10.5pt;
+     }
+
+     .trash{
+        position: absolute;
+        top: 75px;
+     }
+
+     .trash i{
+        color: #00b3e2;
+        font-size: 16pt;
+     }
+/*Fin de Búsqueda de Empleados*/
+
+/*Contrato*/
+.conten-opciones-contrato{
+    width: 100%;
+    border-radius: .5em;
+    border: 1px solid #ebecef;
+    overflow: hidden;
+}
+
+.opc_configcontrato{
+    line-height: 120%;
+    color: #00b6e4;
+    font-size: 11pt;
+}
+
+.nota-op{
+    text-align: right;
+    font-weight: 600;
+    line-height: 120%;
+    font-style: bold;
+}
+
+.conten-opciones-contrato label{
+    font-size: 11pt;
+    color: #00b3e2;
+    line-height: 100%;
+    margin-bottom: 1%;
+}
+.conten-opciones-contrato input,textarea{
+    border: none;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.conten-opciones-contrato input:focus{
+    border: none;
+    border-bottom: 1px solid #66afe9 !important;
+}
+
+.conten-opciones-contrato textarea:focus{
+    border: none;
+    border-bottom: 1px solid #66afe9 !important;
+}
+/*Fin del Contrato*/

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>EvoHR</title>
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/fuentes/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/estilos.css">
+	<link rel="shortcut icon" type="image/png" href="/img/Logo_EVO.png" />
+	<link rel="stylesheet" href="/js/General/sweetalert-master/dist/sweetalert.css">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+</head>
+<body ng-app="Usuario">
+	<header ng-include="'/V.Comun/header.html'"></header>
+	<div  ng-view></div>
+	<div class="clear"></div>
+	<footer  ng-include="'/V.Comun/footer.html'"></footer>
+
+	<!-- Herramientas -->
+	<script type="text/javascript" src="/js/General/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="/js/General/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/General/sweetalert-master/dist/sweetalert.min.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular.min.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular-route.min.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular-cookies.min.js"></script>
+
+	<!-- Archivos creados -->
+	<script type="text/javascript" src="/cVista/controllerUsuario.js"></script>
+	<script type="text/javascript" src="/cVista/controllerEmpresa.js"></script>
+	<script type="text/javascript" src="/cVista/controllerContratoUsuario.js"></script>
+	<script type="text/javascript" src="/js/General/estilos.js"></script>
+</body>
+</html>

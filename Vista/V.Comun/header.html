@@ -1,0 +1,39 @@
+
+  <nav class="navbar navbar-default navbar-personalizado">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+          <a href="#" class="navbar-brand">
+            <img src="/img/EVo gris.png" alt="EvoHr_logo" width="75" height="23">
+          </a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        <li><a href="#"><br></a></li>
+          <li ng-init="option = 'home'" ng-click="option = 'home'" ng-class="{active:option == 'home'}"><a href="#"><strong>Inicio</strong> <span class="sr-only">(current)</span></a></li>
+          
+          <li ng-click="option = 'empleados'" ng-class="{active:option == 'empleados'}"><a href="#!/empleados"><strong>Empleados</strong> </a></li>
+          <li ng-click="option = 'vacantes'" ng-class="{active:option == 'vacantes'}"><a href="#"><strong>Vacantes</strong> </a></li>
+          <li ng-click="option = 'reporte'" ng-class="{active:option == 'reporte'}"><a href="#"><strong>Reportes</strong> </a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-controller="controllerLogin">
+          <li>
+            <p class="info_us">
+              <strong> {{usuario}} </strong><br>
+              <span ><a href="#" ng-click="logoutUsuarios()">Cerrar Sesión</a></span>
+            </p>
+          </li>
+          <li>
+            <img class="user-img" src="/{{_id}}.jpg" alt="UserImage" style="cursor: pointer;" ng-click="verUsuario(_id)">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

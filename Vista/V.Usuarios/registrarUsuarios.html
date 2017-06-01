@@ -1,0 +1,157 @@
+<div class="container">
+		<section>
+			<br>
+			<div class="col-lg-6 col-md-6 col col-sm-12 col-xs-12">
+				<h3>
+					<img src="/img/Registro.png" alt="Icon_EvoHR">&nbsp; Registrar y Actualizar Usuario
+				</h3>
+			</div>
+			<div class="col-lg-6 col-md-6 col col-sm-12 col-xs-12">
+				<br>
+				<a ng-href="#!/contratoUsuario/{{usuarios.id}}" ng-show="btnCrearContrato">
+					<button type="button" class="btn btn-crear pull-right" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear Contrato
+					</button>
+				</a>
+				<a ng-href="#!/actualizarContratoUsuario/{{usuarios.id}}/{{idContrato}}" ng-show="btnActualizarContrato">
+					<button type="button" class="btn btn-crear pull-right" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Actualizar Contrato
+					</button>
+				</a>
+			</div>
+			<div class="clear"></div>
+			<br><br><br>
+			<div class="clear"></div>
+
+			<div class="col-lg-12">
+				<form name="formRegistro" enctype="multipart/form-data" id="formRegistro">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+					<img ng-show="mostrar_actualizar" class="thumbnail center-block fotoperfil" src="/{{usuarios.id}}.jpg" alt="empleado_EVoHR_{{usuarios.primerNombre + usuarios.primerApellido}}">
+					<input type="file" class="form-control" name="foto" multiple accept="image/*" id="avatar-upload"  file-model="usuarios.foto" >
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+					<div class="conten-border">
+						<br>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group" ng-class="{'has-error': formRegistro.primerNombre.$invalid, 'has-success': formRegistro.primerNombre.$valid}">
+								        <label for="primerNombre" class="control-label">Primer Nombre</label>
+								        <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Jorge" required ng-model="usuarios.primerNombre">
+								    </div>
+								    <div class="clear"></div>
+
+								    <div class="form-group" ng-class="{'has-error': formRegistro.primerApellido.$invalid, 'has-success': formRegistro.primerApellido.$valid}">
+										<label for="primerApellido" class="control-label">Primer Apellido</label>
+										<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Santo" required ng-model="usuarios.primerApellido">
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="form-group">
+								    	<label for="tipoIdentificacion">Tipo de Identificación</label>
+								    	<select class="form-control" id="tipoIdentificacion" name="tipoIdentificacion" ng-model="usuarios.tipoIdentificacion">
+								    	<option value>Escoja su tipo de Identificación</option>
+									      <option value="CC">C.C</option>
+									      <option value="NIT">NIT</option>
+									      <option value="TI">TI</option>
+									      <option value="Pasaporte">Pasaporte</option>
+									      <option value="CE">CE</option>
+									    </select>
+								  	</div>
+
+								  	<div class="form-group" ng-class="{'has-error': formRegistro.fch_nacimiento.$invalid, 'has-success': formRegistro.fch_nacimiento.$valid}">
+										<label for="fch_nacimiento" class="control-label">Fecha de Nacimiento</label>
+										<input type="date" class="form-control" id="fch_nacimiento" name="fch_nacimiento" required ng-model="usuarios.fch_nacimiento">
+									</div>
+
+									<div class="form-group" ng-class="{'has-error': formRegistro.direccion.$invalid, 'has-success': formRegistro.direccion.$valid}">
+										<label for="direccion" class="control-label">Dirección</label>
+										<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle Real No. 12-34" required ng-model="usuarios.direccion">
+									</div>
+
+									<div class="form-group" ng-class="{'has-error': actualizarUsuario.celular.$invalid, 'has-success': actualizarUsuario.celular.$valid}">
+										<label for="celular" class="control-label">Celular</label>
+										<input type="text" class="form-control" id="celular" name="celular" placeholder="1834456" required ng-model="usuarios.celular">
+									</div>
+
+									<div class="form-group" ng-class="{'has-error': formRegistro.username.$invalid, 'has-success': formRegistro.username.$valid}">
+										<label for="usuario" class="control-label">Nombre de Usuario</label>
+										<input type="text" class="form-control" id="usuario" name="usuario" placeholder="JSantoDomingo" required ng-model="usuarios.usuario">
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group" ng-class="{'has-error': actualizarUsuario.segundoNombre.$invalid, 'has-success': actualizarUsuario.segundoNombre.$valid}">
+										<label for="segundoNombre" class="control-label">Segundo Nombre</label>
+										<input type="text" class="form-control" id="segundoNombre" name="segundoNombre" placeholder="Mario" required ng-model="usuarios.segundoNombre">
+									</div>
+
+								    <div class="clear"></div>
+
+								    <div class="form-group" ng-class="{'has-error': actualizarUsuario.segundoApellido.$invalid, 'has-success': actualizarUsuario.segundoApellido.$valid}">
+										<label for="segundoApellido" class="control-label">Segundo Apellido</label>
+										<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Domingo" required ng-model="usuarios.segundoApellido">
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="form-group" ng-class="{'has-error': actualizarUsuario.identificacion.$invalid, 'has-success': actualizarUsuario.identificacion.$valid}">
+										<label for="identificacion" class="control-label">Identificación</label>
+										<input type="text" class="form-control"  id="identificacion" name="identificacion" placeholder="1834456" required ng-model="usuarios.identificacion">
+									</div>
+
+									<div class="form-group">
+										<label for="sexo" class="control-label">Sexo</label>
+										<div class="radio">
+									      <label><input type="radio" ng-value="'F'" name="sexo" ng-model="usuarios.sexo">Femenino</label>
+									      <label>
+									      <input type="radio" ng-value="'M'" name="sexo" ng-model="usuarios.sexo">Masculino</label>
+									    </div>
+									</div>
+
+									<div class="form-group" ng-class="{'has-error': actualizarUsuario.telefono.$invalid, 'has-success': actualizarUsuario.telefono.$valid}">
+										<label for="telefono" class="control-label">Teléfono</label>
+										<input type="text" class="form-control" id="telefono" name="telefono" placeholder="1834456" required ng-model="usuarios.telefono">
+									</div>
+
+								    <div class="form-group" ng-class="{'has-error': actualizarUsuario.correoElectronico.$invalid, 'has-success': actualizarUsuario.correoElectronico.$valid}">
+										<label for="correoElectronico" class="control-label">Correo Eléctronico</label>
+										<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" placeholder="mail@correoElectronico.com" required ng-model="usuarios.correoElectronico">
+									</div>
+
+									<div class="form-group" ng-class="{'has-error': formRegistro.contrasena.$invalid, 'has-success': formRegistro.contrasena.$valid}">
+										<label for="contrasena" class="control-label">Contraseña</label>
+										<input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="JSantoDomingo" required ng-model="usuarios.contrasena">
+									</div>
+
+									<div class="clearfix"></div>
+
+									<br>
+								</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<br><br>
+						<div class="row">
+							<button ng-show="mostrar_registrar" class="btn btn-search pull-right" ng-click="RegistrarUsuario()" style="width:inherit;">
+								Guardar
+							</button> &nbsp;
+							<button ng-show="mostrar_actualizar" class="btn btn-search pull-right" type="submit"  style="width:inherit;" ng-click="ActualizarUsuario()">
+								Actualizar
+							</button> &nbsp;
+							<a href="#!/empleados">
+								<button class="btn btn-cancelar pull-right" ng-click="Cancelar()">
+									Cancelar
+								</button>
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+			<br><br>
+			<div class="clearfix"></div>
+			<br>
+			<br>
+			<br>
+			<div class="clearfix"></div>
+		</section>
+</div>

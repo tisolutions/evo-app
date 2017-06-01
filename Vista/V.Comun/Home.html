@@ -1,0 +1,81 @@
+<div class="container" ng-controller="controllerLogin">
+	<br><br>
+	<div class="col-lg-1 col-md-1 hidden-xs hidden-sm"><br></div>
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+		<p class="fecha">
+			{{hoy}}
+		</p>
+		<p class="bienvenida">
+			<span><strong>Bienvenid{{oa}}</strong></span> {{name}}
+		</p>
+	</div>
+	<div class="col-lg-1 col-md-1 hidden-xs hidden-sm"><br></div>
+
+	<div class="clear"></div>
+	<br><br><br><br>
+	<div class="clear"></div>
+	<div class="container">
+		<div class="col-lg-1 col-md-1 hidden-xs hidden-sm"><br></div>
+		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					<a href="#!/perfilEmpresa">
+						<div class="conten-opcione">
+							<div class="conten-abso-opcion">
+								<p class="text-center nombre-cate">
+									<img src="/img/Empresa.png" alt="EvoHr_Opciones"> <br>
+									Configuración de Empresa
+								</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					<a href="#!/empleados">
+						<div class="conten-opcione">
+							<div class="conten-abso-opcion">
+								<p class="text-center nombre-cate">
+									<img src="/img/Users.png" alt="EvoHr_Opciones"> <br>
+									Configuración de Usuarios
+								</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					<a href="#!/contratos">
+						<div class="conten-opcione">
+							<div class="conten-abso-opcion">
+								<p class="text-center nombre-cate">
+									<img src="/img/Contract.png" alt="EvoHr_Opciones"> <br>
+									Configuración de Contratos
+								</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					<div class="conten-opcione">
+						<div class="conten-abso-opcion">
+							<p class="text-center nombre-cate">
+								<img src="/img/Prestaciones.png" alt="EvoHr_Opciones"> <br>
+								Configuración de Prestaciones
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-1 col-md-1 hidden-xs hidden-sm"><br></div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$(".conten-abso-opcion").each(function() {
+		var altul =$(this).height();
+		console.log(altul);
+		$(this).css("margin-top", (altul/2)* -1);
+	});
+	})
+</script>

@@ -1,0 +1,116 @@
+<div class="container" ng-controller="InformacionUsuario">
+	<h1>
+		Mi cuenta
+	</h1>
+	<br>
+	<div class="container">
+		<form name="actualizarUsuario">
+			<fieldset class="form-group">
+	    		<legend>Información General</legend>
+	    			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+	    			 <div class="upload-cta text-center text-muted"  ng-click="uploadFile()">
+		                Foto de Perfil
+		            </div> <br> <div class="clear"></div>
+		            <input type="file" class="form-control" accept="image/*" id="avatar-upload" ng-model="usuarios.foto" onchange="angular.element(this).scope().loadFile(event)">
+	    			</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group" ng-class="{'has-error': actualizarUsuario.primerNombre.$invalid, 'has-success': actualizarUsuario.primerNombre.$valid}">
+							<label for="primerNombre" class="control-label">Primer Nombre</label>
+							<input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Jorge" required ng-model="usuarios.primerNombre">
+						 </div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group" ng-class="{'has-error': actualizarUsuario.segundoNombre.$invalid, 'has-success': actualizarUsuario.segundoNombre.$valid}">
+							<label for="segundoNombre" class="control-label">Segundo Nombre</label>
+							<input type="text" class="form-control" id="segundoNombre" name="segundoNombre" placeholder="Mario" required ng-model="usuarios.segundoNombre">
+						 </div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group" ng-class="{'has-error': actualizarUsuario.primerApellido.$invalid, 'has-success': actualizarUsuario.primerApellido.$valid}">
+							<label for="primerApellido" class="control-label">Primer Apellido</label>
+							<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Santo" required ng-model="usuarios.primerApellido">
+						 </div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group" ng-class="{'has-error': actualizarUsuario.segundoApellido.$invalid, 'has-success': actualizarUsuario.segundoApellido.$valid}">
+							<label for="segundoApellido" class="control-label">Segundo Apellido</label>
+							<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Domingo" required ng-model="usuarios.segundoApellido">
+						 </div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group">
+					    	<label for="tipoIdentificacion">Tipo de Identificación</label>
+					    	<select class="form-control" id="tipoIdentificacion" name="tipoIdentificacion" ng-model="usuarios.tipoIdentificacion">
+						      <option value="CC">C.C</option>
+						      <option value="NIT">NIT</option>
+						      <option value="TI">TI</option>
+						      <option value="Pasaporte">Pasaporte</option>
+						      <option value="CE">CE</option>
+						    </select>
+					  	</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group" ng-class="{'has-error': actualizarUsuario.identificacion.$invalid, 'has-success': actualizarUsuario.identificacion.$valid}">
+							<label for="identificacion" class="control-label">Identificación</label>
+							<input type="text" class="form-control" id="identificacion" name="identificacion" placeholder="1834456" required ng-model="usuarios.identificacion">
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="form-group">
+						  <label for="fechadNacimiento" class="control-label">Fecha de Nacimiento</label>
+						  <input class="form-control" type="date"  id="fechaNacimiento" required ng-model="usuarios.fechaNacimiento">
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label for="sexo" class="control-label">Sexo</label>
+								<div class="clear"></div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							    	<label class="form-check-label">
+								       <input type="radio" class="form-check-input" name="sexo" id="sexo" value="F" ng-model="usuarios.sexo">
+								        Femenino
+								    </label> &nbsp;
+								    <label class="form-check-label">
+								       <input type="radio" class="form-check-input" name="sexo" id="sexo" value="M" ng-model="usuarios.sexo">
+								        Masculino
+								   	</label>
+							    </div>
+							</div>
+						</div>
+					</div>
+			</fieldset>
+			<br>
+			<fieldset class="form-group">
+				<legend>Información de Contacto</legend>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="form-group" ng-class="{'has-error': actualizarUsuario.correoElectronico.$invalid, 'has-success': actualizarUsuario.correoElectronico.$valid}">
+						  <label for="correoElectronico" class="control-label">Correo Eléctronico</label>
+						  <input class="form-control" type="email" placeholder="JorgeSantoDomingo@mail.com" id="correoElectronico" required ng-model="usuarios.correoElectronico">
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="form-group">
+						  <label for="celular" class="control-label">Celular</label>
+						  <input class="form-control" type="number" placeholder="300 400 0000" id="celular" required ng-model="usuarios.celular">
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="form-group">
+						  <label for="direccion" class="control-label">Dirección</label>
+						  <input class="form-control" type="email" placeholder="Cra 12B No 04-56" id="direccion" required ng-model="usuarios.direccion">
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="form-group">
+						  <label for="telefono" class="control-label">Teléfono</label>
+						  <input class="form-control" type="number" placeholder="3 008556" id="telefono" required ng-model="usuarios.telefono">
+					</div>
+				</div>
+			</fieldset>
+			<br><br>
+			<button type="submit" class="btn btn-red" ng-disabled="actualizarUsuario.$invalid" ng-click="actualizarUsuario()">Actualizar Usuario</button>
+		</form>
+		<br>
+	</div>
+</div>

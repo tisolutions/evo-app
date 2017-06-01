@@ -1,0 +1,52 @@
+<div class="panel panel-busqueda row">
+	<div class="container">
+			<div class="col-lg-12">
+				<div class="col-lg-3 col-md-3">
+					<select class="form-control" ng-model="usuarios.tipoBusqueda">
+					  <option value> Criterio de Búsqueda de Usuario</option>
+					  <option value="name">Nombre Completo</option>
+					  <option value="contract">Contrato</option>
+					  <option value="occupation">Cargo</option>
+					</select>
+				</div>
+				<div class="col-lg-3 col-md-3">
+					<div class="  has-feedback">
+					  <input type="text" class="form-control" id="inputSuccess2" ng-model="usuarios.keyword" placeholder="Palabras Claves">
+					  <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-3">
+					<button class="btn btn-search" ng-click="buscarRegistro(usuarios.tipoBusqueda,usuarios.keyword)">Buscar</button>
+				</div>
+			</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="clearfix"></div>
+		<br><br>
+		<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>
+			<div class='col-lg-4 col-md-4 col-sm-6 col-xs-12' ng-repeat="usuario in usuarios">
+				<div class='contenedor-carta'>
+					<div class='row'>
+						<div class='col-lg-12'>
+							<div class='col-lg-3'>
+								<img src='/{{usuario._id}}.jpg' alt='Usuario_EVoHR'>
+							</div>
+							<div class='col-lg-9'>
+								<br><br>
+								<p class='nombre-usuario'>{{usuario.primerNombre+" "+usuario.primerApellido}}</p>
+								<p class='puesto-codigoContrato-tipoContrato'>Desarrollador Junior
+									<br>Cont-2
+									<br>Contrato a término fijo
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='clearfix'></div>
+			<br><br>
+		</div>
+
+</div>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>EvoHr: Login</title>
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/fuentes/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/estilos.css">
+	<link rel="shortcut icon" type="image/png" href="/img/Logo_EVO.png" />
+	<link rel="stylesheet" href="/js/General/sweetalert-master/dist/sweetalert.css">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+</head>
+<body class="body" ng-app="Usuario">
+
+		<div class="container" ng-controller="controllerLogin">
+			<img src="/img/logo_evo_2.png" alt="EvoHr_Logo"  class="img-responsive logo_in" width="160" height="160">
+	        <div class="card card-container">
+	            <p id="profile-name" class="profile-name-card">
+	            	Login
+	            </p>
+	            <form class="form-signin" name="formLogin">
+	            	<div ng-show="formLogin.usuario.$dirty">
+	                	<div ng-show="formLogin.usuario.$dirty && formLogin.usuario.$invalid">
+	                		<span class="errorVal">Campo usuario obligatorio. Ej: Jbaron</span>
+	                	</div>
+	                </div>
+	            	<div class="form-group">
+	                	<span id="reauth-email" class="reauth-email"></span>
+	                	<input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required autofocus ng-model="usuarios.usuario">
+	                </div>
+	                <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required ng-model="usuarios.contrasena">
+	                <div ng-show="formLogin.contrasena.$dirty">
+	                	<div ng-show="formLogin.contrasena.$dirty && formLogin.contrasena.$invalid">
+	                		<span class="errorVal">Campo contraseña es obligatorio</span>
+	                	</div>
+	                </div>
+	                <div id="remember" class="checkbox">
+	                    <label>
+	                        <input type="checkbox" value="remember-me"> Recordar mi contraseña
+	                    </label>
+	                </div>
+	                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" ng-click="loginUsuarios()" ng-disabled="formLogin.$invalid">Ingresar</button>
+	            </form>
+	        </div><!-- /card-container -->
+	    </div><!-- /container -->
+
+	<script type="text/javascript" src="/js/General/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="/js/General/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/General/sweetalert-master/dist/sweetalert.min.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular.min.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular-route.min.js"></script>
+	<script type="text/javascript" src="/cVista/controllerUsuario.js"></script>
+	<script type="text/javascript" src="/js/Angular/angular-cookies.min.js"></script>
+	</body>
+</html>
