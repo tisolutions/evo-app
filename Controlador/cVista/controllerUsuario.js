@@ -176,7 +176,7 @@ usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "s
 
 	$scope.loginUsuarios = function(){
 	    $http.post("/evohr/",{
-	  			usuario: $scope.usuarios.usuario,
+	  			correoElectronico: $scope.usuarios.correoElectronico,
 	  			contrasena: $scope.usuarios.contrasena
 	  	})
 	  	.then(function(response,status,headers,config){
