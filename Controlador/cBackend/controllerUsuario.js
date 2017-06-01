@@ -12,11 +12,12 @@ var path = require('path')
 routerUsuario.route("/evohr/")
 .post(function(req,res){
 	mUsuario.findOne({
-        usuario: req.body.usuario,
+        correoElectronico: req.body.correoElectronico,
         contrasena: req.body.contrasena
     })
 
 	.then((doc)=> {
+			console.log(doc);
 	     req.session.usuarioId = doc._id;
 	     req.session.correoElectronico = doc.correoElectronico;
 	     req.session.usuario = doc.usuario;
