@@ -27,12 +27,57 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', fu
 	$scope.verRegistro = function(ausenciaId){
 		$location.path("/actualizacionAusencia/" + ausenciaId);
 	};
+
+  $scope.Eliminar = function(ausenciaIdcId){
+		swal({
+		  title: "¿Confirma que desea eliminar esta Ausencia?",
+		  text: "No podrá recuperarla",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "Si, eliminala!",
+		  closeOnConfirm: false
+		},
+		function(){
+			$http.delete("/urlEliminar/", {
+				params: { id: ausenciaIdcId }
+			})
+			.then(function(data,status,headers,config){
+				swal({
+					title: "Ausencia Eliminada!",
+					text: "La información ha sido eliminada.",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: "#DD6B55",
+					 closeOnConfirm: true,
+					},
+					function(isConfirm){
+					  $location.path("/ausencia/");
+				});
+			})
+
+			.catch(function(data,status,headers,config){
+				swal({
+					title: "Ups Ocurrio un Error!",
+					text: data.message,
+					type: "error",
+					showCancelButton: false,
+					confirmButtonColor: "#DD6B55",
+					 closeOnConfirm: true,
+					},
+					function(isConfirm){
+					   $location.path("/ausencia/");
+				});
+			})
+
+		});
+	};
 }]);
 
 usuario.controller('controllerAusencia', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.ausencia = [];
 
-	$scope.registrarAusencia = function(){
+	$scope.Registrar = function(){
 		// con el FormData guardamos todos los datos de la vista
 		var url = '/rutaPost';
 		var datos = new FormData()
