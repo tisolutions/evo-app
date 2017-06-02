@@ -16,6 +16,7 @@ const routerConfigContract = require("./Controlador/cBackend/cb.conf-Contrato")
 const routerContrato = require("./Controlador/cBackend/cb.contrato")
 const routerEmpresa = require("./Controlador/cBackend/cb.empresa")
 const routerBonificacionDescuento = require("./Controlador/cBackend/cb.bonificacion-descuento")
+const routerAusencias = require("./Controlador/cBackend/cb.ausencias")
 
 const app = express()
 
@@ -52,6 +53,7 @@ app.use("/",routerConfigContract)
 app.use("/",routerContrato)
 app.use("/",routerEmpresa)
 app.use("/",routerBonificacionDescuento)
+app.use("/",routerAusencias)
 app.use("/",userSession)
 
 app.get("/",function(req,res){

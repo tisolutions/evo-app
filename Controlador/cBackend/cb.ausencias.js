@@ -1,21 +1,21 @@
 'use strict'
 
-const mBonifDes = require('../../models/mBonificacion-Descuento')
+const mAusencias = require('../../models/mAusencias')
 const mUsuario = require('../../models/mUsuarios')
 var express = require("express");
-var routerBonificacionDes = express.Router();
+var routerAusencias = express.Router();
 var multer = require('multer')
-var upload = multer({dest: 'uploads/SoportesBonificaciones_Descuentos'})
+var upload = multer({dest: 'uploads/SoportesAusencias'})
 var fs = require('fs')
 var path = require('path')
 
 
-routerBonificacionDes.route("/bonificaciones-descuentos")
+routerAusencias.route("/ausencia")
 .get(function(req,res){
 
-	mBonifDes.find()
-	.then((bonDes) =>{
-		mUsuario.populate(bonDes, {path: "bonifDescUsuario"})
+	mAusencias.find()
+	.then((Aus) =>{
+		mUsuario.populate(Aus, {path: "ausenciaUsuario"})
 		.then((doc)=>{
 			res.send(doc)
 		})
@@ -26,25 +26,26 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 	});
 })
 .post(upload.any(), function(req,res){
-
-	var data = new mBonifDes({
-      valor: req.body.valor,
+	
+	var data = new mAusencias({
       fechaSuceso: req.body.fechaSuceso,
       descripcion: req.body.descripcion,
-      tipo: req.body.tipo
+      tipo: req.body.tipo,
+      remunerado: req.body.remunerado,
+      hora: req.body.hora
     });
 
     data.save()
-	.then((bonifDes)=>{
+	.then((Ause)=>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = bonifDes._id+".jpg";
-				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
+				var filename = Ause._id+".jpg"
+				fs.rename(file.path,'uploads/SoportesAusencias/'+filename)
 			});
 		}
 
 		res.status(200).send({
-			BonificacionDescuento: bonifDes
+			Ausencia: Ause
 		});
 	})
 
@@ -56,19 +57,19 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 })
 .put(upload.any(), function(req,res){
 
-	let BonDesId = req.body.id
+	let AuseSelec = req.body.id
 	let body = req.body
 
-	mBonifDes.findByIdAndUpdate(BonDesId, body)
-	.then((boniDes) =>{
+	mAusencias.findByIdAndUpdate(AuseSelec, body)
+	.then((Aus) =>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = BonDesId+".jpg";
+				var filename = AuseSelec+".jpg";
 				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
 			});
 		}
 		res.status(200).send({
-			BonificacionDescuento: boniDes
+			Ausencia: Aus
 		});
 	})
 
@@ -83,10 +84,10 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 		_id: req.body.id
 	};
 
-	mBonifDes.remove(eliminar)
+	mAusencias.remove(eliminar)
 	.then((done)=>{
 		res.status(200).send({
-			message: "El registro se ha eliminado correctamente"
+			message: "El Registro se ha eliminado correctamente"
 		})
 	})
 
@@ -97,4 +98,4 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 	})
 })
 
-module.exports = routerBonificacionDes;
+module.exports = routerAusencias;
