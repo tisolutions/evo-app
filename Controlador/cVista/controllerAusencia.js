@@ -121,5 +121,39 @@ usuario.controller('controllerAusencia', ['$scope', '$http', '$location', functi
 		});
 	};
 
+  $scope.Actualizar = function(){
+    // en el formData se guardan los datos de la vista
+		var url = '/rutaActualizar';
+		var datos = new FormData()
+
+		for (key in $scope.ausencia) {
+			datos.append(key, $scope.ausencia[key]);
+		}
+		// se envian los datos a node con el metodo put
+		$http.put(url, datos, {
+			transformRequest: angular.identity,
+			headers:{
+				'Content-Type': undefined
+				}
+		})
+		.then(function(response,status,headers,config){
+			if(response.data.dato_extraer !=""){
+				swal({
+					title: "Ausencia Modificada",
+					text: "Hemos guardado tus datos",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: "#00b3e2",
+					closeOnConfirm: true,
+				});
+				$location.path("/ausencia/");
+			}else{
+				swal("Verifica tus datos!", response.data.error, "warning");
+			}
+		})
+		.catch(function(response,status){
+			swal("Error", response.data, "error");
+		});
+  };
 
 }]);
