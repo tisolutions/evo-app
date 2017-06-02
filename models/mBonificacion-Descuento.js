@@ -23,10 +23,6 @@ const bonificacionDescuentoSchema = new Schema({
     tipo: {
       type: String,
       required: "Seleccione un tipo"
-    },
-    usuario: {
-      type: schema.ObjectId,
-      ref: "Usuario"
     }
 });
 
