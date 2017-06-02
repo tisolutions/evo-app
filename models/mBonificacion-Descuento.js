@@ -1,10 +1,9 @@
 'use strict'
 
-const mongoose = require('mongoose');
-const schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose')
+const schema = mongoose.Schema
 
-const bonificacionDescuentoSchema = new Schema({
+const bonificacionDescuentoSchema = new schema({
     valor:{
       type: String,
       required: "Ingrese un valor"

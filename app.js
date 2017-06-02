@@ -15,6 +15,7 @@ const routerUsuario = require("./Controlador/cBackend/controllerUsuario")
 const routerConfigContract = require("./Controlador/cBackend/cb.conf-Contrato")
 const routerContrato = require("./Controlador/cBackend/cb.contrato")
 const routerEmpresa = require("./Controlador/cBackend/cb.empresa")
+const routerBonificacionDescuento = require("./Controlador/cBackend/cb.bonificacion-descuento")
 
 const app = express()
 
@@ -45,12 +46,12 @@ app.use(CookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours 
 }))
 
-// 
 app.use("/",router)
 app.use("/",routerUsuario)
 app.use("/",routerConfigContract)
 app.use("/",routerContrato)
 app.use("/",routerEmpresa)
+app.use("/",routerBonificacionDescuento)
 app.use("/",userSession)
 
 app.get("/",function(req,res){

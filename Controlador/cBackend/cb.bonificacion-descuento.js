@@ -15,7 +15,7 @@ routerUsuario.route("/bonificaciones-descuentos")
 
 	mBonifDes.find()
 	.then((bonDes) =>{
-		mUsuario.populate(bonDes, {path: "contratoUsuario"})
+		mUsuario.populate(bonDes, {path: "bonifDescUsuario"})
 		.then((doc)=>{
 			res.send(doc)
 		})
@@ -25,58 +25,26 @@ routerUsuario.route("/bonificaciones-descuentos")
 		message: "Error al tratar de traer los registros"
 	});
 })
-
-// .delete(function(req,res){
-// 	var update = {
-// 		estado: "inactivo"
-// 	};
-
-// 	mBonifDes.update(update)
-
-// 	.then((done)=>{
-// 		res.status(200).send({
-// 			message: "El Usuario se ha eliminado correctamente"
-// 		})
-// 	})
-
-// 	.catch((done)=>{
-// 		res.status(500).send({
-// 			message: "Ha ocurrido un error al eliminar"
-// 		})
-// 	})
-// })
-
 .post(upload.any(), function(req,res){
 
 	var data = new mBonifDes({
-      primerNombre: req.body.primerNombre,
-      segundoNombre: req.body.segundoNombre,
-      primerApellido: req.body.primerApellido,
-      segundoApellido: req.body.segundoApellido,
-      tipoIdentificacion: req.body.tipoIdentificacion,
-      identificacion: req.body.identificacion,
-      sexo: req.body.sexo,
-      fch_nacimiento: req.body.fch_nacimiento,
-      direccion: req.body.direccion,
-      telefono: req.body.telefono,
-      celular: req.body.celular,
-      correoElectronico: req.body.correoElectronico,
-      usuario: req.body.usuario,
-      contrasena: req.body.contrasena,
-      estado: "activo"
+      valor: req.body.valor,
+      fechaSuceso: req.body.fechaSuceso,
+      descripcion: req.body.descripcion,
+      tipo: req.body.tipo
     });
 
     data.save()
-	.then((user)=>{
+	.then((bonifDes)=>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = user._id+".jpg";
-				fs.rename(file.path,'uploads/userFace/'+filename)
+				var filename = bonifDes._id+".jpg";
+				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
 			});
 		}
 
 		res.status(200).send({
-			usuario: user
+			BonificacionDescuento: bonifDes
 		});
 	})
 
@@ -86,27 +54,46 @@ routerUsuario.route("/bonificaciones-descuentos")
         });
 	})
 })
-
 .put(upload.any(), function(req,res){
 
-	let usuarioId = req.body.id
+	let BonDesId = req.body.id
 	let body = req.body
 
-	mBonifDes.findByIdAndUpdate(usuarioId, body)
-	.then((user) =>{
+	mBonifDes.findByIdAndUpdate(BonDesId, body)
+	.then((boniDes) =>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = usuarioId+".jpg";
-				fs.rename(file.path,'uploads/userFace/'+filename)
+				var filename = BonDesId+".jpg";
+				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
 			});
 		}
 		res.status(200).send({
-			usuario: user
+			BonificacionDescuento: boniDes
 		});
 	})
 
 	.catch((err)=>{
-		res.status(500).send(error);
+		res.status(500).send({
+			error: err
+		});
+	})
+})
+.delete(function(req,res){
+	var eliminar ={
+		_id: req.body.id
+	};
+
+	mBonifDes.remove(eliminar)
+	.then((done)=>{
+		res.status(200).send({
+			message: "El Usuario se ha eliminado correctamente"
+		})
+	})
+
+	.catch((done)=>{
+		res.status(500).send({
+			message: "Ha ocurrido un error al eliminar"
+		})
 	})
 })
 
