@@ -27,10 +27,6 @@ const ausenciaSchema = new Schema({
     remuderado: {
       type: Boolean,
       required: "No olvides especificar si es o no es remuderado"
-    },
-    usuario: {
-      type: schema.ObjectId,
-      ref: "Usuario"
     }
 });
 
