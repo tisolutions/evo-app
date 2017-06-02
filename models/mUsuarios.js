@@ -60,8 +60,15 @@ const UsuarioSchema =  new schema({
    contratoUsuario: {
     type: schema.ObjectId,
     ref: "contrato"
-  }
-
+  },
+	bonifDescUsuario: {
+		 type: schema.ObjectId,
+		 ref: "bonificacionDescuento"
+	 },
+	 ausenciaUsuario: {
+ 		 type: schema.ObjectId,
+ 		 ref: "ausencia"
+ 	 }
 })
 
 module.exports = mongoose.model('Usuario',UsuarioSchema)
