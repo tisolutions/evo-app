@@ -1,7 +1,7 @@
 usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $locationProvider) {
 	$routeProvider
 	.when('/bonificacionDescuento',{
-	    templateUrl: '../V.Contrato/opcionContrato.html',
+	    templateUrl: '../V.BonificacionesDescuentos/ListaBonificacionesDescuentos.html',
 	    controller: 'controllerListBoniDesc'
 	})
 	.when('/actualizacionBoniDesc/:boniDescId',{
