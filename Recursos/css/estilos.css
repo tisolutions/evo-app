@@ -101,7 +101,7 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
     height: 165px;
     margin: 0 auto;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 11%;
 }
 .conten-abso-opcion{
     position: absolute;
