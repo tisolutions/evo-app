@@ -192,10 +192,10 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
     color: white;
 }
 
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+/*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
     border-top:1px solid white;
     border-bottom: 1px solid white;
-}
+}*/
 
 .blue{
     background-color: #e5f5fb;
@@ -410,6 +410,10 @@ footer {
     border-radius:2.5em;
     overflow: hidden;
 }
+
+#btn-2{
+    margin-top: 2%;
+}
 /*Fin de Registro*/
 
 /*Búsqueda de Empleados*/
@@ -485,7 +489,7 @@ footer {
     line-height: 100%;
     margin-bottom: 1%;
 }
-.conten-opciones-contrato input,textarea{
+.conten-opciones-contrato input{
     border: none;
     border-bottom: 1px solid #eef1f4;
 }
@@ -498,5 +502,9 @@ footer {
 .conten-opciones-contrato textarea:focus{
     border: none;
     border-bottom: 1px solid #66afe9 !important;
+}
+
+#descripcion{
+    border:1px solid ;
 }
 /*Fin del Contrato*/
