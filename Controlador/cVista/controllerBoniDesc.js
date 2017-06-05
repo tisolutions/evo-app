@@ -15,7 +15,7 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 
 usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.bonificacionDescuento = [];
-	$http.get("/xxxxx/bon/desc")
+	$http.get("/bonificaciones-descuentos")
 	.then(function(data,status,headers,config){
 		// $scope.bonificacionDescuento = data.data;
 	})
@@ -39,7 +39,7 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', fu
 		  closeOnConfirm: false
 		},
 		function(){
-			$http.delete("/urlEliminar/", {
+			$http.delete("/bonificaciones-descuentos", {
 				params: { id: boniDescId }
 			})
 			.then(function(data,status,headers,config){
@@ -79,7 +79,7 @@ usuario.controller('controllerBoniDesc', ['$scope', '$http', '$location', functi
 
 	$scope.Registrar = function(){
 		// con el FormData guardamos todos los datos de la vista
-		var url = '/rutaPost';
+		var url = '/bonificaciones-descuentos';
 		var datos = new FormData()
 		for (key in $scope.bonificacionDescuento) {
 			datos.append(key,$scope.bonificacionDescuento[key]);
@@ -123,7 +123,7 @@ usuario.controller('controllerBoniDesc', ['$scope', '$http', '$location', functi
 
 	$scope.Actualizar = function(){
 		// en el formData se guardan los datos de la vista
-		var url = '/rutaActualizar';
+		var url = '/bonificaciones-descuentos';
 		var datos = new FormData()
 
 		for (key in $scope.bonificacionDescuento) {
@@ -155,5 +155,5 @@ usuario.controller('controllerBoniDesc', ['$scope', '$http', '$location', functi
 			swal("Error", response.data, "error");
 		});
 	};
-	
+
 }]);
