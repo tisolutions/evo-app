@@ -9,6 +9,33 @@ var upload = multer({dest: 'uploads/'})
 var fs = require('fs')
 var path = require('path')
 
+
+
+routerUsuario.route("/prueba/autocomplete")
+	.post(function(req, res){
+		mUsuario.findOne({
+	    primerNombre: req.body.nombre
+	  })
+		.then((doc)=> {
+		     var returnUsuario =[
+						 {
+							 id: doc._id,
+							 correoElectronico: doc.correoElectronico,
+							 usuario: doc.usuario,
+							 primerNombre: doc.primerNombre+ " " +doc.primerApellido,
+							 primerApellido: doc.primerApellido,
+							 sexo: doc.sexo,
+							 error: ""
+						 }
+					 ];
+		     res.status(200).send(returnUsuario)
+		});
+	});
+
+
+
+
+
 routerUsuario.route("/evohr/")
 .post(function(req,res){
 	mUsuario.findOne({
