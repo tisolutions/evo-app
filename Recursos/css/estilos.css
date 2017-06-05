@@ -15,11 +15,16 @@ body, html {
     padding: 0 !important;
 }
 
+table {
+  border-collapse: initial;
+  border-spacing:  0px 5px;
+}
+
 .container{
     padding: 0 !important;
 }
 
-a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
+a,p,input,select,textarea,label,button,h1,h2,h3,h4.bonificaciones{
     font-family: 'Raleway', sans-serif;
     letter-spacing: 0.5px;
 }
@@ -192,10 +197,10 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
     color: white;
 }
 
-/*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
     border-top:1px solid white;
     border-bottom: 1px solid white;
-}*/
+}
 
 .blue{
     background-color: #e5f5fb;
@@ -508,3 +513,16 @@ footer {
     border:1px solid ;
 }
 /*Fin del Contrato*/
+
+/*Bonificaciones y Descuentos*/
+    .bonificaciones thead{
+        font-weight: bold;
+    }
+
+    .bonificaciones>tbody>tr>td, .bonificaciones>tbody>tr>th, .bonificaciones>tfoot>tr>td, .bonificaciones>tfoot>tr>th{
+    border-top:1px solid white;
+    border-bottom: 1px solid white;
+    background-color: #e5f5fb;
+    margin-top: 2%;
+}
+/*Fin de Bonificaciones*/
