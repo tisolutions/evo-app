@@ -15,11 +15,16 @@ body, html {
     padding: 0 !important;
 }
 
+table {
+  border-collapse: initial;
+  border-spacing:  0px 5px;
+}
+
 .container{
     padding: 0 !important;
 }
 
-a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
+a,p,input,select,textarea,label,button,h1,h2,h3,h4.bonificaciones{
     font-family: 'Raleway', sans-serif;
     letter-spacing: 0.5px;
 }
@@ -101,7 +106,7 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4,table{
     height: 165px;
     margin: 0 auto;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 11%;
 }
 .conten-abso-opcion{
     position: absolute;
@@ -410,6 +415,10 @@ footer {
     border-radius:2.5em;
     overflow: hidden;
 }
+
+#btn-2{
+    margin-top: 2%;
+}
 /*Fin de Registro*/
 
 /*Búsqueda de Empleados*/
@@ -485,7 +494,7 @@ footer {
     line-height: 100%;
     margin-bottom: 1%;
 }
-.conten-opciones-contrato input,textarea{
+.conten-opciones-contrato input{
     border: none;
     border-bottom: 1px solid #eef1f4;
 }
@@ -499,4 +508,21 @@ footer {
     border: none;
     border-bottom: 1px solid #66afe9 !important;
 }
+
+#descripcion{
+    border:1px solid ;
+}
 /*Fin del Contrato*/
+
+/*Bonificaciones y Descuentos*/
+    .bonificaciones thead{
+        font-weight: bold;
+    }
+
+    .bonificaciones>tbody>tr>td, .bonificaciones>tbody>tr>th, .bonificaciones>tfoot>tr>td, .bonificaciones>tfoot>tr>th{
+    border-top:1px solid white;
+    border-bottom: 1px solid white;
+    background-color: #e5f5fb;
+    margin-top: 2%;
+}
+/*Fin de Bonificaciones*/

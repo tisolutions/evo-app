@@ -17,8 +17,6 @@ ruteroPrincipal.get("/login",function(req,res,next){
 ruteroPrincipal.get("/micuenta",function(req,res,next){
 	res.render("V.Usuarios/miCuenta.html");
 });
-ruteroPrincipal.get("/resultadoBusqueda",function(req,res,next){
-	res.render("V.Usuarios/resultadoBusqueda.html");
-});
+
 
 module.exports = ruteroPrincipal;
