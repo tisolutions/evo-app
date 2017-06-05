@@ -43,7 +43,7 @@
 	          <h4 class="modal-title">Detalle de Bonificación y Descuento</h4>
 	        </div>
 	        <div class="modal-body">
-	         	<form role="form">
+	         	<form role="form" name="formBonDes" enctype="multipart/form-data" id="formBonDes">
 				  <div class="form-group">
 				    <label for="ejemplo_email_1">Empleado</label>
 				    <input type="text" class="form-control" id="ejemplo_email_1"
@@ -57,27 +57,26 @@
 					  <option>Descuento</option>
 					</select>
 				  </div>
-				  <div class="form-group">
+				  <div class="form-group" ng-class="{'has-error': formBonDes.fechaSuceso.$invalid, 'has-success': formBonDes.fechaSuceso.$valid}">
 				    <label for="ejemplo_email_1">Fecha de Suceso</label>
-				    <input type="date" class="form-control" id="ejemplo_email_1">
+				    <input type="date" class="form-control" name="fechaSuceso" required ng-model="bonificacionDescuento.fechaSuceso">
 				  </div>
-				  <div class="form-group">
+				  <div class="form-group" ng-class="{'has-error': formBonDes.valor.$invalid, 'has-success': formBonDes.valor.$valid}">
 				    <label for="ejemplo_email_1">Valor</label>
-				    <input type="text" class="form-control" id="ejemplo_email_1"
-				           placeholder="Ingrese el valor">
+				    <input type="text" class="form-control" placeholder="Ingrese el valor" name="valor" required ng-model="bonificacionDescuento.valor">
 				  </div>
 
-				  <div class="form-group">
+				  <div class="form-group" ng-class="{'has-error': formBonDes.descripcion.$invalid, 'has-success': formBonDes.descripcion.$valid}">
 				    <label for="ejemplo_password_1">Descripción</label><br>
-				    <textarea name="" class="form-control" cols="10" rows="10" placeholder="Describa el suceso"></textarea>
+				    <textarea class="form-control" cols="10" rows="10" placeholder="Describa el suceso" required ng-model="bonificacionDescuento.descripcion" rows="5"></textarea>
 				  </div>
 				  <div class="form-group">
 				    <label for="ejemplo_archivo_1">Adjuntar Soporte</label>
-				    <input type="file" id="ejemplo_archivo_1">
+				    <input type="file" name="soporte" multiple accept="image/*" id="avatar-upload"  file-model="bonificacionDescuento.soporte">
 				  </div>
 	        </div>
 		    <div class="modal-footer">
-		      	<button type="submit" class="btn btn-default">Enviar</button>
+		      	<button type="submit" class="btn btn-default" ng-click="Registrar()">Enviar</button>
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 		    </div>
 			</form>
