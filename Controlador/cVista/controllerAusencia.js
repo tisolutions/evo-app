@@ -15,7 +15,7 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 
 usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.ausencia = [];
-	$http.get("/xxxxx/ausencia")
+	$http.get("/ausencia")
 	.then(function(data,status,headers,config){
 		// $scope.bonificacionDescuento = data.data;
 	})
@@ -39,7 +39,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', fu
 		  closeOnConfirm: false
 		},
 		function(){
-			$http.delete("/urlEliminar/", {
+			$http.delete("/ausencia", {
 				params: { id: ausenciaIdcId }
 			})
 			.then(function(data,status,headers,config){
@@ -79,7 +79,7 @@ usuario.controller('controllerAusencia', ['$scope', '$http', '$location', functi
 
 	$scope.Registrar = function(){
 		// con el FormData guardamos todos los datos de la vista
-		var url = '/rutaPost';
+		var url = '/ausencia';
 		var datos = new FormData()
 		for (key in $scope.ausencia) {
 			datos.append(key,$scope.ausencia[key]);
@@ -123,7 +123,7 @@ usuario.controller('controllerAusencia', ['$scope', '$http', '$location', functi
 
   $scope.Actualizar = function(){
     // en el formData se guardan los datos de la vista
-		var url = '/rutaActualizar';
+		var url = '/ausencia';
 		var datos = new FormData()
 
 		for (key in $scope.ausencia) {
