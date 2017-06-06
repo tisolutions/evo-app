@@ -22,7 +22,11 @@ const bonificacionDescuentoSchema = new schema({
     tipo: {
       type: String,
       required: "Seleccione un tipo"
-    }
+    },
+    empleado: {
+     type: schema.ObjectId,
+     ref: "Usuario"
+   }
 });
 
 module.exports = mongoose.model('bonificacionDescuento', bonificacionDescuentoSchema);
