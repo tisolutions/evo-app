@@ -14,12 +14,19 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 }])
 
 usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$route', function($scope,$http, $location, $route){
+	// $scope.bonificacionDescuento: variable que se usará para mostrar la informacion en la vista (listado)
 	$scope.bonificacionDescuento = [];
+	// Metodo get: para obtener el listado de bonificaciones/descuentos
 	$http.get("/bonificaciones-descuentos")
 	.then(function(data,status,headers,config){
 		$scope.bonificacionDescuento = data.data;
+		for (var i = 0; i < $scope.bonificacionDescuento.length; i++) {
+			// fecha extraida con el formato YYYY-MM-DD, para ser reflejada en el listado
+			var fechaExtraida = $scope.bonificacionDescuento[i].fechaSuceso;
+			fechaExtraida = fechaExtraida.substr(0,10);
+			$scope.bonificacionDescuento[i].fechaSuceso = fechaExtraida;
+		}
 	})
-
 	.catch(function(response,status,headers,config){
 		console.log("Error")
 	})
@@ -74,9 +81,9 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 	};
 
 	$scope.Registrar = function(){
-	 	// con el FormData guardamos todos los datos de la vista
 		var acceso = false;
 		var url = '/bonificaciones-descuentos';
+		// con el FormData guardamos todos los datos de la vista
 		var datos = new FormData()
 		for (key in $scope.bonificacionDescuento) {
 			datos.append(key,$scope.bonificacionDescuento[key]);
