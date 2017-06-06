@@ -295,7 +295,7 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4.bonificaciones{
 }
 
 .btn.btn-signin {
-    background-color: #00b3e2 !important; 
+    background-color: #00b3e2 !important;
     /*background-color: rgb(104, 145, 162);*/
     /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
     padding: 0px;
@@ -360,7 +360,7 @@ footer {
 .navbar-default .navbar-nav>.active>a{
     border-bottom: 4px solid #00b3e2  !important;
     background-image: -webkit-linear-gradient(top,#ffffff 0,#ffffff 100%) !important;
-    -webkit-box-shadow: none !important; 
+    -webkit-box-shadow: none !important;
 }
 
 #logo_header{
@@ -526,3 +526,15 @@ footer {
     margin-top: 2%;
 }
 /*Fin de Bonificaciones*/
+
+.ui-autocomplete {
+    z-index: 5000;
+}
+
+.ui-autocomplete-input {
+  z-index: 5000;
+  position: relative;
+}
+.ui-front {
+    z-index: 9999;
+}
