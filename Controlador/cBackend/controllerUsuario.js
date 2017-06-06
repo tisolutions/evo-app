@@ -13,9 +13,13 @@ var path = require('path')
 
 routerUsuario.route("/prueba/autocomplete")
 	.post(function(req, res){
-		mUsuario.findOne({
-	    primerNombre: req.body.nombre
-	  })
+
+		var regexValue='\.*'+req.body.nombre+'\.';
+		mUsuario.findOne({"primerNombre":new RegExp(regexValue, 'i')})
+		// mUsuario.find({primerNombre: /req.body.nombre/})
+		// mUsuario.findOne({
+	    // primerNombre: req.body.nombre
+	  // })
 		.then((doc)=> {
 		     var returnUsuario =[
 						 {
@@ -44,7 +48,7 @@ routerUsuario.route("/evohr/")
     })
 
 	.then((doc)=> {
-			console.log(doc);
+			// console.log(doc);
 	     req.session.usuarioId = doc._id;
 	     req.session.correoElectronico = doc.correoElectronico;
 	     req.session.usuario = doc.usuario;
