@@ -15,9 +15,10 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 
 	mBonifDes.find()
 	.then((bonDes) =>{
-		mUsuario.populate(bonDes, {path: "bonifDescUsuario"})
-		.then((doc)=>{
-			res.send(doc)
+		// res.send(bonDes)
+		mUsuario.populate(bonDes, {path: "empleado"})
+		.then((registro)=>{
+			res.send(registro)
 		})
 	})
 
@@ -26,33 +27,33 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 	});
 })
 .post(upload.any(), function(req,res){
-	console.log(req.body)
-	// var data = new mBonifDes({
- //      valor: req.body.valor,
- //      fechaSuceso: req.body.fechaSuceso,
- //      descripcion: req.body.descripcion,
- //      tipo: req.body.tipo
- //    });
+	var data = new mBonifDes({
+      valor: req.body.valor,
+      fechaSuceso: new Date(req.body.fechaSuceso),
+      descripcion: req.body.descripcion,
+      tipo: req.body.tipo,
+			empleado: req.body.idEmpleado
+    });
 
- //    data.save()
-	// .then((bonifDes)=>{
-	// 	if (req.files) {
-	// 		req.files.forEach(function(file){
-	// 			var filename = bonifDes._id+".jpg";
-	// 			fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
-	// 		});
-	// 	}
+ 	data.save()
+	.then((bonifDes)=>{
+		if (req.files) {
+			req.files.forEach(function(file){
+				var filename = bonifDes._id+".jpg";
+				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
+			});
+		}
 
-	// 	res.status(200).send({
-	// 		BonificacionDescuento: bonifDes
-	// 	});
-	// })
+		res.status(200).send({
+			BonificacionDescuento: bonifDes
+		});
+	})
 
-	// .catch((error)=>{
- //        res.status(500).send({
- //        	error : error
- //        });
-	// })
+	.catch((error)=>{
+        res.status(500).send({
+        	error : error
+        });
+	})
 })
 .put(upload.any(), function(req,res){
 

@@ -13,13 +13,20 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', function($scope,$http, $location){
+usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$route', function($scope,$http, $location, $route){
+	// $scope.bonificacionDescuento: variable que se usará para mostrar la informacion en la vista (listado)
 	$scope.bonificacionDescuento = [];
+	// Metodo get: para obtener el listado de bonificaciones/descuentos
 	$http.get("/bonificaciones-descuentos")
 	.then(function(data,status,headers,config){
-		// $scope.bonificacionDescuento = data.data;
+		$scope.bonificacionDescuento = data.data;
+		for (var i = 0; i < $scope.bonificacionDescuento.length; i++) {
+			// fecha extraida con el formato YYYY-MM-DD, para ser reflejada en el listado
+			var fechaExtraida = $scope.bonificacionDescuento[i].fechaSuceso;
+			fechaExtraida = fechaExtraida.substr(0,10);
+			$scope.bonificacionDescuento[i].fechaSuceso = fechaExtraida;
+		}
 	})
-
 	.catch(function(response,status,headers,config){
 		console.log("Error")
 	})
@@ -74,12 +81,53 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', fu
 	};
 
 	$scope.Registrar = function(){
-	 	// con el FormData guardamos todos los datos de la vista
+		var acceso = false;
 		var url = '/bonificaciones-descuentos';
+		// con el FormData guardamos todos los datos de la vista
 		var datos = new FormData()
 		for (key in $scope.bonificacionDescuento) {
 			datos.append(key,$scope.bonificacionDescuento[key]);
-			console.log(key,$scope.bonificacionDescuento[key])
+		}
+		datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
+
+		if(!document.getElementById("avatar-upload").value.length==0){
+			// Este condicional es para determinar mas adelante, restricciones al tipo de archivo
+			// De esa manera de dará acceso a subir los archivos
+			var file = $("#avatar-upload")[0].files[0];
+			datos.append("foto",file);
+			acceso = true;
+		}else{
+			acceso = true;
+		}
+
+		if (acceso == true) {
+			$http.post(url, datos, {
+				transformRequest: angular.identity,
+				headers:{
+					'Content-Type': undefined
+				}
+			})
+			.then(function(response,status,headers,config){
+				if (response.data.BonificacionDescuento._id != "") {
+					localStorage.removeItem('idEmpleado')
+					swal({
+						title: "Felicitaciones",
+					  text: "Hemos guardado sus datos",
+						type: "success",
+						closeOnConfirm: true
+						},
+						function(isConfirm){
+							if (isConfirm) {
+								$route.reload();
+							}
+						});
+				}else{
+					swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
+				}
+			})
+			.catch(function(response,status){
+				swal("Error", response.data, "error");
+			});
 		}
 
 		$http.post(url, datos, {

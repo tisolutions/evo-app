@@ -4,7 +4,7 @@ module.exports = function(req,res,next){
       if(!req.session.usuarioId){
           res.redirect("/login");
       }else{
-         console.log("estoy en 2")
+        //  console.log("estoy en 2")
          modeloUsuario.findById(req.session.usuarioId)
 
          .then((user)=>{
@@ -13,7 +13,7 @@ module.exports = function(req,res,next){
          })
 
          .catch((err)=>{
-         	console.log(err)
+         // 	console.log(err)
          	res.redirect("/login")
          })
       }

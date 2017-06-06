@@ -29,12 +29,12 @@
 			</h3>
 	</div>
 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<button type="button" class="btn btn-crear pull-right" aria-label="Left Align" id="btn-2" data-toggle="modal" data-target="#myModal">
+		<button type="button" class="btn btn-crear pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal" id="btn_modal">
 			  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear Bonificación o Descuento
 		</button>
 	</div>
 	<div class="modal fade" id="myModal" role="dialog">
-	    <div class="modal-dialog">
+	    <div class="modal-dialog ui-front">
 	      <!-- Modal content-->
 	      	<div class="modal-content">
 	        	<div class="modal-header">
@@ -44,15 +44,16 @@
 	        	<div class="modal-body">
 	         	<form role="form" name="formBonDes" enctype="multipart/form-data" id="formBonDes">
 				  <div class="form-group">
-				    <label for="ejemplo_email_1">Empleado</label>
-				    <input type="text" class="form-control" id="ejemplo_email_1" placeholder="Ingrese el nombre del empleado">
+				    <label for="input_empleado">Empleado</label>
+				    <input type="text" class="form-control class_input_empleado ui-autocomplete" id="input_empleado"
+				           placeholder="Ingrese el nombre del empleado">
 				  </div>
 				  <div class="form-group">
-				    <label for="ejemplo_email_1">Tipo</label>
-				    <select class="form-control" id="tipo" name="tipo" ng-model="bonificacionDescuento.tipo">
+				    <label for="">Tipo</label>
+				    <select class="form-control" ng-model="bonificacionDescuento.tipo">
 					  <option value>Escoge un tipo de movimiento</option>
-					  <option>Bonificación</option>
-					  <option>Descuento</option>
+					  <option value="Bonificación">Bonificación</option>
+					  <option value="Descuento">Descuento</option>
 					</select>
 				  </div>
 				  <div class="form-group" ng-class="{'has-error': formBonDes.fechaSuceso.$invalid, 'has-success': formBonDes.fechaSuceso.$valid}">
@@ -74,8 +75,8 @@
 				  </div>
 		        </div>
 			    <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			      	<button type="submit" class="btn btn-default" ng-click="Registrar()">Enviar</button>
+			      	<button type="submit" class="btn btn-default" ng-click="Registrar()" id="btn_enviar_modal">Enviar</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_cancelar_modal">Cancelar</button>
 			    </div>
 				</form>
 		      </div>
@@ -94,24 +95,12 @@
 			      </tr>
 			    </thead>
 			    <tbody>
-			      <tr>
-			        <td>John Navarro</td>
-			        <td>Junio 12/2017</td>
-			        <td>Bonificación</td>
-			        <td><b><i  style="cursor: pointer;margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i> </b></td>
-			      </tr>
-			      <tr>
-			        <td>Mary Osorio</td>
-			        <td>Junio 12/2017</td>
-			        <td>Descuento</td>
-			        <td><b><i  style="cursor: pointer;margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i> </b></td>
-			      </tr>
-			      <tr>
-			        <td>July Mendoza</td>
-			        <td>Junio 12/2017</td>
-			        <td>Bonificación</td>
-			        <td><b><i  style="cursor: pointer; margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i> </b></td>
-			      </tr>
+						<tr ng-repeat="registro in bonificacionDescuento">
+							<td>{{registro.empleado.primerNombre + " " + registro.empleado.primerApellido}}</td>
+			        <td>{{registro.fechaSuceso}}</td>
+			        <td>{{registro.tipo}}</td>
+							<td><b><i  style="cursor: pointer;margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i> </b></td>
+						</tr>
 			    </tbody>
 			 </table>
 		  <div class="clearfix"></div>
@@ -119,3 +108,36 @@
 		  <br>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function(){
+		// autompletado entre jquery con node
+		$("#input_empleado").autocomplete({
+        minLength: 1,
+				source: function(req, res){
+					$.ajax({
+							type: 'POST',
+							data: {'nombre': $("#input_empleado").val()},
+							dataType: 'json',
+							cache: false,
+							url: "/autocomplete/empleado",
+							success: function(data){
+								res( $.map( data, function( item ) {
+										return {
+												label: item.primerNombre,
+												value: item.primerNombre,
+												id: item.id
+										}
+								}));
+							}
+					});
+				},
+        select: function(e, ui){
+					localStorage.setItem('idEmpleado', ui.item.id);
+        }
+    });
+		$('#btn_enviar_modal').click(function(e){
+			$('#btn_cancelar_modal').click();
+		});
+	});
+</script>
