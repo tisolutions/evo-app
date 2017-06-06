@@ -17,12 +17,14 @@ routerAusencias.route("/ausencia")
 	.then((Aus) =>{
 		mUsuario.populate(Aus, {path: "ausenciaUsuario"})
 		.then((doc)=>{
-			res.send(doc)
+			res.send({
+				ausencias: doc
+			})
 		})
 	})
 
 	.catch((err) =>{
-		message: "Error al tratar de traer los registros"
+		message: err
 	});
 })
 .post(upload.any(), function(req,res){

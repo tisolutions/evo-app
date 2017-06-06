@@ -82,40 +82,40 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', fu
 			console.log(key,$scope.bonificacionDescuento[key])
 		}
 
-		// $http.post(url, datos, {
-		// 	transformRequest: angular.identity,
-		// 	headers:{
-		// 		'Content-Type': undefined
-		// 	}
-		// })
-		// .then(function(response,status,headers,config){
-		// 	if(response.data.datoAExtraer !=""){
-		// 		// $http.put("/usuarios/edicion",
-		// 		// 	{
-		// 		// 		boniDesc: response.data._id
-		// 		// 	},
-		// 		// 	{params: { id: response.data.usuario_id }}
-		// 		// )
-		// 		// .then(function(response,status,headers,config){
-		// 		// 	if(response.data._id!=""){
-		// 		// 		swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-		// 		// 		$location.path("/bonificacionDescuento/");
-		// 		// 	}else{
-		// 		// 		swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
-		// 		// 	}
-		// 		// })
-		// 		// .catch(function(response,status,headers,config){
-		// 		// 	swal("Error al guardar Bonificacion/Descuento", response.data.err, "warning");
-		// 		// });
-		// 		swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-		// 		$location.path("/bonificacionDescuento/");
-		// 	}else{
-		// 		swal("Verifica tus datos!", response.data.error, "warning");
-		// 	}
-		// })
-		// .catch(function(response,status){
-		// 	swal("Error", response.data, "error");
-		// });
+		$http.post(url, datos, {
+			transformRequest: angular.identity,
+			headers:{
+				'Content-Type': undefined
+			}
+		})
+		.then(function(response,status,headers,config){
+			if(response.data.datoAExtraer !=""){
+				$http.put("/usuarios/edicion",
+					{
+						boniDesc: response.data._id
+					},
+					{params: { id: response.data.usuario_id }}
+				)
+				.then(function(response,status,headers,config){
+					if(response.data._id!=""){
+						swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
+						$location.path("/bonificacionDescuento/");
+					}else{
+						swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
+					}
+				})
+				.catch(function(response,status,headers,config){
+					swal("Error al guardar Bonificacion/Descuento", response.data.err, "warning");
+				});
+				swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
+				$location.path("/bonificacionDescuento/");
+			}else{
+				swal("Verifica tus datos!", response.data.error, "warning");
+			}
+		})
+		.catch(function(response,status){
+			swal("Error", response.data, "error");
+		});
 	};
 }]);
 
