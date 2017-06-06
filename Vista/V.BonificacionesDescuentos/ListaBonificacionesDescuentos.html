@@ -120,7 +120,7 @@
 							data: {'nombre': $("#input_empleado").val()},
 							dataType: 'json',
 							cache: false,
-							url: "/prueba/autocomplete",
+							url: "/autocomplete/empleado",
 							success: function(data){
 								res( $.map( data, function( item ) {
 										return {
