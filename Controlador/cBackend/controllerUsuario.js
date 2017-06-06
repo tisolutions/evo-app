@@ -11,7 +11,7 @@ var path = require('path')
 
 
 
-routerUsuario.route("/prueba/autocomplete")
+routerUsuario.route("/autocomplete/empleado")
 	.post(function(req, res){
 
 		var regexValue='\.*'+req.body.nombre+'\.';
