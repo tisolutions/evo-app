@@ -87,13 +87,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<input type="text" name="" value="" class="form-control" id="input_autocomplete">
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<div class="col-lg-1 col-md-1 hidden-xs hidden-sm"><br></div>
 	</div>
@@ -103,35 +96,8 @@
 	$(document).ready(function(){
 		$(".conten-abso-opcion").each(function() {
 			var altul =$(this).height();
-			console.log(altul);
+			// console.log(altul);
 			$(this).css("margin-top", (altul/2)* -1);
 		});
-
-		// autompletado entre jquery con node
-		$("#input_autocomplete").autocomplete({
-        minLength: 1,
-				source: function(req, res){
-					$.ajax({
-							type: 'POST',
-							data: {'nombre': $("#input_autocomplete").val()},
-							dataType: 'json',
-							cache: false,
-							url: "/prueba/autocomplete",
-							success: function(data){
-								res( $.map( data, function( item ) {
-										return {
-												label: item.primerNombre,
-												value: item.primerNombre,
-												id: item.id
-										}
-								}));
-							}
-					});
-				},
-        select: function(e, ui){
-          // $("#addProveedorForm input[name=ciudadSede]").prop('id', ui.item.id);
-          // $("#addProveedorForm input[name=ciudadSede]").attr('data-field', 'ok');
-        }
-    });
 	})
 </script>
