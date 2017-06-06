@@ -75,6 +75,7 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 
 	$scope.Registrar = function(){
 	 	// con el FormData guardamos todos los datos de la vista
+		var acceso = false;
 		var url = '/bonificaciones-descuentos';
 		var datos = new FormData()
 		for (key in $scope.bonificacionDescuento) {
@@ -82,33 +83,45 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		}
 		datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
 
-		$http.post(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-			}
-		})
-		.then(function(response,status,headers,config){
-			if (response.data.BonificacionDescuento._id != "") {
-				localStorage.removeItem('idEmpleado')
-				swal({
-					title: "Felicitaciones",
-				  text: "Hemos guardado sus datos",
-					type: "success",
-					closeOnConfirm: true
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							$route.reload();
-						}
-					});
-			}else{
-				swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
-			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
+		if(!document.getElementById("avatar-upload").value.length==0){
+			// Este condicional es para determinar mas adelante, restricciones al tipo de archivo
+			// De esa manera de dará acceso a subir los archivos
+			var file = $("#avatar-upload")[0].files[0];
+			datos.append("foto",file);
+			acceso = true;
+		}else{
+			acceso = true;
+		}
+
+		if (acceso == true) {
+			$http.post(url, datos, {
+				transformRequest: angular.identity,
+				headers:{
+					'Content-Type': undefined
+				}
+			})
+			.then(function(response,status,headers,config){
+				if (response.data.BonificacionDescuento._id != "") {
+					localStorage.removeItem('idEmpleado')
+					swal({
+						title: "Felicitaciones",
+					  text: "Hemos guardado sus datos",
+						type: "success",
+						closeOnConfirm: true
+						},
+						function(isConfirm){
+							if (isConfirm) {
+								$route.reload();
+							}
+						});
+				}else{
+					swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
+				}
+			})
+			.catch(function(response,status){
+				swal("Error", response.data, "error");
+			});
+		}
 
 	};
 }]);
