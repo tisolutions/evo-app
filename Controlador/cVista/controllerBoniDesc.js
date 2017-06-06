@@ -13,11 +13,11 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', function($scope,$http, $location){
+usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$route', function($scope,$http, $location, $route){
 	$scope.bonificacionDescuento = [];
 	$http.get("/bonificaciones-descuentos")
 	.then(function(data,status,headers,config){
-		// $scope.bonificacionDescuento = data.data;
+		$scope.bonificacionDescuento = data.data;
 	})
 
 	.catch(function(response,status,headers,config){
@@ -79,43 +79,37 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', fu
 		var datos = new FormData()
 		for (key in $scope.bonificacionDescuento) {
 			datos.append(key,$scope.bonificacionDescuento[key]);
-			console.log(key,$scope.bonificacionDescuento[key])
 		}
+		datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
 
-		// $http.post(url, datos, {
-		// 	transformRequest: angular.identity,
-		// 	headers:{
-		// 		'Content-Type': undefined
-		// 	}
-		// })
-		// .then(function(response,status,headers,config){
-		// 	if(response.data.datoAExtraer !=""){
-		// 		// $http.put("/usuarios/edicion",
-		// 		// 	{
-		// 		// 		boniDesc: response.data._id
-		// 		// 	},
-		// 		// 	{params: { id: response.data.usuario_id }}
-		// 		// )
-		// 		// .then(function(response,status,headers,config){
-		// 		// 	if(response.data._id!=""){
-		// 		// 		swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-		// 		// 		$location.path("/bonificacionDescuento/");
-		// 		// 	}else{
-		// 		// 		swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
-		// 		// 	}
-		// 		// })
-		// 		// .catch(function(response,status,headers,config){
-		// 		// 	swal("Error al guardar Bonificacion/Descuento", response.data.err, "warning");
-		// 		// });
-		// 		swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-		// 		$location.path("/bonificacionDescuento/");
-		// 	}else{
-		// 		swal("Verifica tus datos!", response.data.error, "warning");
-		// 	}
-		// })
-		// .catch(function(response,status){
-		// 	swal("Error", response.data, "error");
-		// });
+		$http.post(url, datos, {
+			transformRequest: angular.identity,
+			headers:{
+				'Content-Type': undefined
+			}
+		})
+		.then(function(response,status,headers,config){
+			if (response.data.BonificacionDescuento._id != "") {
+				localStorage.removeItem('idEmpleado')
+				swal({
+					title: "Felicitaciones",
+				  text: "Hemos guardado sus datos",
+					type: "success",
+					closeOnConfirm: true
+					},
+					function(isConfirm){
+						if (isConfirm) {
+							$route.reload();
+						}
+					});
+			}else{
+				swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
+			}
+		})
+		.catch(function(response,status){
+			swal("Error", response.data, "error");
+		});
+
 	};
 }]);
 
