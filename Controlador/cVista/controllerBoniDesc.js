@@ -165,6 +165,7 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		$scope.buttonEnviar = true;
 		$scope.buttonActualizar = false;
 		// se eliminan los datos cargados en memoria
+		$scope.bonificacionDescuento.nombreEmpleado = "";
 		$scope.bonificacionDescuento.tipo = "";
 		$scope.bonificacionDescuento.fechaSuceso = "";
 		$scope.bonificacionDescuento.valor = "";
