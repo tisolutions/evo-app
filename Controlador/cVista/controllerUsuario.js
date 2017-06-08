@@ -1,4 +1,4 @@
-var usuario = angular.module('Usuario',["ngRoute","ngCookies","ui.calendar", "ui.bootstrap"]);
+var usuario = angular.module('Usuario',["ngRoute","ngCookies",'ui.calendar', 'ui.bootstrap']);
 
 // Aqui cofiguro el enrutamiento
 //factoria que controla la autentificación, devuelve un objeto
