@@ -39,7 +39,6 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 	})
 
 	$scope.VerRegistro = function(boniDescId){
-		alert(boniDescId);
 		// ocultar/mostrar botones en el modal
 		$scope.buttonActualizar = true;
 		$scope.buttonEnviar = false;
@@ -53,7 +52,6 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 			$scope.bonificacionDescuento.fechaSuceso = new Date(data.data.fechaSuceso);
 			$scope.bonificacionDescuento.valor = data.data.valor;
 			$scope.bonificacionDescuento.descripcion = data.data.descripcion;
-			console.log($scope.bonificacionDescuento);
 			// localStorage para guardar los datos en el almacenamiento de sesion
 			localStorage.setItem('idEmpleado', data.data.empleado._id);
 			localStorage.setItem('id', data.data._id);
@@ -70,89 +68,46 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		var url = '/bonificaciones-descuentos';
 		var datos = new FormData()
 
-		cadena_error = "";
 		for (key in $scope.bonificacionDescuento) {
-			cadena_error += validacion(key, $scope.bonificacionDescuento[key]);
 			datos.append(key, $scope.bonificacionDescuento[key]);
 		}
-		console.log(cadena_error);
-		if (cadena_error=="") {
-			datos.append('empleado', localStorage.getItem('idEmpleado'));
-			datos.append('id', localStorage.getItem('id'));
 
-			// se envian los datos a node con el metodo put
-			$http.put(url, datos, {
-				transformRequest: angular.identity,
-				headers:{
-					'Content-Type': undefined
-					}
-			})
-			.then(function(response,status,headers,config){
-				if(response.data.BonificacionDescuento._id !=""){
-					localStorage.removeItem('idEmpleado');
-					localStorage.removeItem('id');
-					swal({
-						title: "Solicitud Exitosa",
-						text: "Hemos guardado sus datos",
-						type: "success",
-						showCancelButton: false,
-						confirmButtonColor: "#00b3e2",
-						closeOnConfirm: true,
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							$route.reload();
-						}
-					});
-				}else{
-					swal("Verifica tus datos!", response.data.error, "warning");
+		datos.append('empleado', localStorage.getItem('idEmpleado'));
+		datos.append('id', localStorage.getItem('id'));
+
+		// se envian los datos a node con el metodo put
+		$http.put(url, datos, {
+			transformRequest: angular.identity,
+			headers:{
+				'Content-Type': undefined
 				}
-			})
-		}else {
-			cadena_error = "<ul>" + cadena_error + "</ul>";
-			swal({
-				title: "Error",
-				text: cadena_error,
-				type: "error",
-				html: true,
-				closeOnConfirm: true,
+		})
+		.then(function(response,status,headers,config){
+			if(response.data.BonificacionDescuento._id !=""){
+				localStorage.removeItem('idEmpleado');
+				localStorage.removeItem('id');
+				swal({
+					title: "Solicitud Exitosa",
+					text: "Hemos guardado sus datos",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: "#00b3e2",
+					closeOnConfirm: true,
+				},
+				function(isConfirm){
+					if (isConfirm) {
+						$route.reload();
+					}
 				});
-			cadena_error = null;
-		}
-
-
-		// .catch(function(response,status){
-		// 	localStorage.removeItem('idEmpleado');
-		// 	localStorage.removeItem('id');
-			// if ((response.data.name) && (response.data.name == "ValidationError")) {
-			// 	resultado = "<ul>";
-			// 	$.map(response.data.errors, function(value, index) {
-			// 		if(index=="empleado"){
-			// 			resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Empleado</span></li><br>";
-			// 		}
-			// 		if (index=="fechaSuceso") {
-			// 			resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar la <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
-			// 		}
-			// 		if (index=="tipo") {
-			// 			resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar el <span style='color:#FA5858;'>Tipo</span></li><br>";
-			// 		}
-			// 		if (index=="descripcion") {
-			// 			resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Descripcion</span></li><br>";
-			// 		}
-			// 		if (index=="valor") {
-			// 			resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides digitar un <span style='color:#FA5858;'>Valor</span></li>";
-			// 		}
-			// 	});
-			// 	resultado += "</ul>";
-			// 	swal({
-			// 		title: "Error",
-			// 		text: resultado,
-			// 		type: "error",
-			// 		html: true,
-			// 		closeOnConfirm: true,
-			// 		});
-			// }
-		// });
+			}else{
+				swal("Verifica tus datos!", response.data.error, "warning");
+			}
+		})
+		.catch(function(response,status){
+			localStorage.removeItem('idEmpleado');
+			localStorage.removeItem('id');
+			swal('Error', 'Hubo un error en la peticion', 'error');
+		});
 	};
 
 	$scope.Eliminar = function(boniDescId){
@@ -298,25 +253,3 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 
 	};
 }]);
-
-function validacion(propiedad, valor){
-	if (valor == '' || valor == undefined || valor == "undefined") {
-		if (propiedad=="empleado"){
-			return "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Empleado</span></li><br>";
-		}
-		if (propiedad=="fechaSuceso") {
-			return "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar la <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
-		}
-		if (propiedad=="tipo") {
-			return "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar el <span style='color:#FA5858;'>Tipo</span></li><br>";
-		}
-		if (propiedad == "descripcion"){
-			return "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Descripcion</span><li>";
-		}
-		if (propiedad=="valor") {
-			return "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides digitar un <span style='color:#FA5858;'>Valor</span></li>";
-		}
-	}else {
-		return "";
-	}
-}
