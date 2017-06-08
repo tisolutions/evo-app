@@ -108,10 +108,13 @@
   	</div>
 	<div class="clearfix"></div>
 	<div class="row">
-        <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
-           <h4>{{alertMessage}}</h4>
-        </div>
-      	<div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+        <div class="pull-left">
+		    <md-button class="md-raised" ng-click="changeView('month')">month</md-button>
+		    <md-button class="md-raised" ng-click="changeView('basicWeek')">week</md-button>
+		    <md-button class="md-raised" ng-click="changeView('basicDay')">day</md-button>
+  		</div>    
+
+  		<div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
     </div>
 	<br>
     <br>
