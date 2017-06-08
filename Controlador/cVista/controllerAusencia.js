@@ -45,6 +45,14 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
   		console.log(response.message)
   	})
 
+		$scope.clickRegistrar = function() {
+			$scope.ausencia.horaInicio = "";
+			$scope.ausencia.horaFin = "";
+			$scope.ausencia.fechaSuceso = "";
+			$scope.ausencia.tipo = "";
+			$scope.ausencia.descripcion = "";
+		}
+
 		$scope.Registrar = function(){
 			var acceso = false;
 			var url = '/ausencia';
@@ -91,7 +99,40 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 					}
 				})
 				.catch(function(response,status){
-					swal("Error", response.data, "error");
+					// swal("Error", response.data, "error");
+					localStorage.removeItem('idEmpleado');
+					if ((response.data.name) && (response.data.name == "ValidationError")) {
+						resultado = "<ul>";
+						$.map(response.data.errors, function(value, index) {
+							if(index=="descripcion"){
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Descripcion</span></li><br>";
+							}
+							if (index=="empleado") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Empleado</span></li><br>";
+							}
+							if (index=="fechaSuceso") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar una <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
+							}
+							if (index=="horaInicio") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Inicio</span></li><br>";
+							}
+							if (index=="horaFin") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Fin</span></li><br>";
+							}
+							if (index=="tipo") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Tipo</span></li><br>";
+							}
+
+						});
+						resultado += "</ul>";
+						swal({
+							title: "Error",
+						  text: resultado,
+							type: "error",
+							html: true,
+							closeOnConfirm: true,
+							});
+					}
 				});
 			}
 		};

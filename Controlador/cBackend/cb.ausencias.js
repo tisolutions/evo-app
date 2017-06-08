@@ -54,9 +54,7 @@ routerAusencias.route("/ausencia")
 	})
 
 	.catch((error)=>{
-        res.status(500).send({
-        	error : error
-        });
+        res.status(500).send(error);
 	})
 })
 .put(upload.any(), function(req,res){

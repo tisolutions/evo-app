@@ -6,12 +6,12 @@ const bcrypt = require('bcrypt-nodejs');
 
 const ausenciaSchema = new schema({
     horaInicio: {
-      type: String
-      // required: "Ingrese el tiempo de la ausencia"
+      type: String,
+      required: "Ingrese el tiempo de la ausencia"
     },
     horaFin: {
-      type: String
-      // required: "Ingrese el tiempo de la ausencia"
+      type: String,
+      required: "Ingrese el tiempo de la ausencia"
     },
     fechaSuceso: {
       type: Date,
