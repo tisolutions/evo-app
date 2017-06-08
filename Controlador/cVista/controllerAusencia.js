@@ -13,119 +13,110 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig){
-	  $scope.ausencia = [];
+usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', '$route', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig, $route){
+		// Si existe el registro, será eliminado
+	if ( localStorage.getItem('idEmpleado') ) {
+		localStorage.removeItem('idEmpleado')
+	}
 
-    $calendar = $('[ui-calendar]');
+	$scope.clickRegistrar = function() {
+		$scope.ausencia.horaInicio = "";
+		$scope.ausencia.horaFin = "";
+		$scope.ausencia.fechaSuceso = "";
+		$scope.ausencia.tipo = "";
+		$scope.ausencia.descripcion = "";
+	}
 
-    var date = new Date(),
-    d = date.getDate(),
-    m = date.getMonth(),
-    y = date.getFullYear();
+	$scope.Registrar = function(){
+			var acceso = false;
+			var url = '/ausencia';
+			// con el FormData guardamos todos los datos de la vista
+			var datos = new FormData()
+			for (key in $scope.ausencia) {
+				datos.append(key,$scope.ausencia[key]);
+			}
+			datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
 
-    $scope.changeView = function(view){      
-       $calendar.fullCalendar('changeView',view);
-    };
+			if(!document.getElementById("soporte").value.length==0){
+				// Este condicional es para determinar mas adelante, restricciones al tipo de archivo
+				// De esa manera de dará acceso a subir los archivos
+				var file = $("#soporte")[0].files[0];
+				datos.append("foto",file);
+				acceso = true;
+			}else{
+				acceso = true;
+			}
 
-    $scope.uiConfig = {
-      calendar: {
-        lang: 'es',
-        height: '100%',
-        editable: false,
-        header: {
-          left: 'month basicWeek basicDay',
-          center: 'title',
-          right: 'today prev,next'
-        },
-        eventClick: function(date, jsEvent, view) {
-          $scope.alertMessage = (date.title + ' was clicked ');
-        },
-        dayClick: $scope.alertEventOnClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
-      }
-    };
+			if (acceso == true) {
+				$http.post(url, datos, {
+					transformRequest: angular.identity,
+					headers:{
+						'Content-Type': undefined
+					}
+				})
+				.then(function(response,status,headers,config){
+					if(response.data.Ausencia._id !=""){
+						localStorage.removeItem('idEmpleado')
+						swal({
+							title: "Felicitaciones",
+						  text: "Hemos guardado sus datos",
+							type: "success",
+							closeOnConfirm: true
+							},
+							function(isConfirm){
+								if (isConfirm) {
+									$route.reload();
+								}
+							});
+					}else{
+						swal("Verifica tus datos!", response.data.error, "warning");
+					}
+				})
+				.catch(function(response,status){
+					// swal("Error", response.data, "error");
+					localStorage.removeItem('idEmpleado');
+					if ((response.data.name) && (response.data.name == "ValidationError")) {
+						resultado = "<ul>";
+						$.map(response.data.errors, function(value, index) {
+							if(index=="descripcion"){
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Descripcion</span></li><br>";
+							}
+							if (index=="empleado") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Empleado</span></li><br>";
+							}
+							if (index=="fechaSuceso") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar una <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
+							}
+							if (index=="horaInicio") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Inicio</span></li><br>";
+							}
+							if (index=="horaFin") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Fin</span></li><br>";
+							}
+							if (index=="tipo") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Tipo</span></li><br>";
+							}
 
-    $scope.events = [{
-      title: 'All Day Event',
-      start: new Date(y, m, 1)
-    }, {
-      title: 'Long Event',
-      start: new Date(y, 6, d - 5),
-      end: new Date(y, m, d - 2)
-    }, {
-      id: 999,
-      title: 'Repeating Event',
-      start: new Date(y, m, d - 3, 16, 0),
-      allDay: false
-    }, {
-      id: 999,
-      title: 'Repeating Event',
-      start: new Date(y, m, d + 4, 16, 0),
-      allDay: false
-    }, {
-      title: 'Birthday Party',
-      start: new Date(y, m, d + 1, 19, 0),
-      end: new Date(y, m, d + 1, 22, 30),
-      allDay: false
-    }, {
-      title: 'Click for Google',
-      start: new Date(y, m, 28),
-      end: new Date(y, m, 29),
-      url: 'https://google.com/'
-    }];
-
-    $scope.eventSources = [$scope.events];
+						});
+						resultado += "</ul>";
+						swal({
+							title: "Error",
+						  text: resultado,
+							type: "error",
+							html: true,
+							closeOnConfirm: true,
+							});
+					}
+				});
+			}
+	};
 
 }]);
 
 usuario.controller('controllerAusencia', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.ausencia = [];
 
-	$scope.Registrar = function(){
-		// con el FormData guardamos todos los datos de la vista
-		var url = '/ausencia';
-		var datos = new FormData()
-		for (key in $scope.ausencia) {
-			datos.append(key,$scope.ausencia[key]);
-		}
 
-		$http.post(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-			}
-		})
-		.then(function(response,status,headers,config){
-			if(response.data.datoAExtraer !=""){
-				// $http.put("/usuarios/edicion",
-				// 	{
-				// 		boniDesc: response.data._id
-				// 	},
-				// 	{params: { id: response.data.usuario_id }}
-				// )
-				// .then(function(response,status,headers,config){
-				// 	if(response.data._id!=""){
-				// 		swal("Felicitaciones", "Ausencia Guardada", "success");
-				// 		$location.path("/ausencia/");
-				// 	}else{
-				// 		swal("Error al relacionar Ausencia", response.data.error, "warning");
-				// 	}
-				// })
-				// .catch(function(response,status,headers,config){
-				// 	swal("Error al guardar Ausencia", response.data.err, "warning");
-				// });
-				swal("Felicitaciones", "Ausencia Guardada", "success");
-				$location.path("/ausencia/");
-			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
-			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
-	};
 
   $scope.Actualizar = function(){
     // en el formData se guardan los datos de la vista

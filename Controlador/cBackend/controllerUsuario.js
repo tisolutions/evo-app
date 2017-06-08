@@ -14,7 +14,7 @@ var path = require('path')
 routerUsuario.route("/autocomplete/empleado")
 	.post(function(req, res){
 
-		var regexValue='\.*'+req.body.nombre+'\.';
+		var regexValue='\.*'+req.body.nombre+'\.*';
 		mUsuario.findOne({"primerNombre":new RegExp(regexValue, 'i')})
 		// mUsuario.find({primerNombre: /req.body.nombre/})
 		// mUsuario.findOne({

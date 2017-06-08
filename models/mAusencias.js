@@ -5,7 +5,11 @@ const schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
 const ausenciaSchema = new schema({
-    hora: {
+    horaInicio: {
+      type: String,
+      required: "Ingrese el tiempo de la ausencia"
+    },
+    horaFin: {
       type: String,
       required: "Ingrese el tiempo de la ausencia"
     },
@@ -25,9 +29,13 @@ const ausenciaSchema = new schema({
       type: String
     },
     remunerado: {
-      type: Boolean,
-      required: "No olvides especificar si es o no es remuderado"
-    }
+      type: Boolean
+      // required: "No olvides especificar si es o no es remuderado"
+    },
+    empleado: {
+     type: schema.ObjectId,
+     ref: "Usuario"
+   }
 });
 
 module.exports = mongoose.model('ausencia', ausenciaSchema);

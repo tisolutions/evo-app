@@ -28,13 +28,15 @@ routerAusencias.route("/ausencia")
 	});
 })
 .post(upload.any(), function(req,res){
-	
+
 	var data = new mAusencias({
+			horaInicio: req.body.horaInicio,
+			horaFin: req.body.horaFin,
       fechaSuceso: req.body.fechaSuceso,
+			tipo: req.body.tipo,
       descripcion: req.body.descripcion,
       tipo: req.body.tipo,
-      remunerado: req.body.remunerado,
-      hora: req.body.hora
+			empleado: req.body.idEmpleado
     });
 
     data.save()
@@ -52,9 +54,7 @@ routerAusencias.route("/ausencia")
 	})
 
 	.catch((error)=>{
-        res.status(500).send({
-        	error : error
-        });
+        res.status(500).send(error);
 	})
 })
 .put(upload.any(), function(req,res){

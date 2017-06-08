@@ -14,7 +14,14 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 }])
 
 usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$route', function($scope,$http, $location, $route){
-	// $scope.bonificacionDescuento: variable que se usará para mostrar la informacion en la vista (listado)
+	// Si existe el registro, será eliminado
+	if ( localStorage.getItem('idEmpleado') ) {
+		localStorage.removeItem('idEmpleado')
+	}
+	if ( localStorage.getItem('id') ) {
+		localStorage.removeItem('id')
+	}
+	// $scope.bonificacionDescuento: variable que se usará para mostrar la informacion en la vista
 	$scope.bonificacionDescuento = [];
 	// Metodo get: para obtener el listado de bonificaciones/descuentos
 	$http.get("/bonificaciones-descuentos")
@@ -31,8 +38,76 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		console.log("Error")
 	})
 
-	$scope.verRegistro = function(boniDescId){
-		$location.path("/actualizacionBoniDesc/" + boniDescId);
+	$scope.VerRegistro = function(boniDescId){
+		// ocultar/mostrar botones en el modal
+		$scope.buttonActualizar = true;
+		$scope.buttonEnviar = false;
+		$http.get('/bonificacion-descuento', {
+			params: { id: boniDescId }
+		})
+		.then(function(data,status,headers,config){
+			$('#myModal').modal('show');
+			$scope.bonificacionDescuento.nombreEmpleado = data.data.empleado.primerNombre+ ' '+data.data.empleado.primerApellido;
+			$scope.bonificacionDescuento.tipo = data.data.tipo;
+			$scope.bonificacionDescuento.fechaSuceso = new Date(data.data.fechaSuceso);
+			$scope.bonificacionDescuento.valor = data.data.valor;
+			$scope.bonificacionDescuento.descripcion = data.data.descripcion;
+			// localStorage para guardar los datos en el almacenamiento de sesion
+			localStorage.setItem('idEmpleado', data.data.empleado._id);
+			localStorage.setItem('id', data.data._id);
+			// Se abre el modal
+
+		});
+		// $location.path("/actualizacionBoniDesc/" + boniDescId);
+	};
+
+	$scope.Actualizar = function(){
+		// ocultar el modal en la vista
+		$('#btn_cancelar_modal').click();
+		// en el formData se guardan los datos de la vista
+		var url = '/bonificaciones-descuentos';
+		var datos = new FormData()
+
+		for (key in $scope.bonificacionDescuento) {
+			datos.append(key, $scope.bonificacionDescuento[key]);
+		}
+
+		datos.append('empleado', localStorage.getItem('idEmpleado'));
+		datos.append('id', localStorage.getItem('id'));
+
+		// se envian los datos a node con el metodo put
+		$http.put(url, datos, {
+			transformRequest: angular.identity,
+			headers:{
+				'Content-Type': undefined
+				}
+		})
+		.then(function(response,status,headers,config){
+			if(response.data.BonificacionDescuento._id !=""){
+				localStorage.removeItem('idEmpleado');
+				localStorage.removeItem('id');
+				swal({
+					title: "Solicitud Exitosa",
+					text: "Hemos guardado sus datos",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: "#00b3e2",
+					closeOnConfirm: true,
+				},
+				function(isConfirm){
+					if (isConfirm) {
+						$route.reload();
+					}
+				});
+			}else{
+				swal("Verifica tus datos!", response.data.error, "warning");
+			}
+		})
+		.catch(function(response,status){
+			localStorage.removeItem('idEmpleado');
+			localStorage.removeItem('id');
+			swal('Error', 'Hubo un error en la peticion', 'error');
+		});
 	};
 
 	$scope.Eliminar = function(boniDescId){
@@ -43,48 +118,66 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "Si, eliminalo!",
-		  closeOnConfirm: false
+		  closeOnConfirm: false,
+			closeOnCancel: false
 		},
-		function(){
-			$http.delete("/bonificaciones-descuentos", {
-				params: { id: boniDescId }
-			})
-			.then(function(data,status,headers,config){
-				swal({
-					title: "Registro Eliminado!",
-					text: "La información ha sido eliminada.",
-					type: "success",
-					showCancelButton: false,
-					confirmButtonColor: "#DD6B55",
-					 closeOnConfirm: true,
-					},
-					function(isConfirm){
-					  $location.path("/bonificacionDescuento/");
-				});
-			})
-
-			.catch(function(data,status,headers,config){
-				swal({
-					title: "Ups Ocurrio un Error!",
-					text: data.message,
-					type: "error",
-					showCancelButton: false,
-					confirmButtonColor: "#DD6B55",
-					 closeOnConfirm: true,
-					},
-					function(isConfirm){
-					   $location.path("/bonificacionDescuento/");
-				});
-			})
-
+		function(isConfirm){
+			if (isConfirm) {
+				$http.delete("/bonificaciones-descuentos", {
+					params: { id: boniDescId }
+				})
+				.then(function(data,status,headers,config){
+					swal({
+						title: "Registro Eliminado!",
+						text: "La información ha sido eliminada.",
+						type: "success",
+						showCancelButton: false,
+						confirmButtonColor: "#DD6B55",
+						closeOnConfirm: true,
+						},
+						function(isConfirm){
+							if (isConfirm) {
+								$route.reload();
+							}
+					});
+				})
+				.catch(function(data,status,headers,config){
+					swal({
+						title: "Ups Ocurrio un Error!",
+						text: data.message,
+						type: "error",
+						showCancelButton: false,
+						confirmButtonColor: "#DD6B55",
+						 closeOnConfirm: true,
+						},
+						function(isConfirm){
+						   $route.reload();
+					});
+				})
+		  } else {
+		    swal("Cancelado", "No hubo cambios en el registro.", "error");
+		  }
 		});
 	};
 
+	$scope.clickRegistrar = function(){
+		// ocultar/mostrar botones en el modal
+		$scope.buttonEnviar = true;
+		$scope.buttonActualizar = false;
+		// se eliminan los datos cargados en memoria
+		$scope.bonificacionDescuento.tipo = "";
+		$scope.bonificacionDescuento.fechaSuceso = "";
+		$scope.bonificacionDescuento.valor = "";
+		$scope.bonificacionDescuento.descripcion = "";
+	}
+
 	$scope.Registrar = function(){
+		// ocultar el modal en la vista
+		$('#btn_cancelar_modal').click();
 		var acceso = false;
 		var url = '/bonificaciones-descuentos';
 		// con el FormData guardamos todos los datos de la vista
-		var datos = new FormData()
+		var datos = new FormData();
 		for (key in $scope.bonificacionDescuento) {
 			datos.append(key,$scope.bonificacionDescuento[key]);
 		}
@@ -126,85 +219,37 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 				}
 			})
 			.catch(function(response,status){
-				swal("Error", response.data, "error");
+				localStorage.removeItem('idEmpleado');
+				if ((response.data.name) && (response.data.name == "ValidationError")) {
+					resultado = "<ul>";
+					$.map(response.data.errors, function(value, index) {
+						if(index=="empleado"){
+							resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Empleado</span></li><br>";
+						}
+						if (index=="fechaSuceso") {
+							resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar la <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
+						}
+						if (index=="tipo") {
+							resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar el <span style='color:#FA5858;'>Tipo</span></li><br>";
+						}
+						if (index=="descripcion") {
+							resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Descripcion</span></li><br>";
+						}
+						if (index=="valor") {
+							resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides digitar un <span style='color:#FA5858;'>Valor</span></li>";
+						}
+					});
+					resultado += "</ul>";
+					swal({
+						title: "Error",
+					  text: resultado,
+						type: "error",
+						html: true,
+						closeOnConfirm: true,
+						});
+				}
 			});
 		}
 
-		$http.post(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-			}
-		})
-		.then(function(response,status,headers,config){
-			if(response.data.datoAExtraer !=""){
-				$http.put("/usuarios/edicion",
-					{
-						boniDesc: response.data._id
-					},
-					{params: { id: response.data.usuario_id }}
-				)
-				.then(function(response,status,headers,config){
-					if(response.data._id!=""){
-						swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-						$location.path("/bonificacionDescuento/");
-					}else{
-						swal("Error al relacionar Bonificacion/Descuento", response.data.error, "warning");
-					}
-				})
-				.catch(function(response,status,headers,config){
-					swal("Error al guardar Bonificacion/Descuento", response.data.err, "warning");
-				});
-				swal("Felicitaciones", "Bonificacion/Descuento Guardado", "success");
-				$location.path("/bonificacionDescuento/");
-			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
-			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
 	};
-}]);
-
-usuario.controller('controllerBoniDesc', ['$scope', '$http', '$location', function($scope,$http, $location){
-	$scope.bonificacionDescuento = [];
-
-
-
-	$scope.Actualizar = function(){
-		// en el formData se guardan los datos de la vista
-		var url = '/bonificaciones-descuentos';
-		var datos = new FormData()
-
-		for (key in $scope.bonificacionDescuento) {
-			datos.append(key, $scope.bonificacionDescuento[key]);
-		}
-		// se envian los datos a node con el metodo put
-		$http.put(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-				}
-		})
-		.then(function(response,status,headers,config){
-			if(response.data.dato_extraer !=""){
-				swal({
-					title: "Bonificacion o Descuento Modificado",
-					text: "Hemos guardado tus datos",
-					type: "success",
-					showCancelButton: false,
-					confirmButtonColor: "#00b3e2",
-					closeOnConfirm: true,
-				});
-				$location.path("/bonificacionDescuento/");
-			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
-			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
-	};
-
 }]);
