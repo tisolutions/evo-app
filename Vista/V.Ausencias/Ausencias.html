@@ -47,8 +47,8 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group">
-							    <label for="">Empleado</label>
-							    <input type="text" class="form-control" id="" placeholder="Ingrese el nombre del empleado" name="empleado">
+							    <label for="input_empleado">Empleado</label>
+							    <input type="text" class="form-control" id="input_empleado" placeholder="Ingrese el nombre del empleado" name="empleado">
 							</div>
 
 							<div class="form-group">
@@ -58,11 +58,11 @@
 							     <br>
 							    <div class="col-xs-6">
 							    	<label for="horaInicio">Inicia</label>
-							    	<input type="time" class="pull-left" width="50" name="horaInicio" ng-model="ausencia.horaInicio">
+							    	<input type="time" class="pull-left" width="50" name="horaInicio" id="horaInicio" ng-model="ausencia.horaInicio">
 							    </div>
 							    <div class="col-xs-6">
 							    	<label for="horaFin">Fin</label>
-							    	<input type="time" class="pull-right" width="50" name="horaFin" ng-model="ausencia.horaFin">
+							    	<input type="time" class="pull-right" width="50" name="horaFin" id="horaFin" ng-model="ausencia.horaFin">
 							    </div>
 							</div>
 
@@ -98,8 +98,8 @@
 						</div>
 					</div>
 				    <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				      	<button type="submit" class="btn btn-default" ng-click="Registrar()">Enviar</button>
+				        <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_cancelar_modal">Cancelar</button>
+				      	<button type="submit" class="btn btn-default" ng-click="Registrar()" id="btn_enviar_modal">Enviar</button>
 				    </div>
 				</form>
 		      </div>
@@ -121,3 +121,36 @@
     <br>
     <br>
 </div>
+
+<script>
+	$(document).ready(function(){
+		// autompletado entre jquery con node
+		$("#input_empleado").autocomplete({
+        minLength: 1,
+				source: function(req, res){
+					$.ajax({
+							type: 'POST',
+							data: {'nombre': $("#input_empleado").val()},
+							dataType: 'json',
+							cache: false,
+							url: "/autocomplete/empleado",
+							success: function(data){
+								res( $.map( data, function( item ) {
+										return {
+												label: item.primerNombre,
+												value: item.primerNombre,
+												id: item.id
+										}
+								}));
+							}
+					});
+				},
+        select: function(e, ui){
+					localStorage.setItem('idEmpleado', ui.item.id);
+        }
+    });
+		$('#btn_enviar_modal').click(function(e){
+			$('#btn_cancelar_modal').click();
+		});
+	});
+</script>

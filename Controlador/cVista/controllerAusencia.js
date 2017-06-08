@@ -13,8 +13,12 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig){
-	  // $scope.ausencia = [];
+usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', '$route', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig, $route){
+		// Si existe el registro, será eliminado
+		if ( localStorage.getItem('idEmpleado') ) {
+			localStorage.removeItem('idEmpleado')
+		}
+		$scope.ausencia = [];
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -40,6 +44,57 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
   	.catch(function(response,status,headers,config){
   		console.log(response.message)
   	})
+
+		$scope.Registrar = function(){
+			var acceso = false;
+			var url = '/ausencia';
+			// con el FormData guardamos todos los datos de la vista
+			var datos = new FormData()
+			for (key in $scope.ausencia) {
+				datos.append(key,$scope.ausencia[key]);
+			}
+			datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
+
+			if(!document.getElementById("soporte").value.length==0){
+				// Este condicional es para determinar mas adelante, restricciones al tipo de archivo
+				// De esa manera de dará acceso a subir los archivos
+				var file = $("#soporte")[0].files[0];
+				datos.append("foto",file);
+				acceso = true;
+			}else{
+				acceso = true;
+			}
+
+			if (acceso == true) {
+				$http.post(url, datos, {
+					transformRequest: angular.identity,
+					headers:{
+						'Content-Type': undefined
+					}
+				})
+				.then(function(response,status,headers,config){
+					if(response.data.Ausencia._id !=""){
+						localStorage.removeItem('idEmpleado')
+						swal({
+							title: "Felicitaciones",
+						  text: "Hemos guardado sus datos",
+							type: "success",
+							closeOnConfirm: true
+							},
+							function(isConfirm){
+								if (isConfirm) {
+									$route.reload();
+								}
+							});
+					}else{
+						swal("Verifica tus datos!", response.data.error, "warning");
+					}
+				})
+				.catch(function(response,status){
+					swal("Error", response.data, "error");
+				});
+			}
+		};
     /* event source that pulls from google.com */
     // $scope.eventSource = {
     //         url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
@@ -160,49 +215,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 usuario.controller('controllerAusencia', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.ausencia = [];
 
-	$scope.Registrar = function(){
-		// con el FormData guardamos todos los datos de la vista
-		var url = '/ausencia';
-		var datos = new FormData()
-		for (key in $scope.ausencia) {
-			datos.append(key,$scope.ausencia[key]);
-		}
 
-		$http.post(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-			}
-		})
-		.then(function(response,status,headers,config){
-			if(response.data.datoAExtraer !=""){
-				// $http.put("/usuarios/edicion",
-				// 	{
-				// 		boniDesc: response.data._id
-				// 	},
-				// 	{params: { id: response.data.usuario_id }}
-				// )
-				// .then(function(response,status,headers,config){
-				// 	if(response.data._id!=""){
-				// 		swal("Felicitaciones", "Ausencia Guardada", "success");
-				// 		$location.path("/ausencia/");
-				// 	}else{
-				// 		swal("Error al relacionar Ausencia", response.data.error, "warning");
-				// 	}
-				// })
-				// .catch(function(response,status,headers,config){
-				// 	swal("Error al guardar Ausencia", response.data.err, "warning");
-				// });
-				swal("Felicitaciones", "Ausencia Guardada", "success");
-				$location.path("/ausencia/");
-			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
-			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
-	};
 
   $scope.Actualizar = function(){
     // en el formData se guardan los datos de la vista

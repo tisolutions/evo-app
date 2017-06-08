@@ -9,6 +9,22 @@ var upload = multer({dest: 'uploads/SoportesBonificaciones_Descuentos'})
 var fs = require('fs')
 var path = require('path')
 
+routerBonificacionDes.route("/bonificacion-descuento")
+	.get(function(req, res){
+		let boniDescId = req.query.id;
+		mBonifDes.findById(boniDescId)
+		.then((bonDes)=>{
+			mUsuario.populate(bonDes, {path: "empleado"})
+			.then((registro)=>{
+				res.status(200).send(registro);
+			})
+		})
+		.catch((err) =>{
+			res.status(500).send({
+				message: `Error al realizar la petición: ${err}`
+			})
+		})
+	});
 
 routerBonificacionDes.route("/bonificaciones-descuentos")
 .get(function(req,res){
@@ -50,13 +66,11 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 	})
 
 	.catch((error)=>{
-        res.status(500).send({
-        	error : error
-        });
+        res.status(500).send(error);
 	})
 })
 .put(upload.any(), function(req,res){
-
+	console.log(req.body);
 	let BonDesId = req.body.id
 	let body = req.body
 
@@ -74,14 +88,12 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 	})
 
 	.catch((err)=>{
-		res.status(500).send({
-			error: err
-		});
+		res.status(500).send(err);
 	})
 })
 .delete(function(req,res){
 	var eliminar ={
-		_id: req.body.id
+		_id: req.query.id
 	};
 
 	mBonifDes.remove(eliminar)
