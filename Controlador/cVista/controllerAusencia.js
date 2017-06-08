@@ -14,7 +14,268 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 }])
 
 usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', '$route', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig, $route){
-		// Si existe el registro, será eliminado
+	// Calendario
+	$calendar = $('[ui-calendar]');
+    $scope.events = [];
+    var date = new Date(),
+    d = date.getDate(),
+    m = date.getMonth(),
+    y = date.getFullYear();
+
+    $scope.changeView = function(view){      
+       $calendar.fullCalendar('changeView',view);
+    };
+
+    $scope.uiConfig = {
+      calendar: {
+        lang: 'da',
+        height: '100%',
+        eventLimit: true, // allow "more" link when too many events
+		navLinks: true,
+        header: {
+          //left: 'month basicWeek basicDay',
+          //center: 'title',
+          right: 'today prev,next'
+        },
+        views: {
+	        basic: {
+            	eventLimit: 3// options apply to basicWeek and basicDay views
+	        },
+	        agenda: {
+	            eventLimit: 3// options apply to agendaWeek and agendaDay views
+	        },
+	        week: {
+	            eventLimit: 3// options apply to basicWeek and agendaWeek views
+	        },
+	        day: {
+	            eventLimit: 3// options apply to basicDay and agendaDay views
+	        }
+	    },
+	  //   events: [
+			// 	{
+			// 		title: 'All Day Event',
+			// 		start: '2017-06-21'
+			// 	},
+			// 	{
+			// 		title: 'Long Event',
+			// 		start: '2017-06-21',
+			// 		end: '2017-06-22'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	},
+			// 	{
+			// 		id: 999,
+			// 		title: 'Repeating Event',
+			// 		start: '2017-06-21T16:00:00'
+			// 	}
+			// ],
+
+        eventClick: function(date, jsEvent, view) {
+          $scope.alertMessage = (date.title + ' was clicked ');
+        },
+        dayClick: $scope.alertEventOnClick,
+        eventDrop: $scope.alertOnDrop,
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender
+      }
+    };
+
+    // Eventos para el calendario
+
+    $http.get("/ausencia")
+    .then(function(data,status,headers,config){
+    	if (data.data.ausencias != "") {
+    		$scope.events.slice(0, $scope.events.lenght);
+    		// var clase;
+    		angular.forEach(data.data.ausencias, function(value){
+    			var date = new Date(value.fechaSuceso);
+    			var year = date.getFullYear();
+    			var month = date.getMonth();
+           		var day = date.getDate();
+
+    			console.log(year+" "+month+" "+day)
+
+            	switch(value.tipo){
+
+            		case "Familiar":
+            		clase = "motFamiliar";
+            		break;
+
+            		case "Cita Médica":
+            		clase = "citaMedica";
+            		break;
+
+            		case "Vacaciones":
+            		clase = "vacaciones";
+            		break;
+
+            		case "Otros":
+            		clase = "otros";
+            		break;
+            	}
+
+            	console.log(clase)
+
+            	$scope.events.push({
+	              title: value.tipo,
+	              description: value.descripcion,
+	              start: new Date(year, month, day),
+	              allDay: false,
+	              className: [clase]
+	            });
+
+    		})
+		}
+	})
+
+    .catch(function(data,status,headers,config){
+    	console.log(data.error)
+    });
+
+  //   $scope.events = [
+  //   	{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// },{
+		// 	title: 'All Day Event',
+		// 	start: '2017-06-21'
+		// }
+  //   ]
+
+    $scope.eventSources = [$scope.events];
+
+    // Fin del Calendario
+
+	// Si existe el registro, será eliminado
 	if ( localStorage.getItem('idEmpleado') ) {
 		localStorage.removeItem('idEmpleado')
 	}
@@ -109,6 +370,55 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 					}
 				});
 			}
+	};
+
+	$scope.verRegistro = function(ausenciaId){
+		$location.path("/actualizacionAusencia/" + ausenciaId);
+	};
+
+  	$scope.Eliminar = function(ausenciaIdcId){
+		swal({
+		  title: "¿Confirma que desea eliminar esta Ausencia?",
+		  text: "No podrá recuperarla",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "Si, eliminala!",
+		  closeOnConfirm: false
+		},
+		function(){
+			$http.delete("/ausencia", {
+				params: { id: ausenciaIdcId }
+			})
+			.then(function(data,status,headers,config){
+				swal({
+					title: "Ausencia Eliminada!",
+					text: "La información ha sido eliminada.",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: "#DD6B55",
+					 closeOnConfirm: true,
+					},
+					function(isConfirm){
+					  $location.path("/ausencia/");
+				});
+			})
+
+			.catch(function(data,status,headers,config){
+				swal({
+					title: "Ups Ocurrio un Error!",
+					text: data.message,
+					type: "error",
+					showCancelButton: false,
+					confirmButtonColor: "#DD6B55",
+					 closeOnConfirm: true,
+					},
+					function(isConfirm){
+					   $location.path("/ausencia/");
+				});
+			})
+
+		});
 	};
 
 }]);

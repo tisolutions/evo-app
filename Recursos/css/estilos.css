@@ -585,3 +585,46 @@ footer {
     z-index: 9999;
 }
 
+
+  .citaMedica,
+  .citaMedica div,
+  .citaMedica span {
+    background-color: #e4502b; /* background color */
+    border-color: white;     /* border color */
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;           /* text color */
+  }
+
+  .motFamiliar,
+  .motFamiliar div,
+  .motFamiliar span {
+    background-color: #06a2dd; /* background color */
+    border-color: white;     /* border color */
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;           /* text color */
+  }
+
+  .otros,
+  .otros div,
+  .otros span {
+    background-color: #15a049; /* background color */
+    border-color: white;     /* border color */
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;           /* text color */
+  }
+
+  .vacaciones,
+  .vacaciones div,
+  .vacaciones span {
+    background-color: #f3ec19; /* background color */
+    border-color: white;     /* border color */
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;           /* text color */
+  }
+
+  
+

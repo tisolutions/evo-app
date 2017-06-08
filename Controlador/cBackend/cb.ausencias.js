@@ -32,10 +32,10 @@ routerAusencias.route("/ausencia")
 	var data = new mAusencias({
 			horaInicio: req.body.horaInicio,
 			horaFin: req.body.horaFin,
-      fechaSuceso: req.body.fechaSuceso,
+      		fechaSuceso: req.body.fechaSuceso,
 			tipo: req.body.tipo,
-      descripcion: req.body.descripcion,
-      tipo: req.body.tipo,
+      		descripcion: req.body.descripcion,
+      		tipo: req.body.tipo,
 			empleado: req.body.idEmpleado
     });
 
