@@ -45,12 +45,12 @@
 	         	<form role="form" name="formBonDes" enctype="multipart/form-data" id="formBonDes">
 				  <div class="form-group">
 				    <label for="input_empleado">Empleado</label>
-				    <input type="text" class="form-control class_input_empleado ui-autocomplete" id="input_empleado"
+				    <input type="text" class="form-control class_input_empleado ui-autocomplete validate" id="input_empleado"
 				           placeholder="Ingrese el nombre del empleado" ng-model="bonificacionDescuento.nombreEmpleado">
 				  </div>
 				  <div class="form-group">
 				    <label for="">Tipo</label>
-				    <select class="form-control" ng-model="bonificacionDescuento.tipo" id="bonDesTipo">
+				    <select class="form-control validate" ng-model="bonificacionDescuento.tipo" id="bonDesTipo">
 					  <option value>Escoge un tipo de movimiento</option>
 					  <option value="Bonificación">Bonificación</option>
 					  <option value="Descuento">Descuento</option>
@@ -58,16 +58,16 @@
 				  </div>
 				  <div class="form-group" ng-class="{'has-error': formBonDes.fechaSuceso.$invalid, 'has-success': formBonDes.fechaSuceso.$valid}">
 				    <label for="ejemplo_email_1">Fecha de Suceso</label>
-				    <input type="date" class="form-control" name="fechaSuceso" id="input_fechaSuceso" required ng-model="bonificacionDescuento.fechaSuceso">
+				    <input type="date" class="form-control validate" name="fechaSuceso" id="input_fechaSuceso" required ng-model="bonificacionDescuento.fechaSuceso">
 				  </div>
 				  <div class="form-group" ng-class="{'has-error': formBonDes.valor.$invalid, 'has-success': formBonDes.valor.$valid}">
 				    <label for="ejemplo_email_1">Valor</label>
-				    <input type="text" class="form-control" placeholder="Ingrese el valor" name="valor" id="input_valor" required ng-model="bonificacionDescuento.valor">
+				    <input type="text" class="form-control validate" placeholder="Ingrese el valor" name="valor" id="input_valor" required ng-model="bonificacionDescuento.valor">
 				  </div>
 
 				  <div class="form-group" ng-class="{'has-error': formBonDes.descripcion.$invalid, 'has-success': formBonDes.descripcion.$valid}">
 				    <label for="ejemplo_password_1">Descripción</label><br>
-				    <textarea class="form-control" cols="10" rows="10" placeholder="Describa el suceso" id="texa_descripcion" required ng-model="bonificacionDescuento.descripcion" rows="5"></textarea>
+				    <textarea class="form-control validate" cols="10" rows="10" placeholder="Describa el suceso" id="texa_descripcion" required ng-model="bonificacionDescuento.descripcion" rows="5"></textarea>
 				  </div>
 				  <div class="form-group">
 				    <label for="ejemplo_archivo_1">Adjuntar Soporte</label>
@@ -112,6 +112,13 @@
 
 <script>
 	$(document).ready(function(){
+		// Notifica en pantalla el mensaje
+		$('.validate').on('blur', function(){
+			if ($(this).val()=="") {
+				alertify.error('No puedes dejar este campo vacio.');
+				$(this).focus();
+			}
+		});
 		// autompletado entre jquery con node
 		$("#input_empleado").autocomplete({
         minLength: 1,
@@ -137,13 +144,5 @@
 					localStorage.setItem('idEmpleado', ui.item.id);
         }
     });
-		$('#btn_cancelar_modal, #close_modal').click(function(e){
-			// borrar informacion del modal
-			$('#input_empleado').val("");
-			$('#bonDesTipo').val("");
-			$('#input_fechaSuceso').val("");
-			$('#input_valor').val("");
-			$('#texa_descripcion').val("");
-		});
 	});
 </script>
