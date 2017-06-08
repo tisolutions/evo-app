@@ -48,7 +48,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group">
 							    <label for="input_empleado">Empleado</label>
-							    <input type="text" class="form-control" id="input_empleado" placeholder="Ingrese el nombre del empleado" name="empleado">
+							    <input type="text" class="form-control validate" id="input_empleado" placeholder="Ingrese el nombre del empleado" name="empleado">
 							</div>
 
 							<div class="form-group">
@@ -58,22 +58,22 @@
 							     <br>
 							    <div class="col-xs-6">
 							    	<label for="horaInicio">Inicia</label>
-							    	<input type="time" class="pull-left" width="50" name="horaInicio" id="horaInicio" ng-model="ausencia.horaInicio">
+							    	<input type="time" class="pull-left validate" width="50" name="horaInicio" id="horaInicio" ng-model="ausencia.horaInicio">
 							    </div>
 							    <div class="col-xs-6">
 							    	<label for="horaFin">Fin</label>
-							    	<input type="time" class="pull-right" width="50" name="horaFin" id="horaFin" ng-model="ausencia.horaFin">
+							    	<input type="time" class="pull-right validate" width="50" name="horaFin" id="horaFin" ng-model="ausencia.horaFin">
 							    </div>
 							</div>
 
 							<div class="form-group">
 							    <label for="">Fecha de Suceso</label>
-							    <input type="date" name="fechaSuceso"  placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaSuceso">
+							    <input type="date" name="fechaSuceso" class="pull-right validate" placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaSuceso">
 							</div>
 
 							<div class="form-group">
 							    <label for="">Tipo de Ausencia</label>
-							    <select class="form-control" id="tipo" name="tipo" ng-model="ausencia.tipo">
+							    <select class="form-control validate" id="tipo" name="tipo" ng-model="ausencia.tipo">
 								  <option value>Escoge un tipo de ausencia</option>
 								  <option>Motivo Familiar</option>
 								  <option>Cita Médica</option>
@@ -85,7 +85,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group" ng-class="{'has-error': formAus.descripcion.$invalid, 'has-success': formAus.descripcion.$valid}">
 							    <label for="ejemplo_password_1">Descripción</label><br>
-							    <textarea class="form-control" cols="10" rows="10" placeholder="Detalle de Ausencia" required ng-model="ausencia.descripcion" rows="5"></textarea>
+							    <textarea class="form-control validate" cols="10" rows="10" placeholder="Detalle de Ausencia" required ng-model="ausencia.descripcion" rows="5"></textarea>
 							</div>
 						</div>
 						<div class="col-xs-12">
@@ -112,7 +112,7 @@
 		    <md-button class="md-raised" ng-click="changeView('month')">month</md-button>
 		    <md-button class="md-raised" ng-click="changeView('basicWeek')">week</md-button>
 		    <md-button class="md-raised" ng-click="changeView('basicDay')">day</md-button>
-  		</div>    
+  		</div>
 
   		<div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
     </div>
@@ -127,6 +127,13 @@
 
 <script>
 	$(document).ready(function(){
+		// Notifica en pantalla el mensaje
+		$('.validate').on('blur', function(){
+			if ($(this).val()=="") {
+				alertify.error('No puedes dejar este campo vacio.');
+				$(this).focus();
+			}
+		});
 		// autompletado entre jquery con node
 		$("#input_empleado").autocomplete({
         minLength: 1,
