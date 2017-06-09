@@ -85,7 +85,10 @@ routerAusencias.route("/ausencia")
 	.then((Aus) =>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = AuseSelec+".jpg";
+				console.log(req.files)
+				var ext = file.originalname;
+          		ext = ext.substring(ext.lastIndexOf('.'))
+				var filename = AuseSelec+ ext;
 				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
 			});
 		}

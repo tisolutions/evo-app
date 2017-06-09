@@ -122,7 +122,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  '
 
             	switch(value.tipo){
 
-            		case "Familiar":
+            		case "Motivo Familiar":
             		clase = "motFamiliar";
             		break;
 
