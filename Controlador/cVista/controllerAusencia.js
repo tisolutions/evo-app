@@ -30,7 +30,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
       calendar: {
         lang: 'da',
         height: '100%',
-        eventLimit: true, // allow "more" link when too many events
+        eventLimit: 3, // allow "more" link when too many events
 		navLinks: true,
         header: {
           //left: 'month basicWeek basicDay',
@@ -51,87 +51,87 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	            eventLimit: 3// options apply to basicDay and agendaDay views
 	        }
 	    },
-	  //   events: [
-			// 	{
-			// 		title: 'All Day Event',
-			// 		start: '2017-06-21'
-			// 	},
-			// 	{
-			// 		title: 'Long Event',
-			// 		start: '2017-06-21',
-			// 		end: '2017-06-22'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	},
-			// 	{
-			// 		id: 999,
-			// 		title: 'Repeating Event',
-			// 		start: '2017-06-21T16:00:00'
-			// 	}
-			// ],
+	    events: [
+				{
+					title: 'All Day Event',
+					start: '2017-06-21'
+				},
+				{
+					title: 'Long Event',
+					start: '2017-06-21',
+					end: '2017-06-22'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2017-06-21T16:00:00'
+				}
+			],
 
         eventClick: function(date, jsEvent, view) {
           $scope.alertMessage = (date.title + ' was clicked ');
