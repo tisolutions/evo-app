@@ -13,7 +13,7 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', '$route', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig, $route){
+usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  'uiCalendarConfig', '$route', function($scope,$http, $location,  uiCalendarConfig, $route){
 	$scope.buttonActualizar = false;
 	$scope.buttonEnviar = true;
 	$scope.btn_eliminar = false;
