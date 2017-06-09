@@ -17,6 +17,8 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	// Calendario
 	$calendar = $('[ui-calendar]');
     $scope.events = [];
+    var initialLangCode = 'es';
+
     var date = new Date(),
     d = date.getDate(),
     m = date.getMonth(),
@@ -28,15 +30,15 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 
     $scope.uiConfig = {
       calendar: {
-        lang: 'da',
+        locale: initialLangCode,
         height: '100%',
         eventLimit: 3, // allow "more" link when too many events
 		navLinks: true,
         header: {
-          //left: 'month basicWeek basicDay',
-          //center: 'title',
-          right: 'today prev,next'
-        },
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay,listMonth'
+		},
         views: {
 	        basic: {
             	eventLimit: 3// options apply to basicWeek and basicDay views
@@ -51,88 +53,6 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	            eventLimit: 3// options apply to basicDay and agendaDay views
 	        }
 	    },
-	    events: [
-				{
-					title: 'All Day Event',
-					start: '2017-06-21'
-				},
-				{
-					title: 'Long Event',
-					start: '2017-06-21',
-					end: '2017-06-22'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-06-21T16:00:00'
-				}
-			],
-
         eventClick: function(date, jsEvent, view) {
           $scope.alertMessage = (date.title + ' was clicked ');
         },
