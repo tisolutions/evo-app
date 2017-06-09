@@ -58,7 +58,10 @@ routerAusencias.route("/ausencia")
 	.then((Ause)=>{
 		if (req.files) {
 			req.files.forEach(function(file){
-				var filename = Ause._id+".jpg"
+				console.log(req.files)
+				var ext = file.originalname;
+          		ext = ext.substring(ext.lastIndexOf('.'))
+				var filename = Ause._id + ext
 				fs.rename(file.path,'uploads/SoportesAusencias/'+filename)
 			});
 		}
