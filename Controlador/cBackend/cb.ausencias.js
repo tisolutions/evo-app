@@ -16,7 +16,6 @@ routerAusencias.route("/ausencias/edicion")
 	.then((ausencias)=>{
 		mUsuario.populate(ausencias, {path: "empleado"})
 		.then((registro)=>{
-			console.log(registro)
 			res.status(200).send(registro);
 		})
 	})
@@ -45,10 +44,9 @@ routerAusencias.route("/ausencia")
 	});
 })
 .post(upload.any(), function(req,res){
-
+	// console.log(req.body);
 	var data = new mAusencias({
-			horaInicio: req.body.horaInicio,
-			horaFin: req.body.horaFin,
+			fechaFin: req.body.fechaFin,
       		fechaSuceso: req.body.fechaSuceso,
 			tipo: req.body.tipo,
       		descripcion: req.body.descripcion,
@@ -78,6 +76,7 @@ routerAusencias.route("/ausencia")
 
 	let AuseSelec = req.body.id
 	let body = req.body
+	// console.log(body)
 
 	mAusencias.findByIdAndUpdate(AuseSelec, body)
 	.then((Aus) =>{
@@ -100,9 +99,9 @@ routerAusencias.route("/ausencia")
 })
 .delete(function(req,res){
 	var eliminar ={
-		_id: req.body.id
+		_id: req.query.id
 	};
-
+	// console.log(eliminar)
 	mAusencias.remove(eliminar)
 	.then((done)=>{
 		res.status(200).send({

@@ -14,9 +14,14 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 }])
 
 usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$compile', '$timeout', 'uiCalendarConfig', '$route', function($scope,$http, $location, $compile, $timeout, uiCalendarConfig, $route){
+	$scope.buttonActualizar = false;
+	$scope.buttonEnviar = true;
+	$scope.btn_eliminar = false;
 	// Calendario
+
 	$calendar = $('[ui-calendar]');
     $scope.events = [];
+    $scope.ausencia = [];
     var initialLangCode = 'es';
 
 
@@ -25,7 +30,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     m = date.getMonth(),
     y = date.getFullYear();
 
-    $scope.changeView = function(view){      
+    $scope.changeView = function(view){
        $calendar.fullCalendar('changeView',view);
     };
 
@@ -58,24 +63,30 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
         	// console.log(date.id)
         	// $('#myModal').modal('show');
           	// $scope.alertMessage = (date.title + ' was clicked ');
+          	$scope.buttonActualizar = true;
+			$scope.buttonEnviar = false;
+			$scope.btn_eliminar = true;
+
           	$http.get("/ausencias/edicion",{
           		params: { id: date.id }
           	})
           	.then(function(data,status,headers,config){
-          		console.log(data)
-    	// 		if(data._id != ""){
-    	// 			$scope.ausencia.horaInicio = data.horaInicio;
-    	// 			$scope.ausencia.horaFin = data.horaFin;
-    	// 			$scope.ausencia.fechaSuceso = data.fechaSuceso;
-    	// 			$scope.ausencia.tipo = data.tipo;
-    	// 			$scope.ausencia.descripcion = data.descripcion;
+          		console.log(data.data._id)
+    			if(data.data._id != ""){
+    				// $scope.ausencia.horaInicio = new Date(data.data.fechaSuceso.getTime());
+    				$scope.ausencia.fechaSuceso = new Date(data.data.fechaSuceso);
+    				$scope.ausencia.fechaFin = new Date(data.data.fechaFin);
+    				$scope.ausencia.tipo = data.data.tipo;
+    				$scope.ausencia.id = data.data._id;
+    				$scope.ausencia.descripcion = data.data.descripcion;
+    				$scope.ausencia.nombreEmpleado = data.data.empleado.primerNombre+ ' '+data.data.empleado.primerApellido;
 
-    	// 			localStorage.setItem('idEmpleado', data.data.empleado._id);
-					// localStorage.setItem('id', data.data._id);
-					//  $('#myModal').modal('show');
-    	// 		}else{
-    	// 			swal("Error", "Ha ocurrido un error", "error");
-    	// 		}
+    				localStorage.setItem('idEmpleado', data.data.empleado._id);
+					localStorage.setItem('id', data.data._id);
+					$('#myModal').modal('show');
+    			}else{
+    				swal("Error", "Ha ocurrido un error", "error");
+    			}
 			})
 		    .catch(function(data,status,headers,config){
 		    	console.log(data.error)
@@ -97,9 +108,15 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     		// var clase;
     		angular.forEach(data.data.ausencias, function(value){
     			var date = new Date(value.fechaSuceso);
+    			var dateEnd = new Date(value.fechaFin);
+
     			var year = date.getFullYear();
     			var month = date.getMonth();
            		var day = date.getDate();
+
+           		var yearEnd = dateEnd.getFullYear();
+    			var monthEnd = dateEnd.getMonth();
+           		var dayEnd = dateEnd.getDate();
 
     			// console.log(year+" "+month+" "+day)
 
@@ -128,6 +145,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	              title: value.tipo,
 	              description: value.descripcion,
 	              start: new Date(year, month, day),
+	              end: new Date(yearEnd, monthEnd, dayEnd),
 	              allDay: false,
 	              className: [clase],
 	              id: value._id
@@ -147,12 +165,11 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 
 	// Si existe el registro, será eliminado
 	if ( localStorage.getItem('idEmpleado') ) {
-		localStorage.removeItem('idEmpleado')
+		 localStorage.removeItem('idEmpleado')
 	}
 
 	$scope.clickRegistrar = function() {
-		$scope.ausencia.horaInicio = "";
-		$scope.ausencia.horaFin = "";
+		$scope.ausencia.fechaFin = "";
 		$scope.ausencia.fechaSuceso = "";
 		$scope.ausencia.tipo = "";
 		$scope.ausencia.descripcion = "";
@@ -218,11 +235,8 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 							if (index=="fechaSuceso") {
 								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar una <span style='color:#FA5858;'>Fecha de Suceso</span></li><br>";
 							}
-							if (index=="horaInicio") {
-								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Inicio</span></li><br>";
-							}
-							if (index=="horaFin") {
-								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Hora de Fin</span></li><br>";
+							if (index=="fechaFin") {
+								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides escribir una <span style='color:#FA5858;'>Fecha de Fin</span></li><br>";
 							}
 							if (index=="tipo") {
 								resultado += "<li><i class='fa fa-caret-right' aria-hidden='true'></i> No Olvides seleccionar un <span style='color:#FA5858;'>Tipo</span></li><br>";
@@ -246,7 +260,8 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 		$location.path("/actualizacionAusencia/" + ausenciaId);
 	};
 
-  	$scope.Eliminar = function(ausenciaIdcId){
+  	$scope.Eliminar = function(userId){
+  		$('#btn_cancelar_modal').click();
 		swal({
 		  title: "¿Confirma que desea eliminar esta Ausencia?",
 		  text: "No podrá recuperarla",
@@ -258,7 +273,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 		},
 		function(){
 			$http.delete("/ausencia", {
-				params: { id: ausenciaIdcId }
+				params: { id: userId }
 			})
 			.then(function(data,status,headers,config){
 				swal({
@@ -270,7 +285,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 					 closeOnConfirm: true,
 					},
 					function(isConfirm){
-					  $location.path("/ausencia/");
+					  $route.reload();
 				});
 			})
 
@@ -291,30 +306,25 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 		});
 	};
 
-}]);
-
-usuario.controller('controllerAusencia', ['$scope', '$http', '$location', function($scope,$http, $location){
-	$scope.ausencia = [];
-
-
-
-  $scope.Actualizar = function(){
+	$scope.Actualizar = function(userId){
     // en el formData se guardan los datos de la vista
+		$('#btn_cancelar_modal').click();
 		var url = '/ausencia';
 		var datos = new FormData()
 
 		for (key in $scope.ausencia) {
 			datos.append(key, $scope.ausencia[key]);
 		}
+			datos.append('id',userId);
 		// se envian los datos a node con el metodo put
 		$http.put(url, datos, {
 			transformRequest: angular.identity,
 			headers:{
 				'Content-Type': undefined
-				}
+			}
 		})
 		.then(function(response,status,headers,config){
-			if(response.data.dato_extraer !=""){
+			if(response.data.Ausencia !=""){
 				swal({
 					title: "Ausencia Modificada",
 					text: "Hemos guardado tus datos",
@@ -322,8 +332,10 @@ usuario.controller('controllerAusencia', ['$scope', '$http', '$location', functi
 					showCancelButton: false,
 					confirmButtonColor: "#00b3e2",
 					closeOnConfirm: true,
+				},
+				function(isConfirm){
+					  $route.reload();
 				});
-				$location.path("/ausencia/");
 			}else{
 				swal("Verifica tus datos!", response.data.error, "warning");
 			}
