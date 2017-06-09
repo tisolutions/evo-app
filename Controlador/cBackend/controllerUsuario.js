@@ -130,11 +130,13 @@ routerUsuario.route("/usuarios")
 })
 
 .delete(function(req,res){
+	console.log(req.query.id);
+	var id = {_id: req.query.id};
 	var update = {
 		estado: "inactivo"
 	};
 
-	mUsuario.update(update)
+	mUsuario.update(id, update)
 
 	.then((done)=>{
 		res.status(200).send({

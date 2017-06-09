@@ -469,7 +469,6 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 	}
 
 	$scope.eliminarUsuario = function(usuarioId){
-
 		swal({
 		  title: "¿Confirma que desea eliminar este usuario?",
 		  text: "No podrá recuperar este usuario",
@@ -494,10 +493,8 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 					showCancelButton: false,
 					confirmButtonColor: "#DD6B55",
 					 closeOnConfirm: true,
-					},
-					function(isConfirm){
-					  location.href = "/";
-				});
+					});
+        $location.path('/empleados');
 			})
 
 			.catch(function(data,status,headers,config){
