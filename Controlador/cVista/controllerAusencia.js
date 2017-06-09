@@ -169,7 +169,13 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	}
 
 	$scope.clickRegistrar = function() {
+<<<<<<< HEAD
 		$scope.ausencia.fechaFin = "";
+=======
+		$scope.ausencia.nombreEmpleado = "";
+		$scope.ausencia.horaInicio = "";
+		$scope.ausencia.horaFin = "";
+>>>>>>> d7aacaab7bb766d4863b8dfa08a2f50d4a09e921
 		$scope.ausencia.fechaSuceso = "";
 		$scope.ausencia.tipo = "";
 		$scope.ausencia.descripcion = "";
