@@ -25,7 +25,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     m = date.getMonth(),
     y = date.getFullYear();
 
-    $scope.changeView = function(view){      
+    $scope.changeView = function(view){
        $calendar.fullCalendar('changeView',view);
     };
 
@@ -151,6 +151,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	}
 
 	$scope.clickRegistrar = function() {
+		$scope.ausencia.nombreEmpleado = "";
 		$scope.ausencia.horaInicio = "";
 		$scope.ausencia.horaFin = "";
 		$scope.ausencia.fechaSuceso = "";
