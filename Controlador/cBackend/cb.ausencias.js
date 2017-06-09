@@ -9,6 +9,23 @@ var upload = multer({dest: 'uploads/SoportesAusencias'})
 var fs = require('fs')
 var path = require('path')
 
+routerAusencias.route("/ausencias/edicion")
+.get(function(req,res){
+
+	mAusencias.findById(req.query.id)
+	.then((ausencias)=>{
+		mUsuario.populate(ausencias, {path: "empleado"})
+		.then((registro)=>{
+			console.log(registro)
+			res.status(200).send(registro);
+		})
+	})
+	.catch((err) =>{
+		res.status(500).send({
+			message: `Error al realizar la petición: ${err}`
+		})
+	})
+})
 
 routerAusencias.route("/ausencia")
 .get(function(req,res){

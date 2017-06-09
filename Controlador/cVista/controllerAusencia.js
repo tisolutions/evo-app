@@ -19,6 +19,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     $scope.events = [];
     var initialLangCode = 'es';
 
+
     var date = new Date(),
     d = date.getDate(),
     m = date.getMonth(),
@@ -31,12 +32,12 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     $scope.uiConfig = {
       calendar: {
         locale: initialLangCode,
-        height: '100%',
+        height: '250',
         eventLimit: 3, // allow "more" link when too many events
 		navLinks: true,
         header: {
-			left: 'prev,next today',
-			center: 'title',
+			left: 'today',
+			center: 'prev, title, next ',
 			right: 'month,agendaWeek,agendaDay,listMonth'
 		},
         views: {
@@ -54,7 +55,31 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
 	        }
 	    },
         eventClick: function(date, jsEvent, view) {
-          $scope.alertMessage = (date.title + ' was clicked ');
+        	// console.log(date.id)
+        	// $('#myModal').modal('show');
+          	// $scope.alertMessage = (date.title + ' was clicked ');
+          	$http.get("/ausencias/edicion",{
+          		params: { id: date.id }
+          	})
+          	.then(function(data,status,headers,config){
+          		console.log(data)
+    	// 		if(data._id != ""){
+    	// 			$scope.ausencia.horaInicio = data.horaInicio;
+    	// 			$scope.ausencia.horaFin = data.horaFin;
+    	// 			$scope.ausencia.fechaSuceso = data.fechaSuceso;
+    	// 			$scope.ausencia.tipo = data.tipo;
+    	// 			$scope.ausencia.descripcion = data.descripcion;
+
+    	// 			localStorage.setItem('idEmpleado', data.data.empleado._id);
+					// localStorage.setItem('id', data.data._id);
+					//  $('#myModal').modal('show');
+    	// 		}else{
+    	// 			swal("Error", "Ha ocurrido un error", "error");
+    	// 		}
+			})
+		    .catch(function(data,status,headers,config){
+		    	console.log(data.error)
+		    });
         },
         dayClick: $scope.alertEventOnClick,
         eventDrop: $scope.alertOnDrop,
@@ -76,7 +101,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     			var month = date.getMonth();
            		var day = date.getDate();
 
-    			console.log(year+" "+month+" "+day)
+    			// console.log(year+" "+month+" "+day)
 
             	switch(value.tipo){
 
@@ -97,14 +122,15 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
             		break;
             	}
 
-            	console.log(clase)
+            	// console.log(clase)
 
             	$scope.events.push({
 	              title: value.tipo,
 	              description: value.descripcion,
 	              start: new Date(year, month, day),
 	              allDay: false,
-	              className: [clase]
+	              className: [clase],
+	              id: value._id
 	            });
 
     		})
@@ -114,82 +140,6 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', '$
     .catch(function(data,status,headers,config){
     	console.log(data.error)
     });
-
-  //   $scope.events = [
-  //   	{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// },{
-		// 	title: 'All Day Event',
-		// 	start: '2017-06-21'
-		// }
-  //   ]
 
     $scope.eventSources = [$scope.events];
 
