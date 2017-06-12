@@ -170,7 +170,7 @@ usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "s
 		var usuarioExtraido = sesionesControl.get("usuario");
 		// Convertimos al usario en un objeto JavaScript
 		usuarioExtraido = JSON.parse(usuarioExtraido);
-		$scope.usuario = usuarioExtraido.usuario;
+		$scope.usuario = usuarioExtraido.primerNombre +" "+usuarioExtraido.primerApellido;
 		$scope._id = usuarioExtraido._id;
 	}
 

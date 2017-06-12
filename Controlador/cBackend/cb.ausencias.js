@@ -89,7 +89,7 @@ routerAusencias.route("/ausencia")
 				var ext = file.originalname;
           		ext = ext.substring(ext.lastIndexOf('.'))
 				var filename = AuseSelec+ ext;
-				fs.rename(file.path,'uploads/SoportesBonificaciones_Descuentos/'+filename)
+				fs.rename(file.path,'uploads/SoportesAusencias/'+filename)
 			});
 		}
 		res.status(200).send({

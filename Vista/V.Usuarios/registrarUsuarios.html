@@ -26,7 +26,7 @@
 			<div class="col-lg-12">
 				<form name="formRegistro" enctype="multipart/form-data" id="formRegistro">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<img ng-show="mostrar_actualizar" class="thumbnail center-block fotoperfil" src="/{{usuarios.id}}.jpg" alt="empleado_EVoHR_{{usuarios.primerNombre + usuarios.primerApellido}}">
+					<img ng-show="mostrar_actualizar" class="thumbnail center-block fotoperfil" src="/userFace/{{usuarios.id}}.jpg" alt="empleado_EVoHR_{{usuarios.primerNombre + usuarios.primerApellido}}">
 					<input type="file" class="form-control" name="foto" multiple accept="image/*" id="avatar-upload"  file-model="usuarios.foto" >
 				</div>
 				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
@@ -133,12 +133,12 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<div class="form-group" ng-class="{'has-error': formRegistro.username.$invalid, 'has-success': formRegistro.username.$valid}">
 											<label for="usuario" class="control-label">Nombre de Usuario</label>
 											<input type="text" class="form-control" id="usuario" name="usuario" placeholder="JSantoDomingo" required ng-model="usuarios.usuario">
 										</div>
-									</div>
+									</div> -->
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<div class="form-group" ng-class="{'has-error': formRegistro.contrasena.$invalid, 'has-success': formRegistro.contrasena.$valid}">
 											<label for="contrasena" class="control-label">Contraseña</label>
