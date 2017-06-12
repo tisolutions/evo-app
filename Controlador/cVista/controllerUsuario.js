@@ -242,9 +242,10 @@ usuario.controller('controllerHome', ['$scope', "auth", "sesionesControl", funct
 		// Convertimos al usario en un objeto JSON para manejarlo
 
 		var json = JSON.parse(usuarioExtraido);
+		// console.log(json)
 
 		$scope.name = json.primerNombre+" "+json.primerApellido;
-		$scope._id = json.usuario._id;
+		$scope._id = json._id;
 
 		if (json.sexo=="M") {
 			$scope.oa = "o";
