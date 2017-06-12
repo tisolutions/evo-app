@@ -455,6 +455,7 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 	};
 
 	$scope.buscarRegistro = function(){
+		var word = $scope.usuarios.keyword;
 		var key = normalize($scope.usuarios.keyword)
 		var tipoBusqueda = $scope.usuarios.tipoBusqueda
 
@@ -467,6 +468,8 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 		.then(function(response,status,headers,config){
 			if ((response.data).length > 0) {
 				$scope.usuarios = response.data;
+				$scope.usuarios.tipoBusqueda = tipoBusqueda;
+				$scope.usuarios.keyword = word;
 			}
   		})
 
