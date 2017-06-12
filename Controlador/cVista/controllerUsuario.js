@@ -186,7 +186,13 @@ usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "s
 	  				//Redireccionamos al home
 	  				location.href = "/evohr#!/";
 	  			}else{
-	  				swal("Verifica tus datos!", response.data.error, "error");
+	  				swal({
+	  					title: "Verifica tus datos!",
+	  					timer: 1500,
+	  					showConfirmButton: false,
+	  					text:  response.data.error,
+	  					type: "error"
+	  				});
 	  			}
 	  	})
 
