@@ -20,8 +20,10 @@
           <li ng-init="option = 'home'" ng-click="option = 'home'" ng-class="{active:option == 'home'}"><a href="#"><strong>Inicio</strong> <span class="sr-only">(current)</span></a></li>
           
           <li ng-click="option = 'empleados'" ng-class="{active:option == 'empleados'}"><a href="#!/empleados"><strong>Empleados</strong> </a></li>
-          <li ng-click="option = 'vacantes'" ng-class="{active:option == 'vacantes'}"><a href="#"><strong>Vacantes</strong> </a></li>
-          <li ng-click="option = 'reporte'" ng-class="{active:option == 'reporte'}"><a href="#"><strong>Reportes</strong> </a></li>
+
+         <!--  <li ng-click="option = 'vacantes'" ng-class="{active:option == 'vacantes'}"><a href="#"><strong>Vacantes</strong> </a></li>
+          <li ng-click="option = 'reporte'" ng-class="{active:option == 'reporte'}"><a href="#"><strong>Reportes</strong> </a></li> -->
+
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-controller="controllerLogin">
           <li>
@@ -31,7 +33,7 @@
             </p>
           </li>
           <li>
-            <img class="user-img" src="/{{_id}}.jpg" alt="UserImage" style="cursor: pointer;" ng-click="verUsuario(_id)">
+            <img class="user-img" src="/userFace/{{_id}}.jpg" alt="UserImage" style="cursor: pointer;" ng-click="verUsuario(_id)">
           </li>
         </ul>
       </div>

@@ -18,7 +18,7 @@ const UsuarioSchema =  new schema({
   identificacion: String,
   fch_nacimiento: String,
   estado: String,
-  usuario: String,
+  // usuario: String,
   telefono: {
     type: String
   },

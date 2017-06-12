@@ -30,10 +30,14 @@ routerEmpresa.route("/empresas")
 
   data.save()
   .then((empresa) =>{
+
       if (req.files) {
           req.files.forEach(function(file){
-          var filename = empresa._id;
-          //fs.rename
+          console.log(req.files)
+          var ext = file.originalname;
+          ext = ext.substring(ext.lastIndexOf('.'));
+          var filename = empresa._id+ext;
+          fs.rename(file.path,'uploads/empresa/'+filename);
           console.log(file.path,'uploads/empresa/'+filename)
         })
       }
@@ -53,8 +57,15 @@ routerEmpresa.route("/empresas")
   modeloEmpresa.findByIdAndUpdate(EmpresaId, body)
   .then((empresa) =>{
     if (req.files) {
-      console.log("aqui se hace la logica de subir la foto")
-    }
+          req.files.forEach(function(file){
+          console.log(req.files)
+          var ext = file.originalname;
+          ext = ext.substring(ext.lastIndexOf('.'));
+          var filename = EmpresaId+ext;
+          fs.rename(file.path,'uploads/empresa/'+filename);
+          console.log(file.path,'uploads/empresa/'+filename)
+        })
+      }
     res.status(200).send(empresa);
   })
 

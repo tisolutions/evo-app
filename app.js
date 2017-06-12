@@ -28,7 +28,7 @@ app.use(bodyParser.json())
 
 // Rutas Estaticas
 app.use("/",express.static("./Recursos"))
-app.use("/",express.static("./uploads/userFace"))
+app.use("/",express.static("./uploads"))
 app.use("/",express.static("./Controlador"))
 app.use("/",express.static("./Vista"))
 

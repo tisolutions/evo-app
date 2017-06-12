@@ -92,11 +92,11 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
           });
 
           }else{
-            swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imágen, recuerda que el formato aceptados es .jpg ", "error");
+            swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imágen, recuerde que el formato aceptado es .jpg ", "error");
           return false;
           }
     }else{
-      swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imagen recuerda que el formato aceptados es .jpg ", "error");
+      swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imagen recuerda que el formato aceptado es .jpg ", "error");
       return false;
     }
   }
@@ -111,6 +111,9 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
                 for (key in $scope.empresa) {
                   formData.append(key,$scope.empresa[key]);
                 }
+
+                var file = $("#avatar-upload")[0].files[0];
+                formData.append("logo",file);
 
 
                 $http.put(uploadUrl,formData,{
@@ -141,7 +144,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
                   swal("Error", response.error, "error");
                 })
             }else{
-              swal("Error!", "Si desea modificar la foto de este usuario recuerde que el formato aceptados es .jpg ", "error");
+              swal("Error al Actualizar!", " Compruebe la extensión de la imagen, recuerde que el formato aceptado es .jpg", "error");
             return false;
             }
         }else{

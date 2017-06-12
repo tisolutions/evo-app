@@ -170,7 +170,7 @@ usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "s
 		var usuarioExtraido = sesionesControl.get("usuario");
 		// Convertimos al usario en un objeto JavaScript
 		usuarioExtraido = JSON.parse(usuarioExtraido);
-		$scope.usuario = usuarioExtraido.usuario;
+		$scope.usuario = usuarioExtraido.primerNombre +" "+usuarioExtraido.primerApellido;
 		$scope._id = usuarioExtraido._id;
 	}
 
@@ -186,7 +186,13 @@ usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "s
 	  				//Redireccionamos al home
 	  				location.href = "/evohr#!/";
 	  			}else{
-	  				swal("Verifica tus datos!", response.data.error, "error");
+	  				swal({
+	  					title: "Verifica tus datos!",
+	  					timer: 1500,
+	  					showConfirmButton: false,
+	  					text:  response.data.error,
+	  					type: "error"
+	  				});
 	  			}
 	  	})
 
@@ -236,9 +242,10 @@ usuario.controller('controllerHome', ['$scope', "auth", "sesionesControl", funct
 		// Convertimos al usario en un objeto JSON para manejarlo
 
 		var json = JSON.parse(usuarioExtraido);
+		// console.log(json)
 
 		$scope.name = json.primerNombre+" "+json.primerApellido;
-		$scope._id = json.usuario._id;
+		$scope._id = json._id;
 
 		if (json.sexo=="M") {
 			$scope.oa = "o";

@@ -36,10 +36,6 @@ routerUsuario.route("/autocomplete/empleado")
 		});
 	});
 
-
-
-
-
 routerUsuario.route("/evohr/")
 .post(function(req,res){
 	mUsuario.findOne({
@@ -51,7 +47,7 @@ routerUsuario.route("/evohr/")
 			// console.log(doc);
 	     req.session.usuarioId = doc._id;
 	     req.session.correoElectronico = doc.correoElectronico;
-	     req.session.usuario = doc.usuario;
+	     req.session.usuario = doc.primerNombre+" "+doc.primerApellido;
 
 	     var returnUsuario = {
 	              usuarioId: doc._id,
@@ -166,7 +162,7 @@ routerUsuario.route("/usuarios")
       telefono: req.body.telefono,
       celular: req.body.celular,
       correoElectronico: req.body.correoElectronico,
-      usuario: req.body.usuario,
+      // usuario: req.body.usuario,
       contrasena: req.body.contrasena,
       estado: "activo"
     });
