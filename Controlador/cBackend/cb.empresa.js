@@ -18,7 +18,7 @@ routerEmpresa.route("/empresas")
 })
 
 .post(upload.any(), function(req,res){
-
+console.log(req.body)
   var data = new modeloEmpresa({
       nit : req.body.nit,
       direccion : req.body.direccion,
@@ -50,7 +50,7 @@ routerEmpresa.route("/empresas")
 })
 
 .put(upload.any(), function(req,res){
-
+console.log(req.body)
   let EmpresaId = req.body.id
   let body = req.body
 

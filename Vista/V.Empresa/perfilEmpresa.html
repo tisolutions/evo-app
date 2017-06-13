@@ -12,78 +12,64 @@
 			<br><br><br>
 			<div class="clear"></div>
 
-			<div class="col-lg-12" ng-controller="RegistroEmpresa">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-				<form name="formEmpresa" enctype="multipart/form-data">
-					<img ng-show="mostrarBtnActualizar" class="thumbnail center-block fotoperfil" src="/empresa/{{empresa.id}}.jpg" alt="empresa_EVoHR">
-					<input type="file" class="form-control" name="logo" multiple accept="image/*" id="avatar-upload"  file-model="empresa.logo">
-				</div>
-				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-					<div class="conten-border">
-						<br>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<div class="form-group" ng-class="{'has-error': formEmpresa.razonSocial.$invalid, 'has-success': formEmpresa.razonSocial.$valid}">
-								        <label for="razonSocial" class="control-label">Razón Social</label>
-								        <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Jorge" required ng-model="empresa.razonSocial">
-								    </div>
-								    <div class="clear"></div>
+			<div class="col-lg-12">
+				<form name="formEmpresa" enctype="multipart/form-data" role='form'>
+					<div class="form-group">
+						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+							<img ng-show="mostrarBtnActualizar" class="thumbnail center-block fotoperfil" src="/empresa/{{empresa.id}}.jpg" alt="empresa_EVoHR">
+							<input type="file" class="form-control" name="logo" multiple accept="image/*" id="avatar-upload"  file-model="empresa.logo">
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+							<div class="conten-border">
+								<br>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+										<label for="razonSocial" class="control-label">Razón Social</label>
+                						<input name='razonSocial' type="text" class='form-control' ng-model="empresa.razonSocial" placeholder="Razón Social" required=""> <br>
+		
+                						<label for="direccion" class="control-label">Dirección</label>
+										<input type="text" class="form-control" id="direccion" name="direccion" required="" ng-model="empresa.direccion" placeholder="Calle Real No. 45 -63"> <br>
 
-									<div class="clear"></div>
-
-								  	<div class="form-group" ng-class="{'has-error': formEmpresa.direccion.$invalid, 'has-success': formEmpresa.direccion.$valid}">
-										<label for="direccion" class="control-label">Dirección</label>
-										<input type="text" class="form-control" id="direccion" name="direccion" required ng-model="empresa.direccion" placeholder="Calle Real No. 45 -63">
-									</div>
-
-									<div class="form-group" ng-class="{'has-error': formEmpresa.correoElectronico.$invalid, 'has-success': formEmpresa.correoElectronico.$valid}">
 										<label for="correoElectronico" class="control-label">Correo Electrónico</label>
-										<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" placeholder="correoempresa@mail.com" required ng-model="empresa.correoElectronico">
+										<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" placeholder="correoempresa@mail.com"  ng-model="empresa.correoElectronico"  required>
 									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<div class="form-group" ng-class="{'has-error': formEmpresa.nit.$invalid, 'has-success': formEmpresa.nit.$valid}">
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<label for="nit" class="control-label">NIT</label>
-										<input type="text" class="form-control" id="nit" name="nit" required ng-model="empresa.nit" placeholder="102464N-0561">
-									</div>
+										<!-- ng-pattern="/\n# $&:\n\t/" -->
+										<input type="text" class="form-control" id="nit" name="nit" required ng-model="empresa.nit" placeholder="102464056-1" ng-pattern="/([0-9]){9}(-)([0-9])/" required> <br>
 
-								    <div class="clear"></div>
-
-								    <div class="form-group" ng-class="{'has-error': formEmpresa.telefono.$invalid, 'has-success': formEmpresa.telefono.$valid}">
 										<label for="telefono" class="control-label">Teléfono</label>
-										<input type="text" class="form-control" id="telefono" name="telefono" placeholder="300 000 000 " required ng-model="empresa.telefono">
-									</div>
+										<input type="text" class="form-control" id="telefono" name="telefono" placeholder="300 000 000 "  ng-model="empresa.telefono" ng-pattern="/^[0-9]{1,7}$/" required> <br>
 
-									<div class="clear"></div>
-
-								    <div class="form-group" ng-class="{'has-error': formEmpresa.paginaweb.$invalid, 'has-success': formEmpresa.paginaweb.$valid}">
 										<label for="paginaweb" class="control-label">Página Web</label>
-										<input type="text" class="form-control" id="paginaweb" name="paginaweb" placeholder="www.miempresa.com" required ng-model="empresa.paginaweb">
+										<input type="text" class="form-control" id="paginaweb" name="paginaweb" placeholder="www.miempresa.com" ng-model="empresa.paginaweb" ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/">
 									</div>
-
-									<div class="clearfix"></div>
-
-									<br>
 								</div>
+								<div class="clearfix"></div>
+								<br><br>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<br><br>
+									<span ng-show="formEmpresa.telefono.$error.pattern">El Teléfono lleva valores númericos!</span>
+    								<span ng-show="formEmpresa.telefono.$error.required">El campo Teléfono es requerido!</span>
+    								<span ng-show="formEmpresa.correoElectronico.$error.email">Correo Electrónico Inválido!</span>
+    								<span ng-show="formEmpresa.correoElectronico.$error.required">El campo Correo Electrónico es requerido!</span>
+    								<span ng-show="formEmpresa.paginaweb.$error.pattern">Página web inválida!</span>
+    								<span ng-show="formEmpresa.nit.$error.pattern">El NIT debe llevar este formato 123456789-2!</span>
+    								<span ng-show="formEmpresa.nit.$error.required">El NIT es requerido!</span><br>
+
+									<button class="col-xs-3 col-sm-3 col-md-3 col-lg-3 btn btn-search pull-right"  ng-click="guardarEmpresa()" ng-show="mostrarBtnGuardar" ng-disabled="formEmpresa.$invalid" style="width:initial;">Guardar
+									</button> &nbsp;
+									<button ng-click="actualizarEmpresa(empresa.id)"  ng-show="mostrarBtnActualizar" type="submit" style="width:initial;" class='col-xs-3 col-sm-3 col-md-3 col-lg-3 btn btn-search pull-right' ng-disabled="formEmpresa.$invalid">Actualizar</button>
+									<button class="col-xs-3 col-sm-3 col-md-3 col-lg-3 btn btn-cancelar pull-right" ng-click="Cancelar()" style="width:initial;">
+										Cancelar
+									</button>
+								</div>
+								<div class="clearfix"></div>
+								<br>
+							</div>
 						</div>
 					</div>
-					<div class="clearfix"></div>
-					<br><br>
-
-						<div class="row">
-							<button class="btn btn-search pull-right" style="width:inherit;" ng-click="guardarEmpresa()" ng-show="mostrarBtnGuardar">
-								Guardar
-							</button> &nbsp;
-							<button class="btn btn-search pull-right" style="width:inherit;" ng-click="actualizarEmpresa(empresa.id)" ng-show="mostrarBtnActualizar">
-								Actualizar
-							</button> &nbsp;
-
-							<button class="btn btn-cancelar pull-right" ng-click="Cancelar()">
-								Cancelar
-							</button>
-						</div>
-					</form>
-				</div>
+				</form>
 			</div>
 			<br><br>
 			<div class="clearfix"></div>

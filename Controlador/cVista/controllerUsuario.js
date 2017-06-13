@@ -255,7 +255,7 @@ usuario.controller('controllerHome', ['$scope', "auth", "sesionesControl", funct
 	}
 }])
 
-usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeParams', function(s,$http, $location, $routeParams){
+usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeParams', '$route' ,function(s,$http, $location, $routeParams,$route){
 	// Angular envia los datos del formulario a Node mediante este metodo para registrar un usuario
   s.usuarios = {};
   s.btnCrearContrato = true;
@@ -287,6 +287,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 						if(response.data.usuario._id !=""){
 							swal("Felicitaciones", "Hemos guardado tus datos", "success");
 							$location.path("/empleados");
+
 						}else{
 							swal("Verifica tus datos!", response.data.error, "warning");
 						}
@@ -310,7 +311,6 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 	// Angular envia los datos del formulario a Node mediante este metodo para actualizar un usuario
 
 	s.ActualizarUsuario = function(){
-
 		if(!document.getElementById("avatar-upload").value.length==0){
 			if (/.(jpg|JPG)$/i.test(document.getElementById("avatar-upload").value)){
 					// Se envia el formulario con foto adjunta para modificar un usuario
@@ -342,7 +342,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 									 closeOnConfirm: true,
 									},
 									function(isConfirm){
-									  location.href = "/";
+									  $route.reload();
 								});
 						}else{
 							swal("Verifica tus datos!", response.data.error, "warning");
@@ -384,7 +384,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 							 closeOnConfirm: true,
 							},
 							function(isConfirm){
-							  location.href = "/";
+							  $route.reload();
 						});
 					}else{
 						swal("Verifica tus datos!", response.data.error, "warning");
@@ -441,6 +441,9 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 
 usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.usuarios = [];
+	$scope.list = true;
+	$scope.message = false;
+
 	$http.get("/usuarios")
 	.then(function(data,status,headers,config){
 		$scope.usuarios = data.data;
@@ -468,6 +471,13 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 		.then(function(response,status,headers,config){
 			if ((response.data).length > 0) {
 				$scope.usuarios = response.data;
+				$scope.usuarios.tipoBusqueda = tipoBusqueda;
+				$scope.usuarios.keyword = word;
+				$scope.list = true;
+				$scope.message = false;
+			}else{
+				$scope.list = false;
+				$scope.message = true;
 				$scope.usuarios.tipoBusqueda = tipoBusqueda;
 				$scope.usuarios.keyword = word;
 			}
