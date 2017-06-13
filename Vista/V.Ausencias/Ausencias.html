@@ -48,18 +48,18 @@
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group">
 							    <label for="input_empleado">Empleado</label>
-								<input type="text" class="form-control validate" id="input_empleado" placeholder="Ingrese el nombre del empleado" name="empleado" ng-model="ausencia.nombreEmpleado">
+									<input type="text" class="form-control validate" id="input_empleado" placeholder="Escriba el nombre del empleado" name="empleado" ng-model="ausencia.nombreEmpleado">
 							</div>
 
 							<div class="clearfix"></div>
 							    <div class="form-group">
 							    	<label for="horaInicio">Fecha de Inicio</label>
-							    	<input type="date" name="fechaSuceso"  width="100"  class="pull-right validate" placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaSuceso">
+							    	<input type="date" name="fechaSuceso" id="fechaSuceso" width="100"  class="pull-right validate" placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaSuceso">
 							    </div>
 							    <div class="clearfix"></div>
 							    <div class="form-group">
 							    	<label for="horaInicio">Fecha de Fin</label>
-							    	<input type="date" name="fechaFin"  width="100"  class="pull-right validate" placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaFin">
+							    	<input type="date" name="fechaFin" id="fechaFin" width="100"  class="pull-right validate" placeholder="Ingrese fecha del suceso" ng-model="ausencia.fechaFin">
 							    </div>
 
 							<div class="form-group">
@@ -76,7 +76,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group" ng-class="{'has-error': formAus.descripcion.$invalid, 'has-success': formAus.descripcion.$valid}">
 							    <label for="ejemplo_password_1">Descripción</label><br>
-							    <textarea class="form-control validate" cols="10" rows="10" placeholder="Detalle de Ausencia" required ng-model="ausencia.descripcion" rows="5"></textarea>
+							    <textarea class="form-control validate" cols="10" rows="10" id="descripcion" placeholder="Detalle de Ausencia" required ng-model="ausencia.descripcion" rows="5"></textarea>
 							</div>
 						</div>
 						<div class="col-xs-12">
@@ -92,7 +92,7 @@
 				        <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_cancelar_modal">Cancelar</button>
 				        <button type="button" class="btn btn-default" ng-click="Eliminar(ausencia.id)" ng-show="btn_eliminar">Eliminar</button>
 				      	<button type="submit" class="btn btn-default" ng-show="buttonEnviar" ng-click="Registrar()" id="btn_enviar_modal">Guardar</button>
-						<button type="button" class="btn btn-default" ng-click="Actualizar(ausencia.id)" id="btn_actualizar" ng-show="buttonActualizar">Actualizar</button>
+								<button type="button" class="btn btn-default" ng-click="Actualizar(ausencia.id)" id="btn_actualizar" ng-show="buttonActualizar">Actualizar</button>
 				    </div>
 				</form>
 		      </div>
@@ -186,7 +186,6 @@
 
 <script>
 	$(document).ready(function(){
-		// Notifica en pantalla el mensaje
 		$('.validate').on('blur', function(){
 			if ($(this).val()=="") {
 				alertify.error('No puedes dejar este campo vacio.');
@@ -204,6 +203,7 @@
 							cache: false,
 							url: "/autocomplete/empleado",
 							success: function(data){
+								$("#input_empleado").removeAttr('data-field');
 								res( $.map( data, function( item ) {
 										return {
 												label: item.primerNombre,
@@ -216,6 +216,20 @@
 				},
         select: function(e, ui){
 					localStorage.setItem('idEmpleado', ui.item.id);
+					$("#input_empleado").attr('data-field', 'ok');
+					alertify.success('Empleado Seleccionado.');
+        }
+    });
+		$("#input_empleado").change(function(){
+			if( !$(this).attr('data-field') ){
+				alertify.error('No olvides seleccionar un empleado del listado.');
+        $(this).focus();
+      }
+		});
+		$("#input_empleado").blur(function(){
+        if( !$(this).attr('data-field') ){
+					alertify.error('No puedes completar otro campo. Selecciona un empleado.', 7);
+          $(this).focus();
         }
     });
 		$('#btn_enviar_modal').click(function(e){

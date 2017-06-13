@@ -13,7 +13,7 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  'uiCalendarConfig', '$route', function($scope,$http, $location,  uiCalendarConfig, $route){
+usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'uiCalendarConfig', '$route', function($scope,$http, $location, uiCalendarConfig, $route){
 	$scope.buttonActualizar = false;
 	$scope.buttonEnviar = true;
 	$scope.btn_eliminar = false;
@@ -112,11 +112,11 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  '
 
     			var year = date.getFullYear();
     			var month = date.getMonth();
-           		var day = date.getDate();
+          var day = date.getDate();
 
-           		var yearEnd = dateEnd.getFullYear();
+          var yearEnd = dateEnd.getFullYear();
     			var monthEnd = dateEnd.getMonth();
-           		var dayEnd = dateEnd.getDate();
+          var dayEnd = dateEnd.getDate();
 
     			// console.log(year+" "+month+" "+day)
 
@@ -154,10 +154,9 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  '
     		})
 		}
 	})
-
-    .catch(function(data,status,headers,config){
-    	console.log(data.error)
-    });
+  .catch(function(data,status,headers,config){
+    	console.log(data)
+  });
 
     $scope.eventSources = [$scope.events];
 
@@ -174,6 +173,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  '
 		$scope.ausencia.fechaSuceso = "";
 		$scope.ausencia.tipo = "";
 		$scope.ausencia.descripcion = "";
+		$("#input_empleado").removeAttr('data-field');
 	}
 
 	$scope.Registrar = function(){
@@ -308,42 +308,55 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location',  '
 	};
 
 	$scope.Actualizar = function(userId){
-    // en el formData se guardan los datos de la vista
-		$('#btn_cancelar_modal').click();
-		var url = '/ausencia';
-		var datos = new FormData()
+			var camposVacios = false;
+			if ( $('#descripcion').val()=="" ) {
+				camposVacios = true;
+			}else	if ( $('#input_empleado').val()=="" ) {
+				camposVacios = true;
+			}else if ( $('#fechaSuceso').val()=="" ) {
+				camposVacios = true;
+			}else if ( $('#fechaFin').val()=="" ) {
+				camposVacios = true;
+			}else if ( $('#tipo').val()=="" ) {
+				camposVacios = true;
+			}else	if (camposVacios == false) {
+				// en el formData se guardan los datos de la vista
+				$('#btn_cancelar_modal').click();
+				var url = '/ausencia';
+				var datos = new FormData()
 
-		for (key in $scope.ausencia) {
-			datos.append(key, $scope.ausencia[key]);
-		}
-			datos.append('id',userId);
-		// se envian los datos a node con el metodo put
-		$http.put(url, datos, {
-			transformRequest: angular.identity,
-			headers:{
-				'Content-Type': undefined
-			}
-		})
-		.then(function(response,status,headers,config){
-			if(response.data.Ausencia !=""){
-				swal({
-					title: "Ausencia Modificada",
-					text: "Hemos guardado tus datos",
-					type: "success",
-					showCancelButton: false,
-					confirmButtonColor: "#00b3e2",
-					closeOnConfirm: true,
-				},
-				function(isConfirm){
-					  $route.reload();
+				for (key in $scope.ausencia) {
+					datos.append(key, $scope.ausencia[key]);
+				}
+				datos.append('id',userId);
+				// se envian los datos a node con el metodo put
+				$http.put(url, datos, {
+					transformRequest: angular.identity,
+					headers:{
+						'Content-Type': undefined
+					}
+				})
+				.then(function(response,status,headers,config){
+					if(response.data.Ausencia !=""){
+						swal({
+							title: "Ausencia Modificada",
+							text: "Hemos guardado tus datos",
+							type: "success",
+							showCancelButton: false,
+							confirmButtonColor: "#00b3e2",
+							closeOnConfirm: true,
+						},
+						function(isConfirm){
+							  $route.reload();
+						});
+					}else{
+						swal("Verifica tus datos!", response.data.error, "warning");
+					}
+				})
+				.catch(function(response,status){
+					swal("Error", response.data, "error");
 				});
-			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
 			}
-		})
-		.catch(function(response,status){
-			swal("Error", response.data, "error");
-		});
-  };
+		}
 
 }]);
