@@ -75,6 +75,13 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		datos.append('empleado', localStorage.getItem('idEmpleado'));
 		datos.append('id', localStorage.getItem('id'));
 
+		if(!document.getElementById("avatar-upload").value.length==0){
+			// Este condicional es para determinar mas adelante, restricciones al tipo de archivo
+			// De esa manera de dará acceso a subir los archivos
+			var file = $("#avatar-upload")[0].files[0];
+			datos.append("foto",file);
+		}
+
 		// se envian los datos a node con el metodo put
 		$http.put(url, datos, {
 			transformRequest: angular.identity,
@@ -111,6 +118,7 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 	};
 
 	$scope.Eliminar = function(boniDescId){
+		console.log(boniDescId)
 		swal({
 		  title: "¿Confirma que desea eliminar este registro?",
 		  text: "No podrá recuperarlo",
@@ -119,7 +127,7 @@ usuario.controller('controllerListBoniDesc', ['$scope', '$http', '$location', '$
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "Si, eliminalo!",
 		  closeOnConfirm: false,
-			closeOnCancel: false
+		  closeOnCancel: false
 		},
 		function(isConfirm){
 			if (isConfirm) {

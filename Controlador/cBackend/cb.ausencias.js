@@ -184,8 +184,17 @@ routerAusencias.route("/ausencia")
 					});
 			    })
 		}else{
-			res.status(200).send({
-				message: "El Registro se ha eliminado correctamente"
+			mAusencias.remove(eliminar)
+			.then((eliminar)=>{
+				res.status(200).send({
+					message: "El Registro se ha eliminado correctamente"
+				})
+			})
+
+			.catch((err)=>{
+				res.status(500).send({
+						error: err
+				});
 			})
 		}
 	})
