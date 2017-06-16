@@ -29,6 +29,7 @@ routerEmpresa.route("/empresas")
 
 .post(upload.any(),function(req,res){
 
+
   var data = new modeloEmpresa({
       nit : req.body.nit,
       direccion : req.body.direccion,
@@ -67,7 +68,7 @@ routerEmpresa.route("/empresas")
 
   modeloEmpresa.findByIdAndUpdate(EmpresaId, body)
   .then((empresa) =>{
-    if (req.files) {
+    if (req.files.length > 0) {
           req.files.forEach(function(file){
           var ext = file.originalname;
           ext = ext.substring(ext.lastIndexOf('.'));
@@ -81,6 +82,8 @@ routerEmpresa.route("/empresas")
               res.status(200).send(empresa);
           });
         })
+      }else{
+        res.status(200).send(empresa);
       }
   })
 

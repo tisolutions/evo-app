@@ -82,8 +82,9 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', '$route' ,
             // s.usuarios = {};
             console.log(response)
             if(response.data._id !=" "){
+              
               swal("Felicitaciones", "Hemos guardado tus datos", "success");
-              $location.path("/perfilEmpresa");
+              $route.reload()
             }else{
               swal("Verifica tus datos!", response.data.error, "warning");
             }
@@ -136,7 +137,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', '$route' ,
                          closeOnConfirm: true,
                         },
                         function(isConfirm){
-                           location.reload()
+                          $route.reload();
                       });
                     }else{
                       swal("Verifica tus datos!", response.data.error, "warning");

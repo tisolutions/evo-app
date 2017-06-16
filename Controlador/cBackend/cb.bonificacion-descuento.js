@@ -171,7 +171,6 @@ routerBonificacionDes.route("/bonificaciones-descuentos")
 
 
 	mBonifDes.find(eliminar)
-	
 	.then((registro)=>{
 		if (registro[0].soporte  != "") {
 			var archivo = "evoHR/SoportesBonificaciones_Descuentos/"+registro[0]._id + registro[0].soporte
