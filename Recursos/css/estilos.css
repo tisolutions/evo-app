@@ -411,6 +411,10 @@ footer {
     padding: 0;
 }
 
+.error {
+  border-color: red;
+}
+
 /*Registros de Usuarios*/
 .conten-border{
     border:1px solid #eaeaed;

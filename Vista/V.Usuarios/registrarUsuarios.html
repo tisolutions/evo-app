@@ -25,7 +25,7 @@
 			<form name="formRegistro" enctype="multipart/form-data" id="formRegistro">
 				<div class="form-group">
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-						<img ng-show="mostrar_actualizar" class="thumbnail center-block fotoperfil" src="/userFace/{{usuarios.id}}.jpg" alt="empleado_EVoHR_{{usuarios.primerNombre + usuarios.primerApellido}}">
+						<img ng-show="mostrar_actualizar" class="thumbnail center-block fotoperfil" src="http://107.170.78.97/evoHR/userFace/{{usuarios.id}}.jpg" alt="empleado_EVoHR_{{usuarios.primerNombre + usuarios.primerApellido}}">
 						<input type="file" class="form-control" name="foto" multiple accept="image/*" id="avatar-upload"  file-model="usuarios.foto" >
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
@@ -37,10 +37,10 @@
 										<div class="row">
 											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 												<label for="primerNombre" class="control-label">Primer Nombre</label>
-											    <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Jorge" required ng-model="usuarios.primerNombre"> <br>
+											    <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Jorge"  ng-model="usuarios.primerNombre"> <br>
 
 											    <label for="primerApellido" class="control-label">Primer Apellido</label>
-												<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Santo" required ng-model="usuarios.primerApellido"><br>
+												<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Santo" ng-model="usuarios.primerApellido"><br>
 
 												<label for="tipoIdentificacion">Tipo de Identificación</label>
 											    <select class="form-control" id="tipoIdentificacion" name="tipoIdentificacion" ng-model="usuarios.tipoIdentificacion">
@@ -64,7 +64,7 @@
 												<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Domingo"  ng-model="usuarios.segundoApellido"><br>
 
 												<label for="identificacion" class="control-label">Identificación</label>
-												<input type="text" class="form-control"  id="identificacion" name="identificacion" placeholder="1834456" ng-pattern="/^[0-9]{1,7}$/" required ng-model="usuarios.identificacion">
+												<input type="text" class="form-control"  id="identificacion" name="identificacion" placeholder="1140526326" required ng-model="usuarios.identificacion">
 												<br>
 
 												<label for="sexo" class="control-label">Sexo</label>
@@ -85,14 +85,14 @@
 												<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle Real No. 12-34" required ng-model="usuarios.direccion">
 												<br>
 												<label for="celular" class="control-label">Celular</label>
-												<input type="text" class="form-control" id="celular" name="celular" placeholder="1834456" required ng-model="usuarios.celular">
+												<input type="text" class="form-control" id="celular" name="celular" placeholder="1834456" required  ng-model="usuarios.celular">
 												<br>
 												<label for="contrasena" class="control-label">Contraseña</label>
 												<input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="********" required ng-model="usuarios.contrasena">
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 												<label for="telefono" class="control-label">Teléfono</label>
-												<input type="text" class="form-control" id="telefono" name="telefono" placeholder="3448801" ng-pattern="/^[0-9]{1,7}$/" required ng-model="usuarios.telefono">
+												<input type="text" class="form-control" id="telefono" name="telefono" placeholder="3448801" required ng-model="usuarios.telefono">
 												<br>
 												<label for="correoElectronico" class="control-label">Correo Eléctronico</label>
 												<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" placeholder="mail@correoElectronico.com" required ng-model="usuarios.correoElectronico">

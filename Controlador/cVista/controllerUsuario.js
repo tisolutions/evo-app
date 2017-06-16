@@ -282,9 +282,9 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 					})
 
 					.then(function(response,status,headers,config){
-						// s.usuarios = {};
 						console.log(response)
 						if(response.data.usuario._id !=""){
+							
 							swal("Felicitaciones", "Hemos guardado tus datos", "success");
 							$location.path("/empleados");
 

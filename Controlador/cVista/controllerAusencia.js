@@ -112,11 +112,11 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'u
 
     			var year = date.getFullYear();
     			var month = date.getMonth();
-          var day = date.getDate();
+          		var day = date.getDate();
 
-          var yearEnd = dateEnd.getFullYear();
+          		var yearEnd = dateEnd.getFullYear();
     			var monthEnd = dateEnd.getMonth();
-          var dayEnd = dateEnd.getDate();
+         		var dayEnd = dateEnd.getDate();
 
     			// console.log(year+" "+month+" "+day)
 
@@ -154,9 +154,9 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'u
     		})
 		}
 	})
-  .catch(function(data,status,headers,config){
-    	console.log(data)
-  });
+	.catch(function(data,status,headers,config){
+	   	console.log(data)
+	});
 
     $scope.eventSources = [$scope.events];
 
@@ -328,7 +328,14 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'u
 				for (key in $scope.ausencia) {
 					datos.append(key, $scope.ausencia[key]);
 				}
-				datos.append('id',userId);
+				datos.append('idEmpleado', localStorage.getItem('idEmpleado'));
+				// datos.append('_id',userId)
+
+				if(!document.getElementById("soporte").value.length==0){
+					 var file = $("#soporte")[0].files[0];
+					 datos.append("foto",file);
+				}
+
 				// se envian los datos a node con el metodo put
 				$http.put(url, datos, {
 					transformRequest: angular.identity,
@@ -357,6 +364,6 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'u
 					swal("Error", response.data, "error");
 				});
 			}
-		}
+	}
 
 }]);

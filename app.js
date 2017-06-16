@@ -1,12 +1,13 @@
 'use strict'
 
-// COnfiguración de Express
+// Configuración de Express
 const express = require('express')
 const path = require('path')
 const fs = require('fs')
+const JSFtp = require('jsftp')
 const bodyParser = require('body-parser')
 const CookieSession = require('cookie-session')
-
+// const ftp = require('./ftp')
 
 // Ruteros para la aplicación
 const router = require("./routes/cb.rutas")
