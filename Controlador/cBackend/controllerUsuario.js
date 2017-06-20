@@ -213,7 +213,7 @@ routerUsuario.route("/usuarios")
 
 	mUsuario.findByIdAndUpdate(usuarioId, body)
 	.then((user) =>{
-		if (req.files) {
+		if (req.files.length > 0) {
 			req.files.forEach(function(file){
 				var filename = usuarioId+".jpg";
 				var remotePath = 'evoHR/userFace/'+filename;
@@ -227,10 +227,11 @@ routerUsuario.route("/usuarios")
 					});
 				});
 			});
+		}else{
+			res.status(200).send({
+				usuario: user
+			});
 		}
-		// res.status(200).send({
-		// 	usuario: user
-		// });
 	})
 
 	.catch((err)=>{

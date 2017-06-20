@@ -2,11 +2,11 @@
 	<div class="container">
 			<div class="col-lg-12">
 				<div class="col-lg-3 col-md-3">
-					<select class="form-control" ng-model="usuarios.tipoBusqueda">
-					  <option value> Criterio de Búsqueda de Usuario</option>
-					  <option value="name">Nombre Completo</option>
+					<select class="form-control" ng-model="tipoBusqueda" ng-options="option.name for option in options">
+					  <!-- <option value> Criterio de Búsqueda de Usuario</option> -->
+					  <!-- <option value="name">Nombre Completo</option>
 					  <option value="contract">Contrato</option>
-					  <option value="occupation">Cargo</option>
+					  <option value="occupation">Cargo</option> -->
 					</select>
 				</div>
 				<div class="col-lg-3 col-md-3">
@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3">
-					<button class="btn btn-search" ng-click="buscarRegistro(usuarios.tipoBusqueda,usuarios.keyword)">Buscar</button>
+					<button class="btn btn-search" ng-click="buscarRegistro(tipoBusqueda,usuarios.keyword)">Buscar</button>
 				</div>
 			</div>
 	</div>
@@ -45,19 +45,19 @@
 	<div class="container">
 		<div ng-if="list">
 			<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>
-				<div class='col-lg-4 col-md-4 col-sm-6 col-xs-12' ng-repeat="usuario in usuarios"><div class='contenedor-carta' ng-click="verUsuario(usuario._id)"><div class='row'><div class='col-lg-12'><div class='col-lg-3'><img src='http://107.170.78.97/evoHR/userFace/{{usuario._id}}.jpg' alt='Usuario_EVoHR'></div>
+				<div data-toggle="tooltip" title="Detalle de Usuario" class='col-lg-4 col-md-4 col-sm-6 col-xs-12' ng-repeat="usuario in usuarios"><div class='contenedor-carta'><div class='row'><div class='col-lg-12'><div class='col-lg-3'><img ng-click="verUsuario(usuario._id)" src='http://107.170.78.97/evoHR/userFace/{{usuario._id}}.jpg' style="cursor:pointer;" alt='Usuario_EVoHR'></div>
 				<div class='col-lg-9'>
 					<div class="col-lg-10">
-						<br><br><p class='nombre-usuario'>
+						<br><br><p class='nombre-usuario' ng-click="verUsuario(usuario._id)">
 							{{usuario.primerNombre+" "+usuario.primerApellido}}
 						</p>
-						<p class='puesto-codigoContrato-tipoContrato'>
+						<p class='puesto-codigoContrato-tipoContrato' ng-click="verUsuario(usuario._id)">
 							{{usuario.contratoUsuario.cargo}} <br> {{usuario.contratoUsuario.codContrato}} <br>{{usuario.contratoUsuario.tipoSalario}}
 						</p>
 					</div>
 					<div class="col-lg-2">
 						<div class="trash">
-							<b><i  style="cursor: pointer;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true" ng-click="eliminarUsuario(usuario._id)"></i> </b>
+							<b><i  style="cursor: pointer;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true" data-toggle="tooltip" title="Eliminar Usuario" ng-click="eliminarUsuario(usuario._id)"></i> </b>
 						</div>
 					</div>
 				</div></div></div></div></div>

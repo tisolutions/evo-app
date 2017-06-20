@@ -285,7 +285,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 						console.log(response)
 						if(response.data.usuario._id !=""){
 							
-							swal("Felicitaciones", "Hemos guardado tus datos", "success");
+							swal("Usuario Registrado", "Hemos guardado tus datos", "success");
 							$location.path("/empleados");
 
 						}else{
@@ -444,6 +444,21 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 	$scope.list = true;
 	$scope.message = false;
 
+	$scope.options = [
+        {
+          name: 'Nombre Completo',
+          value: 'name'
+        },{
+          name: 'Contrato',
+          value: 'contract'
+        },{
+          name: 'Cargo',
+          value: 'occupation'
+        }
+    ];
+
+    $scope.tipoBusqueda = $scope.options[0];
+
 	$http.get("/usuarios")
 	.then(function(data,status,headers,config){
 		$scope.usuarios = data.data;
@@ -458,9 +473,10 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 	};
 
 	$scope.buscarRegistro = function(){
-		var word = $scope.usuarios.keyword;
+		var word = $scope.usuarios.keyword
 		var key = normalize($scope.usuarios.keyword)
-		var tipoBusqueda = $scope.usuarios.tipoBusqueda
+		var tipoBusqueda = $scope.tipoBusqueda.value
+
 
 		$http.get("/usuarios/busqueda", {
 			params: {
