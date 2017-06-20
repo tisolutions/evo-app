@@ -161,8 +161,6 @@ usuario.config(['$routeProvider','$locationProvider', '$qProvider', function($ro
 	});
 }])
 
-
-
 usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "sesionesControl", function($scope, $http, $location, auth, sesionesControl){
 	$scope.usuarios = [];
 	if (sesionesControl.get("usuarioLogin")) {
@@ -260,6 +258,39 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
   s.usuarios = {};
   s.btnCrearContrato = true;
   s.btnActualizarContrato = false;
+  s.validDate = function() {
+    // Validar Fecha de Nacimiento
+	var birth = new Date(s.usuarios.fch_nacimiento);
+	var year = birth.getFullYear();
+	var month = birth.getMonth();
+	var day = birth.getDate();
+
+	today = new Date();
+	nowYear = today.getYear();
+	nowMonth = today.getMonth();
+	nowDay = today.getDate();
+
+	var age;
+	age = (nowYear + 1900) - year;
+
+	if ( nowMonth < (month - 1)){
+	   	age--;
+	}
+	if (((month - 1) == nowMonth) && (nowDay < day)){ 
+	    age--;
+	}
+	if (age > 1900){
+	    age -= 1900;
+	}
+	if (age < 18) {
+		s.ValidDate = true;
+		s.formRegistro.fch_nacimiento.$setValidity("fch_nacimiento", false);
+	}else{
+		s.ValidDate = false;
+		s.formRegistro.fch_nacimiento.$setValidity("fch_nacimiento", true);
+	}
+  };
+
 	s.RegistrarUsuario = function(){
 		if(!document.getElementById("avatar-upload").value.length==0){
 			if (/.(jpg|JPG)$/i.test(document.getElementById("avatar-upload").value)){
@@ -284,7 +315,6 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 					.then(function(response,status,headers,config){
 						console.log(response)
 						if(response.data.usuario._id !=""){
-							
 							swal("Usuario Registrado", "Hemos guardado tus datos", "success");
 							$location.path("/empleados");
 
@@ -297,7 +327,6 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 						console.log()
 						swal("Error", response.data, "error");
 					});
-
 			    }else{
 			    	swal("Error!", "La imagen de perfil de usuario es obligatoria, comprueba la extensión de su imágen, recuerda que el formato aceptados es .jpg ", "error");
 					return false;

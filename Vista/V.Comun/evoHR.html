@@ -21,7 +21,10 @@
 </head>
 <body ng-app="Usuario">
 	<header ng-include="'/V.Comun/header.html'"></header>
-	<div  ng-view></div>
+	<div id="wrap">
+		<div ng-view></div>
+		<div id="push"></div>
+	</div>
 	<div class="clear"></div>
 	<footer  ng-include="'/V.Comun/footer.html'"></footer>
 

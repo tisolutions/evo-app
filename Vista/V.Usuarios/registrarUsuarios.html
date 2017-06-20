@@ -39,7 +39,6 @@
 												<label for="primerNombre" class="control-label">Primer Nombre</label> <span class="errorVal" ng-show=" formRegistro.primerNombre.$error.required || formRegistro.primerNombre.$error.pattern"> &nbsp;El primer nombre es requerido y solo acepta texto!</span>
 											    <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Jorge" ng-model="usuarios.primerNombre" required=""  ng-pattern="/^[a-zA-Z ]*$/"> <br>
 
-
 											    <label for="primerApellido" class="control-label">Primer Apellido</label> <span class="errorVal" ng-show=" formRegistro.primerApellido.$error.required || formRegistro.primerApellido.$error.pattern">&nbsp;El primer apellido es requerido y solo acepta texto!</span>
 												<input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Santo" ng-model="usuarios.primerApellido" required=""  ng-pattern="/^[a-zA-Z ]*$/"><br>
 
@@ -53,8 +52,8 @@
 												      <option value="CE">CE</option>
 												</select> <br>
 
-												<label for="fch_nacimiento" class="control-label">Fecha de Nacimiento</label>
-												<input type="date" class="form-control" id="fch_nacimiento" name="fch_nacimiento"  ng-model="usuarios.fch_nacimiento">
+												<label for="fch_nacimiento" class="control-label">Fecha de Nacimiento</label> <span class="errorVal" ng-show="ValidDate"> &nbsp;El empleado debe ser mayor de 18 años!</span>
+												<input type="date" class="form-control" id="fch_nacimiento" name="fch_nacimiento"  ng-model="usuarios.fch_nacimiento" ng-change="validDate()">
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 												<label for="segundoNombre" class="control-label">Segundo Nombre</label> <span class="errorVal" ng-show=" formRegistro.segundoNombre.$error.pattern"> &nbsp;El segundo nombre solo acepta texto!</span>
@@ -83,20 +82,20 @@
 										<div class="row">
 											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 												<label for="direccion" class="control-label">Dirección</label>
-												<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle Real No. 12-34" required ng-model="usuarios.direccion">
+												<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle Real No. 12-34"  ng-model="usuarios.direccion">
 												<br>
 												<label for="celular" class="control-label">Celular</label> <span class="errorVal" ng-show="formRegistro.celular.$error.pattern"> &nbsp;El celular solo acepta números!</span>
 												<input type="text" class="form-control" id="celular" name="celular" placeholder="300 000 0000" ng-pattern="/^[0-9]*$/" ng-pattern="/^[0-9]*$/"  ng-model="usuarios.celular">
 												<br>
-												<label for="contrasena" class="control-label">Contraseña</label>
-												<input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="********" required ng-model="usuarios.contrasena">
+												<label for="contrasena" class="control-label">Contraseña</label> <span class="errorVal" ng-show=" formRegistro.contrasena.$error.required"> &nbsp;La contraseña es obligatoria!</span>
+												<input type="password" class="form-control" id="contrasena" name="contrasena" required="" placeholder="********" required ng-model="usuarios.contrasena">
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 												<label for="telefono" class="control-label">Teléfono</label> <span class="errorVal" ng-show="formRegistro.telefono.$error.pattern"> &nbsp;El teléfono solo acepta números!</span>
 												<input type="text" class="form-control" id="telefono" name="telefono" placeholder="3448801" ng-pattern="/^[0-9]*$/"  ng-model="usuarios.telefono">
 												<br>
 												<label for="correoElectronico" class="control-label">Correo Eléctronico</label> <span class="errorVal" ng-show=" formRegistro.correoElectronico.$error.required || formRegistro.correoElectronico.$error.pattern"> &nbsp;Correo electrónico no válido!</span>
-												<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" ng-pattern="/^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/" placeholder="mail@correoElectronico.com" required="" ng-model="usuarios.correoElectronico">
+												<input type="email" class="form-control" id="correoElectronico" name="correoElectronico" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" placeholder="mail@correoElectronico.com" required="" ng-model="usuarios.correoElectronico">
 											</div>
 										</div>
 									</div>
