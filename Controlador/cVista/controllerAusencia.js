@@ -147,6 +147,7 @@ usuario.controller('controllerListAusencia', ['$scope', '$http', '$location', 'u
 	              start: new Date(year, month, day),
 	              end: new Date(yearEnd, monthEnd, dayEnd),
 	              allDay: false,
+	              stick : true,
 	              className: [clase],
 	              id: value._id
 	            });
