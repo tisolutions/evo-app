@@ -6,6 +6,16 @@ var fs = require('fs')
 var path = require('path')
 var routerEmpresa = express.Router()
 
+// FTP
+const JSFtp = require("jsftp")
+const Ftp = new JSFtp({
+  host: "107.170.78.97",
+  port: 21, // defaults to 21 
+  user: "ftpuser", // defaults to "anonymous" 
+  pass: "tiein2017" // defaults to "@anonymous" 
+})
+
+
 routerEmpresa.route("/empresas")
 .get(function(req, res) {
   modeloEmpresa.find().limit(1)
@@ -17,7 +27,8 @@ routerEmpresa.route("/empresas")
    });
 })
 
-.post(upload.any(), function(req,res){
+.post(upload.any(),function(req,res){
+
 
   var data = new modeloEmpresa({
       nit : req.body.nit,
@@ -30,43 +41,50 @@ routerEmpresa.route("/empresas")
 
   data.save()
   .then((empresa) =>{
-
       if (req.files) {
           req.files.forEach(function(file){
-          console.log(req.files)
           var ext = file.originalname;
           ext = ext.substring(ext.lastIndexOf('.'));
           var filename = empresa._id+ext;
-          fs.rename(file.path,'uploads/empresa/'+filename);
-          console.log(file.path,'uploads/empresa/'+filename)
+          var remotePath = 'evoHR/empresa/'+filename;
+
+          Ftp.put(file.path, remotePath, function(hadError) {
+              if (!hadError)
+                console.log("File transferred successfully!");
+                res.status(200).send(empresa);
+          });
         })
       }
-       res.status(200).send(empresa);
   })
 
   .catch((error)=>{
-        res.status(500).send(error);
+    res.status(500).send(error);
   })
 })
 
-.put(upload.any(), function(req,res){
-
+.put(upload.any(),function(req,res){
   let EmpresaId = req.body.id
   let body = req.body
 
   modeloEmpresa.findByIdAndUpdate(EmpresaId, body)
   .then((empresa) =>{
-    if (req.files) {
+    if (req.files.length > 0) {
           req.files.forEach(function(file){
-          console.log(req.files)
           var ext = file.originalname;
           ext = ext.substring(ext.lastIndexOf('.'));
           var filename = EmpresaId+ext;
-          fs.rename(file.path,'uploads/empresa/'+filename);
-          console.log(file.path,'uploads/empresa/'+filename)
+          var remotePath = 'evoHR/empresa/'+filename;
+
+          Ftp.put(file.path, remotePath, function(hadError) {
+              if (!hadError)
+                console.log("File transferred successfully!");
+              // Ftp.chmod(remotePath, 511);
+              res.status(200).send(empresa);
+          });
         })
+      }else{
+        res.status(200).send(empresa);
       }
-    res.status(200).send(empresa);
   })
 
   .catch((err)=>{

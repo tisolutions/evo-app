@@ -30,6 +30,14 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4.bonificaciones{
     letter-spacing: 0.5px;
 }
 
+#wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto;
+}
+
 
 /*Generales*/
 .btn-red{
@@ -334,10 +342,9 @@ a,p,input,select,textarea,label,button,h1,h2,h3,h4.bonificaciones{
 
 footer {
    position: relative;
-  /*bottom: 0;*/
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 3em;
+  overflow: hidden;
   background-color: #f5f5f5;
   margin: 0;
 }
@@ -411,6 +418,10 @@ footer {
     padding: 0;
 }
 
+.error {
+  border-color: red;
+}
+
 /*Registros de Usuarios*/
 .conten-border{
     border:1px solid #eaeaed;
@@ -447,6 +458,7 @@ footer {
         font-weight: 600;
         color: #00b3e2;
         line-height: 120%;
+        cursor: pointer;
         font-size: 15pt;
      }
 

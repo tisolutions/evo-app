@@ -25,7 +25,7 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	});
 }])
 
-usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($scope, $http, $location){
+usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', '$route' , function($scope, $http, $location,$route){
 	$scope.empresa = {};
 	$scope.mostrarBtnGuardar = true;
 	$scope.mostrarBtnActualizar = false;
@@ -57,16 +57,19 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
   $scope.guardarEmpresa = function(){
     if(!document.getElementById("avatar-upload").value.length==0){
       if (/.(jpg|JPG)$/i.test(document.getElementById("avatar-upload").value)){
-          var uploadUrl = '/empresas';
 
+          var uploadUrl = '/empresas';
           var formData = new FormData()
 
           for (key in $scope.empresa) {
             formData.append(key, $scope.empresa[key]);
+            console.log(key, $scope.empresa[key])
           }
 
           var file = $("#avatar-upload")[0].files[0];
           formData.append("logo",file);
+
+          console.log(formData)
 
           $http.post(uploadUrl,formData,{
             transformRequest: angular.identity,
@@ -79,8 +82,9 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
             // s.usuarios = {};
             console.log(response)
             if(response.data._id !=" "){
+              
               swal("Felicitaciones", "Hemos guardado tus datos", "success");
-              $location.path("/perfilEmpresa");
+              $route.reload()
             }else{
               swal("Verifica tus datos!", response.data.error, "warning");
             }
@@ -93,7 +97,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
 
           }else{
             swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imágen, recuerde que el formato aceptado es .jpg ", "error");
-          return false;
+            return false;
           }
     }else{
       swal("Error!", "El logo de la empresa es obligatorio, comprueba la extensión de su imagen recuerda que el formato aceptado es .jpg ", "error");
@@ -133,7 +137,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
                          closeOnConfirm: true,
                         },
                         function(isConfirm){
-                          location.href = "/";
+                          $route.reload();
                       });
                     }else{
                       swal("Verifica tus datos!", response.data.error, "warning");
@@ -174,7 +178,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', function($
                    closeOnConfirm: true,
                   },
                   function(isConfirm){
-                    location.href = "/";
+                    location.reload()
                 });
               }else{
                 swal("Verifica tus datos!", response.data.error, "warning");

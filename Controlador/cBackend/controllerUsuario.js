@@ -2,17 +2,25 @@
 const mUsuario = require('../../models/mUsuarios')
 const mContrato = require('../../models/mContratos')
 
-var express = require("express");
-var routerUsuario = express.Router();
+var express = require("express")
+var routerUsuario = express.Router()
 var multer = require('multer')
 var upload = multer({dest: 'uploads/'})
 var fs = require('fs')
 var path = require('path')
 
+// FTP
+const JSFtp = require("jsftp")
+const Ftp = new JSFtp({
+  host: "107.170.78.97",
+  port: 21, // defaults to 21 
+  user: "ftpuser", // defaults to "anonymous" 
+  pass: "tiein2017" // defaults to "@anonymous" 
+})
 
 
 routerUsuario.route("/autocomplete/empleado")
-	.post(function(req, res){
+.post(function(req, res){
 
 		var regexValue='\.*'+req.body.nombre+'\.*';
 		mUsuario.findOne({"primerNombre":new RegExp(regexValue, 'i')})
@@ -34,7 +42,7 @@ routerUsuario.route("/autocomplete/empleado")
 					 ];
 		     res.status(200).send(returnUsuario)
 		});
-	});
+});
 
 routerUsuario.route("/evohr/")
 .post(function(req,res){
@@ -148,6 +156,7 @@ routerUsuario.route("/usuarios")
 })
 
 .post(upload.any(), function(req,res){
+	console.log(req.body)
 
 	var data = new mUsuario({
       primerNombre: req.body.primerNombre,
@@ -172,13 +181,22 @@ routerUsuario.route("/usuarios")
 		if (req.files) {
 			req.files.forEach(function(file){
 				var filename = user._id+".jpg";
-				fs.rename(file.path,'uploads/userFace/'+filename)
+				var remotePath = 'evoHR/userFace/'+filename;
+
+				Ftp.put(file.path, remotePath, function(hadError) {
+				  if (!hadError)
+				    console.log("File transferred successfully!");
+					// Ftp.chmod(remotePath, 511);
+					res.status(200).send({
+						usuario: user
+					});
+				});
 			});
 		}
 
-		res.status(200).send({
-			usuario: user
-		});
+		// res.status(200).send({
+		// 	usuario: user
+		// });
 	})
 
 	.catch((error)=>{
@@ -195,15 +213,25 @@ routerUsuario.route("/usuarios")
 
 	mUsuario.findByIdAndUpdate(usuarioId, body)
 	.then((user) =>{
-		if (req.files) {
+		if (req.files.length > 0) {
 			req.files.forEach(function(file){
 				var filename = usuarioId+".jpg";
-				fs.rename(file.path,'uploads/userFace/'+filename)
+				var remotePath = 'evoHR/userFace/'+filename;
+
+				Ftp.put(file.path, remotePath, function(hadError) {
+				  if (!hadError)
+				    console.log("File transferred successfully!");
+					// fs.chmod(file.path, 511);
+					res.status(200).send({
+						usuario: user
+					});
+				});
+			});
+		}else{
+			res.status(200).send({
+				usuario: user
 			});
 		}
-		res.status(200).send({
-			usuario: user
-		});
 	})
 
 	.catch((err)=>{

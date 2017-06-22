@@ -3,11 +3,19 @@ var schema = mongo.Schema;
 
 // mongo.connect("mongodb://usuarioevo:123@localhost/evohr");
 
+var match_correo = ["/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/","Correo no valido"];
+
 var schemaEmpresa = new schema({
   nit: {
     type: String,
     required: "Escriba un nit para la empresa",
-    minlength: [6, "¿Este es el nit de la empresa?, nos parece muy corto."]
+    minlength: [6, "¿Este es el nit de la empresa?, nos parece muy corto."],
+    validate: {
+          validator: function(v) {
+            return /\d{9}-\d/.test(v);
+          },
+          message: "El valor '{VALUE}', no sigue el formato: '123456789-0' !"
+    }
   },
   direccion: {
     type: String,
@@ -23,7 +31,13 @@ var schemaEmpresa = new schema({
   },
   correoElectronico: {
     type: String,
-    required: "Has olvidado escribir el correo electronico"
+    required: "Has olvidado escribir el correo electronico",
+    validate: {
+      validator: function(correo) {
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(correo);
+      },
+      message: '{VALUE} no es un correo valido.'
+    }
   },
   paginaweb: {
     type: String,

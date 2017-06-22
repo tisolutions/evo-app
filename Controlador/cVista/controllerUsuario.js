@@ -161,8 +161,6 @@ usuario.config(['$routeProvider','$locationProvider', '$qProvider', function($ro
 	});
 }])
 
-
-
 usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "sesionesControl", function($scope, $http, $location, auth, sesionesControl){
 	$scope.usuarios = [];
 	if (sesionesControl.get("usuarioLogin")) {
@@ -255,11 +253,44 @@ usuario.controller('controllerHome', ['$scope', "auth", "sesionesControl", funct
 	}
 }])
 
-usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeParams', function(s,$http, $location, $routeParams){
+usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeParams', '$route' ,function(s,$http, $location, $routeParams,$route){
 	// Angular envia los datos del formulario a Node mediante este metodo para registrar un usuario
   s.usuarios = {};
   s.btnCrearContrato = true;
   s.btnActualizarContrato = false;
+  s.validDate = function() {
+    // Validar Fecha de Nacimiento
+	var birth = new Date(s.usuarios.fch_nacimiento);
+	var year = birth.getFullYear();
+	var month = birth.getMonth();
+	var day = birth.getDate();
+
+	today = new Date();
+	nowYear = today.getYear();
+	nowMonth = today.getMonth();
+	nowDay = today.getDate();
+
+	var age;
+	age = (nowYear + 1900) - year;
+
+	if ( nowMonth < (month - 1)){
+	   	age--;
+	}
+	if (((month - 1) == nowMonth) && (nowDay < day)){ 
+	    age--;
+	}
+	if (age > 1900){
+	    age -= 1900;
+	}
+	if (age < 18) {
+		s.ValidDate = true;
+		s.formRegistro.fch_nacimiento.$setValidity("fch_nacimiento", false);
+	}else{
+		s.ValidDate = false;
+		s.formRegistro.fch_nacimiento.$setValidity("fch_nacimiento", true);
+	}
+  };
+
 	s.RegistrarUsuario = function(){
 		if(!document.getElementById("avatar-upload").value.length==0){
 			if (/.(jpg|JPG)$/i.test(document.getElementById("avatar-upload").value)){
@@ -282,11 +313,11 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 					})
 
 					.then(function(response,status,headers,config){
-						// s.usuarios = {};
 						console.log(response)
 						if(response.data.usuario._id !=""){
-							swal("Felicitaciones", "Hemos guardado tus datos", "success");
+							swal("Usuario Registrado", "Hemos guardado tus datos", "success");
 							$location.path("/empleados");
+
 						}else{
 							swal("Verifica tus datos!", response.data.error, "warning");
 						}
@@ -296,7 +327,6 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 						console.log()
 						swal("Error", response.data, "error");
 					});
-
 			    }else{
 			    	swal("Error!", "La imagen de perfil de usuario es obligatoria, comprueba la extensión de su imágen, recuerda que el formato aceptados es .jpg ", "error");
 					return false;
@@ -310,7 +340,6 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 	// Angular envia los datos del formulario a Node mediante este metodo para actualizar un usuario
 
 	s.ActualizarUsuario = function(){
-
 		if(!document.getElementById("avatar-upload").value.length==0){
 			if (/.(jpg|JPG)$/i.test(document.getElementById("avatar-upload").value)){
 					// Se envia el formulario con foto adjunta para modificar un usuario
@@ -342,7 +371,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 									 closeOnConfirm: true,
 									},
 									function(isConfirm){
-									  location.href = "/";
+									  $route.reload();
 								});
 						}else{
 							swal("Verifica tus datos!", response.data.error, "warning");
@@ -384,7 +413,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 							 closeOnConfirm: true,
 							},
 							function(isConfirm){
-							  location.href = "/";
+							  $route.reload();
 						});
 					}else{
 						swal("Verifica tus datos!", response.data.error, "warning");
@@ -441,6 +470,24 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 
 usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', function($scope,$http, $location){
 	$scope.usuarios = [];
+	$scope.list = true;
+	$scope.message = false;
+
+	$scope.options = [
+        {
+          name: 'Nombre Completo',
+          value: 'name'
+        },{
+          name: 'Contrato',
+          value: 'contract'
+        },{
+          name: 'Cargo',
+          value: 'occupation'
+        }
+    ];
+
+    $scope.tipoBusqueda = $scope.options[0];
+
 	$http.get("/usuarios")
 	.then(function(data,status,headers,config){
 		$scope.usuarios = data.data;
@@ -455,8 +502,10 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 	};
 
 	$scope.buscarRegistro = function(){
+		var word = $scope.usuarios.keyword
 		var key = normalize($scope.usuarios.keyword)
-		var tipoBusqueda = $scope.usuarios.tipoBusqueda
+		var tipoBusqueda = $scope.tipoBusqueda.value
+
 
 		$http.get("/usuarios/busqueda", {
 			params: {
@@ -467,6 +516,15 @@ usuario.controller('controllerListUsuarios', ['$scope', '$http', '$location', fu
 		.then(function(response,status,headers,config){
 			if ((response.data).length > 0) {
 				$scope.usuarios = response.data;
+				$scope.usuarios.tipoBusqueda = tipoBusqueda;
+				$scope.usuarios.keyword = word;
+				$scope.list = true;
+				$scope.message = false;
+			}else{
+				$scope.list = false;
+				$scope.message = true;
+				$scope.usuarios.tipoBusqueda = tipoBusqueda;
+				$scope.usuarios.keyword = word;
 			}
   		})
 
