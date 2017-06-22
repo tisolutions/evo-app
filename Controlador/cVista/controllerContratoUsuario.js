@@ -135,16 +135,15 @@ usuario.controller('controllerContratoUsuario', ['$scope', '$http', '$routeParam
 		)
 		.then(function(response,status,headers,config){
 			if(response.data._id !=""){
-				swal("Actualizacion Correcta", "Hemos guardado tus datos", "success");
+				alertify.success('Contrato actualizado');
 				$location.path("/actualizacionEmpleados/"+$routeParams.usuarioId);
 			}else{
-				swal("Verifica tus datos!", response.data.error, "warning");
+				alertify.error('Error en la petición');
 			}
 		})
-
 		.catch(function(response,status,headers,config){
-			swal("Verifica tus datos!", response.data.error, "warning");
-		})
+			alertify.error(response.data.error);
+		});
 	};
 
 	scope.Cancelar = function(idUsuario){
