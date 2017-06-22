@@ -130,6 +130,7 @@
 							cache: false,
 							url: "/autocomplete/empleado",
 							success: function(data){
+								$("#input_empleado").removeAttr('data-field');
 								res( $.map( data, function( item ) {
 										return {
 												label: item.primerNombre,
@@ -142,6 +143,20 @@
 				},
         select: function(e, ui){
 					localStorage.setItem('idEmpleado', ui.item.id);
+					$("#input_empleado").attr('data-field', 'ok');
+					alertify.success('Empleado Seleccionado.');
+        }
+    });
+		$("#input_empleado").change(function(){
+			if( !$(this).attr('data-field') ){
+				alertify.error('No olvides seleccionar un empleado del listado.');
+        $(this).focus();
+      }
+		});
+		$("#input_empleado").blur(function(){
+        if( !$(this).attr('data-field') ){
+					alertify.error('No puedes completar otro campo. Selecciona un empleado.', 7);
+          $(this).focus();
         }
     });
 	});

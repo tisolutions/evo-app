@@ -85,9 +85,9 @@ usuario.controller('controllerContratoUsuario', ['$scope', '$http', '$routeParam
       tipoContrato: scope.tipoContratoSeleccionado.nombre,
       tipoSalario: scope.tipoSalarioSeleccionado.nombre,
       cargo: scope.cargoSeleccionado.nombre,
-	  notasContrato: scope.usuarios.notasContrato,
-	  noContrato: scope.noContrato,
-	  codContrato: scope.codContrato
+	  	notasContrato: scope.usuarios.notasContrato,
+	  	noContrato: scope.noContrato,
+	  	codContrato: scope.codContrato
     })
     .then(function(response,status,headers,config){
 			if(response.data._id !=""){
@@ -99,7 +99,7 @@ usuario.controller('controllerContratoUsuario', ['$scope', '$http', '$routeParam
 				)
 				.then(function(response,status,headers,config){
 					if(response.data._id!=""){
-						swal("Felicitaciones", "Contrato Guardado", "success");
+						alertify.success('Contrato registrado correctamente');
 						$location.path("/actualizacionEmpleados/"+$routeParams.usuarioId);
 					}else{
 						swal("Error al relacionar contrato", response.data.error, "warning");
