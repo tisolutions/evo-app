@@ -82,7 +82,7 @@ usuario.controller('RegistroEmpresa', ['$scope','$http', '$location', '$route' ,
             // s.usuarios = {};
             console.log(response)
             if(response.data._id !=" "){
-              
+
               swal("Felicitaciones", "Hemos guardado tus datos", "success");
               $route.reload()
             }else{
@@ -227,15 +227,15 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
       .then(function(response,status,headers,config){
         console.log(response.data._id)
         if(response.data._id==" "){
-          swal("Ha ocurrido un error!", "Intente nuevamente", "error");
+					alertify.error('¡Ha ocurrido un error!');
         }else{
-          swal("Felicitaciones", "Cargo Registrado", "success");
+					alertify.success('Cargo Registrado');
           $location.path("/contratos");
         }
       })
 
       .catch(function(response,status,headers,config){
-        swal("Ha ocurrido un error!", response.data.error, "error");
+        alertify.error('¡Ha ocurrido un error!');
       })
     }
     if (url.indexOf("/registroTipoContratoEmpresa")!=-1) {
@@ -246,15 +246,15 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
       .then(function(response,status,headers,config){
         console.log(response.data._id)
   			if(response.data._id==" "){
-  				swal("Ha ocurrido un error!", "Intente nuevamente", "error");
+					alertify.error('¡Ha ocurrido un error!');
   			}else{
-          swal("Felicitaciones", "Tipo de contrato Guardado", "success");
+					alertify.success('Tipo de contrato Registrado');
   				$location.path("/contratos");
   			}
   		})
 
       .catch(function(response,status,headers,config){
-        swal("Ha ocurrido un error!", response.data.error, "error");
+        alertify.error('¡Ha ocurrido un error!');
       })
     }
     if (url.indexOf("/registroTipoSalarioEmpresa")!=-1) {
@@ -265,15 +265,15 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
       .then(function(response,status,headers,config){
         console.log(response.data._id)
         if(response.data._id==" "){
-          swal("Ha ocurrido un error!", "Intente nuevamente", "error");
+					alertify.error('¡Ha ocurrido un error!');
         }else{
-          swal("Felicitaciones", "Tipo de Salario Guardado", "success");
+					alertify.success('Tipo de Salario Registrado');
           $location.path("/contratos");
         }
       })
 
       .catch(function(response,status,headers,config){
-        swal("Ha ocurrido un error!", response.data.error, "error");
+        alertify.error('¡Ha ocurrido un error!');
       })
     }
     if (url.indexOf("/registroCicloFacturacionEmpresa")!=-1) {
@@ -284,15 +284,15 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
       .then(function(response,status,headers,config){
         console.log(response.data._id)
         if(response.data._id==" "){
-          swal("Ha ocurrido un error!", "Intente nuevamente", "error");
+					alertify.error('¡Ha ocurrido un error!');
         }else{
-          swal("Felicitaciones", "Ciclo de Facturación Guardado", "success");
+					alertify.success('Ciclo de Facturación Registrado');
           $location.path("/contratos");
         }
       })
 
       .catch(function(response,status,headers,config){
-        swal("Ha ocurrido un error!", response.data.error, "error");
+        alertify.error('¡Ha ocurrido un error!');
       })
     }
   }
