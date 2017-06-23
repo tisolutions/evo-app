@@ -161,6 +161,9 @@ usuario.config(['$routeProvider','$locationProvider', '$qProvider', function($ro
 	});
 }])
 
+
+
+
 usuario.controller('controllerLogin', ['$scope','$http', '$location', "auth", "sesionesControl", function($scope, $http, $location, auth, sesionesControl){
 	$scope.usuarios = [];
 	if (sesionesControl.get("usuarioLogin")) {
