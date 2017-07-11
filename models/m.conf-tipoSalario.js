@@ -6,6 +6,7 @@ var schema = mongo.Schema;
 var schemaTipoSalario = new schema({
   nombre: {
     type: String,
+    unique: true,
     required: "Has olvidado escribir el nombre."
   },
   codigo: {
