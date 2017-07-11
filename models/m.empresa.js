@@ -42,6 +42,26 @@ var schemaEmpresa = new schema({
   paginaweb: {
     type: String,
     required: "Has olvidado escribir la pagina web"
+  },
+  usuario: {
+     type: schema.ObjectId,
+     ref: "Usuario"
+  },
+  tipoSalario: {
+     type: schema.ObjectId,
+     ref: "tipoSalario"
+  },
+  tipoContrato: {
+     type: schema.ObjectId,
+     ref: "tipoContrato"
+  },
+  cargo: {
+     type: schema.ObjectId,
+     ref: "cargo"
+  },
+  cicloFacturacion: {
+     type: schema.ObjectId,
+     ref: "cicloFacturacion"
   }
 });
 
