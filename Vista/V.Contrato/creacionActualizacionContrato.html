@@ -19,14 +19,14 @@
 								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 									<div class="form-group">
 								        <label for="empleado" class="control-label">Empleado</label>
-								        <input type="text" class="form-control" id="empleado" name="empleado" placeholder="Jorge Gutierrez Lopez" required ng-model="usuarios.empleado">
+								        <input type="text" class="form-control" id="empleado" name="empleado" placeholder="Jorge Gutierrez Lopez" required ng-model="usuarios.empleado" readonly="readonly">
 								    </div>
 								    <div class="clear"></div>
 
 									<div class="form-group">
 								    	<label for="cicloFacturacion">Ciclo de Facturación</label>
 											<!-- ng-change notifica a angular que el select tuvo un cambio -->
-								    	<select class="form-control" id="cicloFacturacion" name="cicloFacturacion" ng-model="cicloFacturacionSeleccionado" ng-options="cicloFacturacion as cicloFacturacion.nombre for cicloFacturacion in cicloFacturacionEmpresa track by cicloFacturacion._id" ng-change="updateCiclo()" ng-click="obtenerCiclo()">
+								    	<select class="form-control validate" id="cicloFacturacion" name="cicloFacturacion" ng-model="cicloFacturacionSeleccionado" ng-options="cicloFacturacion as cicloFacturacion.nombre for cicloFacturacion in cicloFacturacionEmpresa track by cicloFacturacion._id" ng-change="updateCiclo()" ng-click="obtenerCiclo()">
 								    	<option value>Escoja el ciclo de facturación </option>
 									      <option value="15">Quincenal</option>
 									      <option value="30">Mensual</option>
@@ -34,19 +34,19 @@
 								  	</div>
 								  	<div class="form-group">
 								    	<label for="tipoContrato">Tipo de Contrato</label>
-								    	<select class="form-control" id="tipoContrato" name="tipoContrato" ng-model="tipoContratoSeleccionado" ng-options="tipoContrato as tipoContrato.nombre for tipoContrato in tipoContratoEmpresa track by tipoContrato._id" ng-change="update()" ng-click="obtenerContratos()">
+								    	<select class="form-control validate" id="tipoContrato" name="tipoContrato" ng-model="tipoContratoSeleccionado" ng-options="tipoContrato as tipoContrato.nombre for tipoContrato in tipoContratoEmpresa track by tipoContrato._id" ng-change="update()" ng-click="obtenerContratos()">
 								    		<option value="">Escoja el tipo de Contrato </option>
 									    </select>
 								  	</div>
 
 								  	<div class="form-group">
 								        <label for="fechaInicio" class="control-label">Fecha de Inicio de Contrato</label>
-								        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"  required ng-model="usuarios.fechaInicio">
+								        <input type="date" class="form-control validate" id="fechaInicio" name="fechaInicio"  required ng-model="usuarios.fechaInicio">
 								    </div>
 
 								    <div class="form-group">
 								    	<label for="cargo">Cargo</label>
-								    	<select class="form-control" id="cargo" name="cargo" ng-model="cargoSeleccionado" ng-options="cargos as cargos.nombre for cargos in cargosEmpresa track by cargos._id" ng-click="obtenerCargos()">
+								    	<select class="form-control validate" id="cargo" name="cargo" ng-model="cargoSeleccionado" ng-options="cargos as cargos.nombre for cargos in cargosEmpresa track by cargos._id" ng-click="obtenerCargos()">
 								    	<option value>Escoja el cargo </option>
 									    </select>
 								  	</div>
@@ -54,21 +54,21 @@
 								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 									<div class="form-group">
 										<label for="docEmpleado" class="control-label">Documento Empleado</label>
-										<input type="text" class="form-control" id="docEmpleado" name="docEmpleado" placeholder="1045710550" required ng-model="usuarios.docEmpleado">
+										<input type="text" class="form-control" id="docEmpleado" name="docEmpleado" placeholder="1045710550" required ng-model="usuarios.docEmpleado" readonly="readonly">
 									</div>
 
 								    <div class="clear"></div>
 
 								    <div class="form-group">
 										<label for="salariobase" class="control-label">Salario Base</label>
-										<input type="text" class="form-control" id="salariobase" name="salariobase" placeholder="3.000.000" required ng-model="usuarios.salariobase">
+										<input type="text" class="form-control validate" id="salariobase" name="salariobase" placeholder="3.000.000" required ng-model="usuarios.salariobase">
 									</div>
 
 									<div class="clear"></div>
 
 									<div class="form-group">
 								    	<label for="tipoSalario">Tipo de Salario</label>
-								    	<select class="form-control" id="tipoSalario" name="tipoSalario" ng-model="tipoSalarioSeleccionado" ng-options="tipoSalario as tipoSalario.nombre for tipoSalario in tipoSalarioEmpresa track by tipoSalario._id" ng-click="obtenerSalarios()">
+								    	<select class="form-control validate" id="tipoSalario" name="tipoSalario" ng-model="tipoSalarioSeleccionado" ng-options="tipoSalario as tipoSalario.nombre for tipoSalario in tipoSalarioEmpresa track by tipoSalario._id" ng-click="obtenerSalarios()">
 								    		<option value>Escoja el tipo de Salario </option>
 									    </select>
 								  </div>
@@ -122,3 +122,38 @@
 			<div class="clearfix"></div>
 		</section>
 </div>
+<script>
+	$(document).ready(function(){
+		$('.validate').on('blur', function(){
+			if ( $(this).val()=="" ) {
+				$(this).focus();
+				alertify.error('Este campo es requerido');
+			}
+		});
+		$('#fechaFinalizacion').change(function(){
+			if ( $(this).val()!= "" ) {
+				if ( $('#fechaInicio').val()!= "" ) {
+					var fechaInicio = $('#fechaInicio').val();
+					var fechaFinalizacion = $('#fechaFinalizacion').val();
+					if (fechaInicio > fechaFinalizacion ) {
+						alertify.error('Fecha de inicio mayor a Fecha de finalizacion');
+						$('#fechaInicio').focus();
+					}
+				}else{
+					alertify.error('Fecha de inicio requerida');
+				}
+			}
+		});
+		$('#fechaInicio').on('blur change', function(){
+			if ( $(this).val()!= "" ) {
+				var fechaFinalizacion = $('#fechaFinalizacion').val();
+				if ( fechaFinalizacion!= "") {
+					if ( $(this).val() > fechaFinalizacion ) {
+						alertify.error('Fecha de inicio mayor a Fecha de finalizacion');
+						$(this).focus();
+					}
+				}
+			}
+		});
+	});
+</script>
