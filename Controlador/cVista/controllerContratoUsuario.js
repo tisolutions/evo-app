@@ -18,63 +18,88 @@ usuario.controller('controllerContratoUsuario', ['$scope', '$http', '$routeParam
 	scope.btnRegistroContrato = true;
 	scope.btnActualizarContrato = false;
 
-	$http.get("/listadoOpciones",{
+	$http.get("/usuarios/edicion",{
 	  params: {id: $routeParams.usuarioId}
 	})
 	.then(function(respuesta){
-		scope.tipoContratoEmpresa = respuesta.data.datos[0].tiposContratos;
-		scope.cicloFacturacionEmpresa = respuesta.data.datos[1].ciclos;
-		scope.cargosEmpresa = respuesta.data.datos[2].cargos;
-		scope.tipoSalarioEmpresa = respuesta.data.datos[3].tipoSalarios;
-		scope.cicloFacturacionSeleccionado;
-		scope.tipoContratoSeleccionado;
-		scope.tipoSalarioSeleccionado;
-		scope.cargoSeleccionado;
-
-		if (respuesta.data.datos[4].ultimoContrato.length > 0) {
-			scope.noContrato = parseInt(respuesta.data.datos[4].ultimoContrato[0].noContrato) + 1;
-			scope.codContrato = "CONT"+scope.noContrato;
-		}else{
-			scope.noContrato = 1;
-			scope.codContrato = "CONT"+scope.noContrato;
-		}
-		scope.idUsuario = respuesta.data.datos[5].usuario._id;
-
+		scope.idUsuario = respuesta.data['_id'];
+		// Se obtienen el listado de tipo de contratos y se llena en su respectivo select (vista)
+		$http.get("/tipoContrato-list")
+			.then(function(resTipoContrato){
+				scope.tipoContratoEmpresa = resTipoContrato.data.tiposContratos;
+				if ($location.path().indexOf("/actualizarContratoUsuario")!=-1) {
+					scope.tipoContratoSeleccionado = scope.BuscarElementoSelect(resTipoContrato.data.tiposContratos, respuesta.data.contratoUsuario.tipoContrato);
+				}
+			});
+		// Se obtienen el listado de cargos y se llena en su respectivo select (vista)
+		$http.get("/cargo-list")
+			.then(function(resCargo){
+				scope.cargosEmpresa = resCargo.data.cargos;
+				if ($location.path().indexOf("/actualizarContratoUsuario")!=-1) {
+					scope.cargoSeleccionado = scope.BuscarElementoSelect(resCargo.data.cargos, respuesta.data.contratoUsuario.cargo);
+				}
+			});
+		// Se obtienen el listado de tipo de salarios y se llena en su respectivo select (vista)
+		$http.get("/tipoSalario-list")
+			.then(function(resTipoSalario){
+				scope.tipoSalarioEmpresa = resTipoSalario.data.tipoSalarios;
+				if ($location.path().indexOf("/actualizarContratoUsuario")!=-1) {
+					scope.tipoSalarioSeleccionado = scope.BuscarElementoSelect(resTipoSalario.data.tipoSalarios, respuesta.data.contratoUsuario.tipoSalario);
+				}
+			});
+		// Se obtienen el listado de ciclos de facturacion y se llena en su respectivo select (vista)
+		$http.get("/cicloFactura-list")
+			.then(function(resCicloFactura){
+				scope.cicloFacturacionEmpresa = resCicloFactura.data.ciclosFacturas;
+				if ($location.path().indexOf("/actualizarContratoUsuario")!=-1) {
+					scope.cicloFacturacionSeleccionado = scope.BuscarElementoSelect(resCicloFactura.data.ciclosFacturas, respuesta.data.contratoUsuario.cicloFacturacion);
+				}
+			});
+		// Se obtienen el ultimo contrato registrado, y se muestra el consecutivo en la vista
+		$http.get("/ultimo-contrato")
+			.then(function(resUltimoContrato){
+				if (scope.noContrato==undefined || scope.noContrato==null) {
+					if (resUltimoContrato.data.ultimoContrato.length > 0) {
+						scope.noContrato = parseInt(resUltimoContrato.data.ultimoContrato[0]['noContrato']) + 1;
+						scope.codContrato = "CONT"+scope.noContrato;
+					}else{
+						scope.noContrato = 1;
+						scope.codContrato = "CONT"+scope.noContrato;
+					}
+				}
+			});
+		// Se valida la url actual para identificar si es una actualizacion
 		if ($location.path().indexOf("/actualizarContratoUsuario")!=-1) {
-				scope.btnRegistroContrato = false;
-				scope.btnActualizarContrato = true;
-				scope.usuarios = {
-					empleado: respuesta.data.datos[5].usuario.primerNombre + " " + respuesta.data.datos[5].usuario.primerApellido,
-					docEmpleado: respuesta.data.datos[5].usuario.identificacion,
-					id: respuesta.data.datos[5].usuario._id,
-					fechaInicio: new Date(respuesta.data.datos[5].usuario.contratoUsuario.fechaIngreso),
-					fechaFinalizacion: new Date(respuesta.data.datos[5].usuario.contratoUsuario.fechaFinalizacion),
-					salariobase: respuesta.data.datos[5].usuario.contratoUsuario.salarioBase,
-					notasContrato: respuesta.data.datos[5].usuario.contratoUsuario.nota
-		    	}
-				scope.tipoContratoSeleccionado = scope.BuscarElementoSelect(respuesta.data.datos[0].tiposContratos, respuesta.data.datos[5].usuario.contratoUsuario.tipoContrato);
-				scope.cicloFacturacionSeleccionado = scope.BuscarElementoSelect(respuesta.data.datos[1].ciclos, respuesta.data.datos[5].usuario.contratoUsuario.cicloFacturacion);
-				scope.cargoSeleccionado = scope.BuscarElementoSelect(respuesta.data.datos[2].cargos, respuesta.data.datos[5].usuario.contratoUsuario.cargo);
-				scope.tipoSalarioSeleccionado = scope.BuscarElementoSelect(respuesta.data.datos[3].tipoSalarios, respuesta.data.datos[5].usuario.contratoUsuario.tipoSalario);
-
-				if (respuesta.data.datos[5].usuario.contratoUsuario.noContrato!= "" && respuesta.data.datos[5].usuario.contratoUsuario.codContrato != "") {
-					scope.noContrato =  respuesta.data.datos[5].usuario.contratoUsuario.noContrato;
-					scope.codContrato = respuesta.data.datos[5].usuario.contratoUsuario.codContrato;
-				}else{
-					scope.noContrato = parseInt(respuesta.data.datos[4].ultimoContrato[0].noContrato) + 1;
-					scope.codContrato = "CONT"+scope.noContrato;
-				}
-			}else{
-				scope.usuarios = {
-					empleado: respuesta.data.datos[5].usuario.primerNombre + " " + respuesta.data.datos[5].usuario.primerApellido,
-					docEmpleado: respuesta.data.datos[5].usuario.identificacion,
-					id: respuesta.data.datos[5].usuario._id
-				}
+			// Se ocultan los botones respectivos
+			scope.btnRegistroContrato = false;
+			scope.btnActualizarContrato = true;
+			// Se rellenan los campos en la vista
+			scope.usuarios = {
+					empleado: respuesta.data['primerNombre'] + " " + respuesta.data['primerApellido'],
+					docEmpleado: respuesta.data['identificacion'],
+					id: respuesta.data['_id'],
+					fechaInicio: new Date(respuesta.data.contratoUsuario.fechaIngreso),
+					fechaFinalizacion: new Date(respuesta.data.contratoUsuario.fechaFinalizacion),
+					salariobase: respuesta.data.contratoUsuario.salarioBase,
+					notasContrato: respuesta.data.contratoUsuario.nota
+			}
+			if (respuesta.data.contratoUsuario['noContrato'] != "" && respuesta.data.contratoUsuario['codContrato'] != "") {
+					scope.noContrato =  respuesta.data.contratoUsuario['noContrato'];
+					scope.codContrato = respuesta.data.contratoUsuario['codContrato'];
+			}
+		}else{
+			scope.usuarios = {
+					empleado: respuesta.data['primerNombre'] + " " + respuesta.data['primerApellido'],
+					docEmpleado: respuesta.data['identificacion'],
+					id: respuesta.data['_id']
+			}
 		}
-	})
-	.catch(function(response,status){
-		swal("Error", response.data, "error");
+
 	});
+	scope.cicloFacturacionSeleccionado;
+	scope.tipoContratoSeleccionado;
+	scope.tipoSalarioSeleccionado;
+	scope.cargoSeleccionado;
 
 	scope.RegistrarContrato = function(){
     $http.post("/contratos", {
