@@ -81,7 +81,7 @@ routerAusencias.route("/ausencia")
 
 				Ftp.put(file.path, remotePath, function(hadError) {
 	              if (!hadError)
-	                console.log("File transferred successfully!");
+	                // console.log("File transferred successfully!");
 	            	res.status(200).send({
 						Ausencia: Ause
 					});
@@ -140,7 +140,7 @@ routerAusencias.route("/ausencia")
 
 				Ftp.put(file.path, remotePath, function(hadError) {
 				  if (!hadError)
-				    console.log("File transferred successfully!");
+				    // console.log("File transferred successfully!");
 					res.status(200).send({
 						Ausencia: Aus
 					});
@@ -175,7 +175,7 @@ routerAusencias.route("/ausencia")
 					})
 			    	Ftp.raw("DELE",archivo, function(err, data) {
 					    if (err) return console.error(err);
-					    console.log(data.text);
+					    // console.log(data.text);
 					});
 			    })
 			    .catch((err)=>{
