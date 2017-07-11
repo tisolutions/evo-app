@@ -13,9 +13,9 @@ var path = require('path')
 const JSFtp = require("jsftp")
 const Ftp = new JSFtp({
   host: "107.170.78.97",
-  port: 21, // defaults to 21 
-  user: "ftpuser", // defaults to "anonymous" 
-  pass: "tiein2017" // defaults to "@anonymous" 
+  port: 21, // defaults to 21
+  user: "ftpuser", // defaults to "anonymous"
+  pass: "tiein2017" // defaults to "@anonymous"
 })
 
 
@@ -94,25 +94,25 @@ routerUsuario.route("/logout")
 });
 
 routerUsuario.route("/usuarios/edicion")
-.get(function(req,res){
-	//console.log(req.query.id)
-	let usuarioId = req.query.id
-	//console.log(usuarioId);
+  .get(function(req,res){
+  	//console.log(req.query.id)
+  	let usuarioId = req.query.id
+  	//console.log(usuarioId);
 
-	mUsuario.findById(usuarioId)
-	.then((usuario)=>{
-		mContrato.populate(usuario, {path: "contratoUsuario"})
-		.then((contrato)=>{
-			res.status(200).send(usuario);
-		})
-	})
+  	mUsuario.findById(usuarioId)
+  	.then((usuario)=>{
+  		mContrato.populate(usuario, {path: "contratoUsuario"})
+  		.then((contrato)=>{
+  			res.status(200).send(usuario);
+  		})
+  	})
 
-	.catch((err) =>{
-		res.status(500).send({
-			message: `Error al realizar la petición: ${err}`
-		})
-	})
-});
+  	.catch((err) =>{
+  		res.status(500).send({
+  			message: `Error al realizar la petición: ${err}`
+  		})
+  	})
+  });
 
 routerUsuario.route("/usuarios")
 .get(function(req,res){
@@ -333,8 +333,6 @@ routerUsuario.route("/usuarios/busqueda")
 				});
 	    	break;
 	    }
-})
-
-
+});
 
 module.exports = routerUsuario;
