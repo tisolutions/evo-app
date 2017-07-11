@@ -137,9 +137,9 @@ usuario.config(['$routeProvider','$locationProvider', '$qProvider', function($ro
 	    templateUrl: '../V.Usuarios/listadoEmpleados.html',
 	    controller: 'controllerListUsuarios'
 	})
-	.when('/contratos',{
-	    templateUrl: '../V.Contrato/configContrato.html'
-	})
+	// .when('/contratos',{
+	//     templateUrl: '../V.Contrato/configContrato.html'
+	// })
 	.when('/RegistroEmpleados',{
 	    templateUrl: '../V.Usuarios/registrarUsuarios.html',
 	    controller: 'controllerRegistro'
@@ -279,7 +279,7 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 	if ( nowMonth < (month - 1)){
 	   	age--;
 	}
-	if (((month - 1) == nowMonth) && (nowDay < day)){ 
+	if (((month - 1) == nowMonth) && (nowDay < day)){
 	    age--;
 	}
 	if (age > 1900){
@@ -318,9 +318,26 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 					.then(function(response,status,headers,config){
 						console.log(response)
 						if(response.data.usuario._id !=""){
-							swal("Usuario Registrado", "Hemos guardado tus datos", "success");
-							$location.path("/empleados");
-
+              		alertify.success('Empleado Registrado');
+    		  				$location.path("/empleados");
+              // $http.put("/empresas-adicion-config",
+    					// 	{
+    					// 		usuario: response.data.usuario._id
+    					// 	},
+    					// 	{params: { id: localStorage.getItem('idEmpresa') }}
+    					// )
+    					// .then(function(response,status,headers,config){
+    					// 	localStorage.removeItem('idEmpresa')
+    					// 	if(response.data._id!=""){
+    					// 		alertify.success('Empleado Registrado');
+    		  		// 		$location.path("/empleados");
+    					// 	}else{
+    					// 		alertify.error('Error al relacionar Empleado');
+    					// 		$location.path("/empleados");
+    					// 	}
+    					// });
+							// swal("Usuario Registrado", "Hemos guardado tus datos", "success");
+							// $location.path("/empleados");
 						}else{
 							swal("Verifica tus datos!", response.data.error, "warning");
 						}
@@ -433,8 +450,20 @@ usuario.controller('controllerRegistro', ['$scope','$http','$location', '$routeP
 	    $location.path("/empleados");
 	};
 
+  var url = $location.path();
+  // if(url.indexOf('/actualizacionEmpleados')==-1){
+  //   $http.get("/empresas")
+  // 		.then(function(data,status,headers,config){
+  // 			if (data.data[0]) {
+  // 				localStorage.setItem('idEmpresa', data.data[0]['_id']);
+  // 			}else{
+  // 				alertify.error('No hay Empresa registrada. Registrela');
+  // 				$location.path("/empleados");
+  // 			}
+  // 	  });
+  // }
+
 	// Obtenemos la url de la peticion, para habilitar la edicion del usuario
-	var url = $location.path();
 	if(url.indexOf('/actualizacionEmpleados')!=-1){
 		s.mostrar_registrar = false;
 		s.mostrar_actualizar = true;
