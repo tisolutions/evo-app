@@ -20,6 +20,9 @@ usuario.config(['$routeProvider','$locationProvider',function($routeProvider, $l
 	    templateUrl: '../V.Contrato/opcionContrato.html',
 	    controller: 'controllerConfiguracionContratoEmpresa'
 	})
+	.when('/contratos',{
+	    templateUrl: '../V.Contrato/configContrato.html'
+	})
 	.otherwise('/',{
 	    redirectTo :'/'
 	});
@@ -218,6 +221,17 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
       }
     }
   }
+
+	// $http.get("/empresas")
+	// 	.then(function(data,status,headers,config){
+	// 		if (data.data[0]) {
+	// 			localStorage.setItem('idEmpresa', data.data[0]['_id']);
+	// 		}else{
+	// 			alertify.error('No hay Empresa registrada. Registrela');
+	// 			$location.path("/contratos");
+	// 		}
+	//   });
+
   $scope.Guardar = function(){
     if (url.indexOf("/registroCargoEmpresa")!=-1) {
       $http.post("/cargo", {
@@ -225,17 +239,40 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
         descripcion: $scope.usuarios.descripcionCargo
       })
       .then(function(response,status,headers,config){
-        console.log(response.data._id)
         if(response.data._id==" "){
 					alertify.error('¡Ha ocurrido un error!');
         }else{
 					alertify.success('Cargo Registrado');
-          $location.path("/contratos");
+		      $location.path("/contratos");
+					// $http.put("/empresas-adicion-config",
+					// 	{
+					// 		cargo: response.data._id
+					// 	},
+					// 	{params: { id: localStorage.getItem('idEmpresa') }}
+					// )
+					// .then(function(response,status,headers,config){
+					// 	localStorage.removeItem('idEmpresa')
+					// 	if(response.data._id!=""){
+					// 		alertify.success('Cargo Registrado');
+		      //     $location.path("/contratos");
+					// 	}else{
+					// 		alertify.error('Error al relacionar Cargo');
+					// 		$location.path("/contratos");
+					// 	}
+					// });
         }
       })
-
       .catch(function(response,status,headers,config){
-        alertify.error('¡Ha ocurrido un error!');
+				if (response.data['name'] == 'ValidationError') {
+					$.map(response.data.errors, function(value, index) {
+						if(index=="descripcion"){
+							alertify.error('No olvides escribir una descripcion');
+						}
+					});
+				}
+				if (response.data['code'] == 11000) {
+					alertify.error('Cargo se encuentra registrado');
+				}
       })
     }
     if (url.indexOf("/registroTipoContratoEmpresa")!=-1) {
@@ -244,17 +281,41 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
         descripcion: $scope.usuarios.descripcionCargo
       })
       .then(function(response,status,headers,config){
-        console.log(response.data._id)
   			if(response.data._id==" "){
 					alertify.error('¡Ha ocurrido un error!');
   			}else{
-					alertify.success('Tipo de contrato Registrado');
-  				$location.path("/contratos");
+							alertify.success('Tipo de contrato Registrado');
+		  				$location.path("/contratos");
+					// $http.put("/empresas-adicion-config",
+					// 	{
+					// 		tipoContrato: response.data._id
+					// 	},
+					// 	{params: { id: localStorage.getItem('idEmpresa') }}
+					// )
+					// .then(function(response,status,headers,config){
+					// 	localStorage.removeItem('idEmpresa')
+					// 	if(response.data._id!=""){
+					// 		alertify.success('Tipo de contrato Registrado');
+		  		// 		$location.path("/contratos");
+					// 	}else{
+					// 		alertify.error('Error al relacionar Tipo de contrato');
+					// 		$location.path("/contratos");
+					// 	}
+					// });
   			}
   		})
 
       .catch(function(response,status,headers,config){
-        alertify.error('¡Ha ocurrido un error!');
+				if (response.data['name'] == 'ValidationError') {
+					$.map(response.data.errors, function(value, index) {
+						if(index=="descripcion"){
+							alertify.error('No olvides escribir una descripcion');
+						}
+					});
+				}
+				if (response.data['code'] == 11000) {
+					alertify.error('Tipo de contrato se encuentra registrado');
+				}
       })
     }
     if (url.indexOf("/registroTipoSalarioEmpresa")!=-1) {
@@ -263,17 +324,42 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
         descripcion: $scope.usuarios.descripcionCargo
       })
       .then(function(response,status,headers,config){
-        console.log(response.data._id)
+
         if(response.data._id==" "){
 					alertify.error('¡Ha ocurrido un error!');
         }else{
-					alertify.success('Tipo de Salario Registrado');
-          $location.path("/contratos");
+							alertify.success('Tipo de Salario Registrado');
+		          $location.path("/contratos");
+					// $http.put("/empresas-adicion-config",
+					// 	{
+					// 		tipoSalario: response.data._id
+					// 	},
+					// 	{params: { id: localStorage.getItem('idEmpresa') }}
+					// )
+					// .then(function(response,status,headers,config){
+					// 	localStorage.removeItem('idEmpresa')
+					// 	if(response.data._id!=""){
+					// 		alertify.success('Tipo de Salario Registrado');
+		      //     $location.path("/contratos");
+					// 	}else{
+					// 		alertify.error('Error al relacionar Tipo de Salario');
+					// 		$location.path("/contratos");
+					// 	}
+					// });
         }
       })
 
       .catch(function(response,status,headers,config){
-        alertify.error('¡Ha ocurrido un error!');
+				if (response.data['name'] == 'ValidationError') {
+					$.map(response.data.errors, function(value, index) {
+						if(index=="descripcion"){
+							alertify.error('No olvides escribir una descripcion');
+						}
+					});
+				}
+				if (response.data['code'] == 11000) {
+					alertify.error('Tipo de salario se encuentra registrado');
+				}
       })
     }
     if (url.indexOf("/registroCicloFacturacionEmpresa")!=-1) {
@@ -282,17 +368,40 @@ usuario.controller('controllerConfiguracionContratoEmpresa', ['$scope', '$locati
         descripcion: $scope.usuarios.descripcionCargo
       })
       .then(function(response,status,headers,config){
-        console.log(response.data._id)
         if(response.data._id==" "){
 					alertify.error('¡Ha ocurrido un error!');
         }else{
-					alertify.success('Ciclo de Facturación Registrado');
-          $location.path("/contratos");
+							alertify.success('Ciclo de Facturación Registrado');
+		          $location.path("/contratos");
+					// $http.put("/empresas-adicion-config",
+					// 	{
+					// 		cicloFacturacion: response.data._id
+					// 	},
+					// 	{params: { id: localStorage.getItem('idEmpresa') }}
+					// )
+					// .then(function(response,status,headers,config){
+					// 	localStorage.removeItem('idEmpresa')
+					// 	if(response.data._id!=""){
+					// 		alertify.success('Ciclo de Facturación Registrado');
+		      //     $location.path("/contratos");
+					// 	}else{
+					// 		alertify.error('Error al relacionar Ciclo de Facturación');
+					// 		$location.path("/contratos");
+					// 	}
+					// });
         }
       })
-
       .catch(function(response,status,headers,config){
-        alertify.error('¡Ha ocurrido un error!');
+				if (response.data['name'] == 'ValidationError') {
+					$.map(response.data.errors, function(value, index) {
+						if(index=="descripcion"){
+							alertify.error('No olvides escribir una descripcion');
+						}
+					});
+				}
+				if (response.data['code'] == 11000) {
+					alertify.error('Ciclo de facturacion se encuentra registrado');
+				}
       })
     }
   }
