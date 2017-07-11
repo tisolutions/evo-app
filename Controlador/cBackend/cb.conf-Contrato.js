@@ -7,6 +7,55 @@ const mUsuario = require("../../models/mUsuarios")
 const mContrato = require("../../models/mContratos")
 const routerTipoContrato = express.Router();
 
+routerTipoContrato.route("/ultimo-contrato")
+  .get(function(req, res){
+    mContrato.find([], function(error, contrato){
+        res.send({
+          ultimoContrato: contrato
+        })
+    }).sort({_id:-1}).limit(1);
+  });
+
+routerTipoContrato.route("/cicloFactura-list")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    CicloFactura.find(filtrosJson, function(error, ciclosFacturas) {
+      res.send({
+        ciclosFacturas: ciclosFacturas
+      });
+    });
+  });
+
+routerTipoContrato.route("/tipoContrato-list")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    TipContrato.find(filtrosJson, function(error, tipoContrato) {
+      res.send({
+        tiposContratos: tipoContrato
+      });
+    });
+  });
+
+routerTipoContrato.route("/cargo-list")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    Cargo.find(filtrosJson, function(error, cargos) {
+      res.send({
+        cargos: cargos
+      });
+    });
+  });
+
+routerTipoContrato.route("/tipoSalario-list")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    TipSalario.find(filtrosJson, function(error, tipoSalarios) {
+      res.send({
+        tipoSalarios: tipoSalarios
+      });
+    });
+  });
+
 routerTipoContrato.route("/tipoContrato")
   .get(function(req, res) {
     var filtrosJson = [];
