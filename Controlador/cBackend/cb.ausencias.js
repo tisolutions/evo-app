@@ -13,9 +13,9 @@ var path = require('path')
 const JSFtp = require("jsftp")
 const Ftp = new JSFtp({
   host: "107.170.78.97",
-  port: 21, // defaults to 21 
-  user: "ftpuser", // defaults to "anonymous" 
-  pass: "tiein2017" // defaults to "@anonymous" 
+  port: 21, // defaults to 21
+  user: "ftpuser", // defaults to "anonymous"
+  pass: "tiein2017" // defaults to "@anonymous"
 })
 
 routerAusencias.route("/ausencias/edicion")
