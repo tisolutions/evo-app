@@ -6,6 +6,7 @@ var schema = mongo.Schema;
 var schemaCargo = new schema({
   nombre: {
     type: String,
+    unique: true,
     required: "Has olvidado escribir el nombre."
   },
   codigo: {
