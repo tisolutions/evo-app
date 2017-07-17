@@ -17,7 +17,17 @@ const Ftp = new JSFtp({
   pass: "tiein2017" // defaults to "@anonymous"
 })
 
-routerPrestacion.route("/prestacion")
+routerPrestacion.route("/evo-prestacion-list-select")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    mPrestacion.find(filtrosJson, function(error, Prestaciones) {
+      res.send({
+        Prestaciones: Prestaciones
+      });
+    });
+  });
+
+routerPrestacion.route("/evo-prestacion")
   .get(function(req,res){
     mPrestacion.find()
     .then((Prestaciones) =>{
