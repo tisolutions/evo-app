@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt-nodejs')
 
 const institucionSchema = new Schema({
     codigo: {
-    	type: Number
+    	type: String
     },
     nombre: {
     	type: String,
