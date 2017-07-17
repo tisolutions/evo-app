@@ -1,10 +1,10 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const schema = mongoose.Schema
 const bcrypt = require('bcrypt-nodejs')
 
-const detallePrestacionSchema = new Schema({
+const detallePrestacionSchema = new schema({
   fechaVinculacion: {
      type: Date,
      required: "No olvide registrar la fecha de Vinculacion"
