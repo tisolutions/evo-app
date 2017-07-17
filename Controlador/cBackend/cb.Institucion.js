@@ -17,11 +17,22 @@ const Ftp = new JSFtp({
   pass: "tiein2017" // defaults to "@anonymous"
 })
 
-routerInstitucion.route("/institucion")
+routerInstitucion.route("/evo-institucion-list-select")
+  .get(function(req, res) {
+    var filtrosJson = [];
+    mInstitucion.find(filtrosJson, function(error, Instituciones) {
+      res.send({
+        Instituciones: Instituciones
+      });
+    });
+  });
+
+routerInstitucion.route("/evo-institucion")
   .get(function(req,res){
-    mInstitucion.find()
+    var filtro = {};
+    mInstitucion.find(filtro)
     .then((Instituciones) =>{
-        res.send({
+        res.status(200).send({
           Instituciones: Instituciones
         })
     })
