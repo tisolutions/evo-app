@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- adicion de estilos -->
+    <% include ../V.Comun/Head.html %>
+  </head>
+  <body ng-app="Usuario">
+    <header>
+      <!-- Adicion del header -->
+      <% include ../V.Comun/header.html %>
+    </header>
+    <!-- Contenido de la pagina -->
+    <div class="container" ng-controller="controllerIndexPrestacion">
+        <a href="/evohr">Retornar</a>
+        <br><br><br>
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-university fa-3x" aria-hidden="true"></i> <label>Prestaciones</label>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-3 col-md-offset-6" ng-click="">
+        		<button type="button" class="btn btn-crear pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal" id="btn_modal">
+        			  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear Prestacion
+        		</button>
+        	</div>
+        </div>
+  		 	<table class="table table-hover table-responsive">
+  			    <thead>
+  			      <tr>
+  			        <th>Codigo</th>
+  			        <th>Nombre</th>
+                <th>Estado</th>
+  			        <th>Opciones</th>
+  			      </tr>
+  			    </thead>
+  			    <tbody>
+  						<tr ng-repeat="registro in prestacion">
+  							<td style="cursor:pointer;" ng-click="">
+                  <span>{{registro.codigo}}</span>
+                </td>
+  			        <td>{{registro.nombre}}</td>
+                <td>{{registro.estado}}</td>
+  							<td>
+                  <b ng-click="">
+                    <i  style="cursor: pointer;margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i>
+                  </b>
+                </td>
+  						</tr>
+  			    </tbody>
+  			 </table>
+  		  <div class="clearfix"></div>
+  		  <br>
+  		  <br>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+      	    <div class="modal-dialog ui-front">
+      	      	<div class="modal-content">
+      	        	<div class="modal-header">
+        	          <button type="button" class="close" data-dismiss="modal" id="close_modal">&times;</button>
+        	          <h4 class="modal-title">Prestacion</h4>
+      	        	</div>
+      	        	<div class="modal-body">
+        	         	<form role="form" name="" enctype="multipart/form-data" id="formInstitucion">
+                      <div class="form-group" ng-class="">
+            				    <label for="codigo_prestacion">Codigo</label>
+            				    <input type="text" class="form-control validate" placeholder="Codigo Prestacion" name="codigo_prestacion" id="codigo_prestacion" required ng-model="prestacion.codigo">
+            				  </div>
+            				  <div class="form-group" ng-class="">
+            				    <label for="nombre_prestacion">Nombre</label>
+            				    <input type="text" class="form-control validate" placeholder="Ingrese el nombre de la Prestacion" name="nombre_prestacion" id="nombre_prestacion" required ng-model="prestacion.nombre">
+            				  </div>
+      		        </div>
+        			    <div class="modal-footer">
+        			      	<button type="submit" class="btn btn-search pull-right" ng-click="Guardar()" id="" ng-show="btn_guardar" style="width:initial;">Guardar</button>
+        			        <button type="button" class="btn btn-cancelar" data-dismiss="modal" id="btn_cancelar">Cancelar</button>
+        					    <button type="button" type="submit" class="btn btn-search pull-right" style="width:initial;" ng-click="" id="btn_actualizar" ng-show="">Actualizar</button>
+        			    </div>
+      				    </form>
+      		      </div>
+      	    </div>
+        </div>
+  	</div>
+    <footer>
+      <!-- Adicion del footer -->
+      <% include ../V.Comun/footer.html %>
+    </footer>
+    <!-- Adicion de los scripts utilizados en la aplicacion -->
+    <% include ../V.Comun/Script.html %>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- adicion de estilos -->
+    <% include ../V.Comun/Head.html %>
+  </head>
+  <body ng-app="Usuario">
+    <header>
+      <!-- Adicion del header -->
+      <% include ../V.Comun/header.html %>
+    </header>
+    <!-- Contenido de la pagina -->
+    <div class="container" ng-controller="controllerIndexDetallePrestacion">
+        <a href="/evohr">Retornar</a>
+        <br><br><br>
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-university fa-3x" aria-hidden="true"></i> <label>Prestaciones por Empleado</label>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-3 col-md-offset-6" ng-click="">
+        		<button type="button" class="btn btn-crear pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal" id="btn_modal">
+        			  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Prestacion
+        		</button>
+        	</div>
+        </div>
+  		 	<table class="table table-hover table-responsive">
+  			    <thead>
+  			      <tr>
+  			        <th>Cod.Institucion</th>
+  			        <th>Cod.Prestacion</th>
+                <th>Empleado</th>
+  			        <th>Opciones</th>
+  			      </tr>
+  			    </thead>
+  			    <tbody>
+  						<tr ng-repeat="registro in detallePrestacion">
+  							<td style="cursor:pointer;" ng-click="">
+                  <span>{{registro.institucion.codigo}}</span>
+                </td>
+  			        <td>{{registro.prestacion.codigo}}</td>
+                <td>{{registro.empleado.primerNombre +" "+ registro.empleado.primerApellido}}</td>
+  							<td>
+                  <b ng-click="">
+                    <i  style="cursor: pointer;margin-left: 12%;" class="fa fa-lg fa-trash-o text-center" aria-hidden="true"></i>
+                  </b>
+                </td>
+  						</tr>
+  			    </tbody>
+  			 </table>
+  		  <div class="clearfix"></div>
+  		  <br>
+  		  <br>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+      	    <div class="modal-dialog ui-front">
+      	      	<div class="modal-content">
+      	        	<div class="modal-header">
+        	          <button type="button" class="close" data-dismiss="modal" id="close_modal">&times;</button>
+        	          <h4 class="modal-title">Prestacion Por Empleado</h4>
+      	        	</div>
+      	        	<div class="modal-body">
+        	         	<form role="form" name="" enctype="multipart/form-data" id="formInstitucion">
+                      <div class="form-group">
+            				    <label for="input_empleado">Empleado</label>
+            				    <input type="text" class="form-control class_input_empleado ui-autocomplete validate" id="input_empleado"
+            				           placeholder="Ingrese el nombre del empleado" ng-model="detallePrestacion.nombreEmpleado">
+            				  </div>
+                      <div class="form-group" ng-class="">
+            				    <label for="select_institucion">Institucion</label>
+                        <select class="form-control validate" id="select_institucion" name="select_institucion" ng-model="institucionSeleccionada" ng-options="institucion as institucion.nombre for institucion in instituciones track by institucion._id" ng-change="update()" ng-click="obtenerContratos()">
+  								    		<option value="">Escoja la Institucion</option>
+  									    </select>
+            				  </div>
+            				  <div class="form-group" ng-class="">
+            				    <label for="select_prestacion">Prestacion</label>
+                        <select class="form-control validate" id="select_prestacion" name="select_prestacion" ng-model="prestacionSeleccionada" ng-options="prestacion as prestacion.nombre for prestacion in prestaciones track by prestacion._id" ng-change="update()" ng-click="obtenerContratos()">
+  								    		<option value="">Escoja la Prestacion</option>
+  									    </select>
+            				  </div>
+                      <div class="form-group">
+                        <label for="fecha_vinculacion" class="control-label">Fecha de Vinculacion</label>
+								        <input type="date" class="form-control validate" id="fecha_vinculacion" name="fecha_vinculacion" required ng-model="detallePrestacion.fechaVinculacion">
+                      </div>
+      		        </div>
+        			    <div class="modal-footer">
+        			      	<button type="submit" class="btn btn-search pull-right" ng-click="Guardar()" id="" ng-show="btn_guardar" style="width:initial;">Guardar</button>
+        			        <button type="button" class="btn btn-cancelar" data-dismiss="modal" id="btn_cancelar">Cancelar</button>
+        					    <button type="button" type="submit" class="btn btn-search pull-right" style="width:initial;" ng-click="" id="btn_actualizar" ng-show="">Actualizar</button>
+        			    </div>
+      				    </form>
+      		      </div>
+      	    </div>
+        </div>
+  	</div>
+    <footer>
+      <!-- Adicion del footer -->
+      <% include ../V.Comun/footer.html %>
+    </footer>
+    <!-- Adicion de los scripts utilizados en la aplicacion -->
+    <% include ../V.Comun/Script.html %>
+    <script type="text/javascript">
+      // autompletado jquery - node
+      $("#input_empleado").autocomplete({
+          minLength: 1,
+          source: function(req, res){
+            $.ajax({
+                type: 'POST',
+                data: {'nombre': $("#input_empleado").val()},
+                dataType: 'json',
+                cache: false,
+                url: "/autocomplete/empleado",
+                success: function(data){
+                  if (localStorage.getItem('idEmpleado')) {
+                    localStorage.removeItem('idEmpleado');
+                  }
+                  $("#input_empleado").removeAttr('data-field');
+                  res( $.map( data, function( item ) {
+                      return {
+                          label: item.primerNombre,
+                          value: item.primerNombre,
+                          id: item.id
+                      }
+                  }));
+                }
+            });
+          },
+          select: function(e, ui){
+            localStorage.setItem('idEmpleado', ui.item.id);
+            $("#input_empleado").attr('data-field', 'ok');
+            alertify.success('Empleado Seleccionado.');
+          }
+      });
+    </script>
+  </body>
+</html>
