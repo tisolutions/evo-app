@@ -17,13 +17,16 @@ const Ftp = new JSFtp({
   pass: "tiein2017" // defaults to "@anonymous"
 })
 
-routerDetallePrestacion.route("/detalle-prestacion")
+routerDetallePrestacion.route("/evo-detalle-prestacion")
   .get(function(req,res){
     mDetallePrestacion.find()
-    .then((DetallesPrestaciones) =>{
-        res.send({
-          DetallesPrestaciones: DetallesPrestaciones
-        })
+    .populate('institucion')
+    .populate('prestacion')
+    .populate('empleado')
+    .exec(function (err, DetallesPrestaciones) {
+         res.status(200).send({
+           DetallesPrestaciones: DetallesPrestaciones
+         });
     })
     .catch((err) =>{
       message: err
