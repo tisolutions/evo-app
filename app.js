@@ -18,6 +18,9 @@ const routerContrato = require("./Controlador/cBackend/cb.contrato")
 const routerEmpresa = require("./Controlador/cBackend/cb.empresa")
 const routerBonificacionDescuento = require("./Controlador/cBackend/cb.bonificacion-descuento")
 const routerAusencias = require("./Controlador/cBackend/cb.ausencias")
+const routerInstitucion = require("./Controlador/cBackend/cb.Institucion")
+const routerPrestacion = require("./Controlador/cBackend/cb.Prestacion")
+const routerDetallePrestacion = require("./Controlador/cBackend/cb.DetallePrestacion")
 
 const app = express()
 
@@ -45,17 +48,20 @@ app.use(CookieSession({
   keys: ['cualquier_cosa'],
 
  // Cookie Options
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours 
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
-app.use("/",router)
-app.use("/",routerUsuario)
-app.use("/",routerConfigContract)
-app.use("/",routerContrato)
-app.use("/",routerEmpresa)
-app.use("/",routerBonificacionDescuento)
-app.use("/",routerAusencias)
-app.use("/",userSession)
+app.use("/", router)
+app.use("/", routerUsuario)
+app.use("/", routerConfigContract)
+app.use("/", routerContrato)
+app.use("/", routerEmpresa)
+app.use("/", routerBonificacionDescuento)
+app.use("/", routerAusencias)
+app.use("/", routerInstitucion)
+app.use("/", routerPrestacion)
+app.use("/", routerDetallePrestacion)
+app.use("/", userSession)
 
 app.get("/",function(req,res){
 	res.redirect("/evohr");
